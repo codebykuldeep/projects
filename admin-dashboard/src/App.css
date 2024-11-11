@@ -1,0 +1,28 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --ui-black :#263238;
+    --bluish-gray-200:#e2e8f0;
+    --bluish-gray-300:#cbd5e1;
+    --blue-300:#93c5fd;
+    --blue-200:#bfdbfe;
+    --INPUT :#ecf0f4;
+    --font-grey:#95989d;
+    --BLUE:#2275fc;
+
+}
+
+ul{
+    list-style: none;
+}
+
+body{
+    background-color:var(--bluish-gray-200) ;
+}
+a{
+    all: unset;
+}

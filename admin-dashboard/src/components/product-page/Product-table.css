@@ -1,0 +1,28 @@
+.product-table{
+    margin: 1rem 0;
+    
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+
+.product-table ul{
+    display: flex;
+    justify-content: space-between;
+    min-width: 2000px;
+    border-radius: 10px;
+    
+}
+
+.product-table ul li{
+    padding: 12px;
+    width: 200px;
+}
+.product-table-title{
+    font-weight: 600;
+    background-color: var(--bluish-gray-200);
+    margin-bottom: 1rem;
+}
+
+
+

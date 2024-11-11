@@ -1,0 +1,17 @@
+@import url('../../App.css');
+
+.nav{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    background: var(--ui-black);
+    gap: 10px;
+}
+.nav li{
+    cursor: pointer;
+}
+
+.nav-logo img{
+    width: 130px;
+}
