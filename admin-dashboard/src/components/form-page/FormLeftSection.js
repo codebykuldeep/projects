@@ -1,68 +1,21 @@
-import React, { useState } from "react";
-import "./Form.css";
-import FieldError from "./FieldError";
-import formValidation, {
-  initialValidationState,
-} from "../../util/ValidationLogic";
-import {  imageValidation, } from "../../util/ValidationFunctions";
-import FormLeftSection from "./FormLeftSection";
+import React, { useState } from 'react'
+import FieldError from './FieldError';
+import categoryList from "../data/categoryData";
+import { categoryValidation, dateValidation, descriptionValidation, emailValidation, stockValidation, titleValidation } from '../../util/ValidationFunctions'
 
-function FormPage() {
+function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
+  const [stockAvailablity, setStockAvailablity] = useState(false);
+  
+  const [discountVal ,setDiscountVal] = useState(0);
 
-  const [validationState, setValidationState] = useState(
-    initialValidationState
-  );
-
-  const [file, setFile] = useState();
-
-  function handleImageUpload(event) {
-    // const img = event.target.files[0];
-    handleFieldValidation(event,imageValidation)
-    setFile(URL.createObjectURL(event.target.files[0]));
-  }
 
   
 
-  function handleForm(event) {
-    event.preventDefault();
-
-    const fd = new FormData(event.target);
-    const form = Object.fromEntries(fd.entries());
-    const supplierType = fd.getAll("supplierType");
-    form.supplierType = supplierType;
-
-    setValidationState((prev) => formValidation(form, prev));
+  function  handleDiscount(event) {
+    setDiscountVal(event.target.value)
   }
-
-  function handleChange(event) {
-    // console.log(event.target.name);
-
-    setValidationState((prev) => {
-      const inputFieldName = event.target.name;
-      return {
-        ...prev,
-        [`${inputFieldName}`]: {
-          status: false,
-          error: "",
-        },
-      };
-    });
-  }
- 
-
-  function handleFieldValidation(event,validationFn){
-    setValidationState(validationFn(event.target.value,validationState))
-  }
-  
   return (
-    <div className="container">
-      <div>
-        <h1>Add Product</h1>
-      </div>
-
-      <form className="form-control" onSubmit={handleForm}>
-        <FormLeftSection validationState={validationState} handleFieldValidation={handleFieldValidation} handleChange={handleChange}/>
-        {/* <div className="form-left">
+    <div className="form-left">
           <div className="form-input">
             <label htmlFor="">
               Product Name <span>*</span>
@@ -211,81 +164,8 @@ function FormPage() {
               <FieldError error={validationState.email.error} />
             )}
           </div>
-        </div> */}
-
-        <div className="form-right">
-          <div className="form-input">
-            <label
-              htmlFor="image"
-              name="image"
-              className={
-                validationState.image.status ? "upload-img error" : "upload-img"
-              }
-            >
-              <span>Upload Image</span>
-            </label>
-            <input
-              id="image"
-              name="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-            {validationState.image.status && (
-              <FieldError error={validationState.image.error} />
-            )}
-            {file && <img src={file} alt="Uploaded" />}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="supplier-type">
-              Supplier Type <span>*</span>
-            </label>
-            <div className="checkbox">
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type1"
-                  name="supplierType"
-                  value={"manufacturer"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type1">Manufacturer</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type2"
-                  name="supplierType"
-                  value={"distributor"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type2">Distributor</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type3"
-                  name="supplierType"
-                  value={"wholesalers"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type3">Wholesalers</label>
-              </div>
-            </div>
-            {validationState.supplierType.status && (
-              <FieldError error={validationState.supplierType.error} />
-            )}
-          </div>
-
-          <div className="form-button">
-            <button type="submit">SUBMIT</button>
-            <button type="reset" onClick={()=>setValidationState(initialValidationState)}>RESET</button>
-          </div>
         </div>
-      </form>
-    </div>
-  );
+  )
 }
 
-export default FormPage;
+export default FormLeftSection

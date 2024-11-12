@@ -55,3 +55,60 @@
     color: red;
 }
 
+
+#image{
+    display: none;
+}
+
+.upload-img{
+    cursor: pointer;
+    border: 1px solid var(--INPUT);
+    border-radius: 10px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span{
+        color: var(--BLUE) !important;
+    }
+}
+
+/* CHECKBOX */
+.checkbox{
+    display: flex;
+    gap: 10px;
+
+    div{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* FORM BUTTON */
+.form-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.form-button button{
+    all: unset;
+    color: white;
+    padding: 10px;
+    background: var(--BLUE);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.error-msg{
+    color: #ED4337;
+}
+
+.error{
+    border: 1px solid #ED4337 !important;
+}

@@ -5,7 +5,7 @@
     align-items: center;
     padding: 10px;
     color: white;
-    background: var(--ui-black);
+    background: rgb(143, 143, 255);
     gap: 10px;
 }
 .nav li{
