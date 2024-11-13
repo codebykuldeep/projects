@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import FieldError from './FieldError';
 import categoryList from "../data/categoryData";
-import { categoryValidation, dateValidation, descriptionValidation, emailValidation, stockValidation, titleValidation } from '../../util/ValidationFunctions'
 
-function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
+function FormLeftSection({validationState,handleChange,handleChangeValidation}) {
   const [stockAvailablity, setStockAvailablity] = useState(false);
   
   const [discountVal ,setDiscountVal] = useState(0);
-
-
-  
 
   function  handleDiscount(event) {
     setDiscountVal(event.target.value)
@@ -24,7 +20,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               type="text"
               name="title"
               className={validationState.title.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,titleValidation)}
+              onChange={handleChangeValidation}
             />
             {validationState.title.status && (
               <FieldError error={validationState.title.error} />
@@ -40,8 +36,8 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               name="category"
               defaultValue={"Select your option"}
               className={validationState.category.status ? "error" : ""}
-              onBlur={(e)=>handleFieldValidation(e,categoryValidation)}
-              onChange={(e)=>handleFieldValidation(e,categoryValidation)}
+              onBlur={handleChangeValidation}
+              onChange={handleChangeValidation}
             >
               <option defaultValue="" disabled>
                 Select your option
@@ -64,7 +60,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
             <textarea
               name="description"
               id="description"
-              onChange={(event)=>handleFieldValidation(event,descriptionValidation)}
+              onChange={handleChangeValidation}
               className={validationState.description.status ? "error" : ""}
             ></textarea>
             {validationState.description.status && (
@@ -80,8 +76,8 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               type="date"
               name="date"
               id="date"
-              onBlur={(e)=>handleFieldValidation(e,dateValidation)}
-              onChange={(e)=>handleFieldValidation(e,dateValidation)}
+              onBlur={handleChangeValidation}
+              onChange={handleChangeValidation}
               className={validationState.date.status ? "error" : ""}
             />
             {validationState.date.status && (
@@ -142,7 +138,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               min={0}
               disabled={!stockAvailablity}
               className={validationState.stock.status ? "error" : ""}
-              onChange={(e)=>handleFieldValidation(e,stockValidation)}
+              onChange={handleChangeValidation}
             />
             {validationState.stock.status && (
               <FieldError error={validationState.stock.error} />
@@ -158,7 +154,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               id="email"
               name="email"
               className={validationState.email.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,emailValidation)}
+              onChange={handleChangeValidation}
             />
             {validationState.email.status && (
               <FieldError error={validationState.email.error} />
