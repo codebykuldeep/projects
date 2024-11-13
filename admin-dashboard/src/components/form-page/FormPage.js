@@ -47,6 +47,8 @@ function FormPage() {
     form.supplierType = supplierType;
 
     setValidationState((prev) => formValidation(form, prev));
+    console.log(form);
+    
   }
   function handleResetForm() {
     setValidationState(initialValidationState);
@@ -81,10 +83,10 @@ function FormPage() {
 
       {!isLoading && (
       <form className="form-control" onSubmit={handleForm}>
-        <FormLeftSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation}
+        <FormLeftSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} productData={productData}
         />
 
-        <FormRightSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} handleResetForm={handleResetForm}/>
+        <FormRightSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} handleResetForm={handleResetForm} productData={productData}/>
 
       </form>
       )}

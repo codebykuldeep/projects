@@ -1,13 +1,32 @@
 import React, { useState } from 'react'
 import FieldError from './FieldError';
 
-function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm}) {
+function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData}) {
 const [file, setFile] = useState();
+ 
 
   function handleImageUpload(event) {
     // const img = event.target.files[0];
     handleChangeValidation(event);
     setFile(URL.createObjectURL(event.target.files[0]));
+  }
+
+  if(productData.imageURL){
+    if(!file){
+      setFile(productData.imageURL)
+    }
+  }
+
+
+  function checkForType(text){
+    if(productData.supplierType){
+      if(Array.isArray(productData.supplierType)){
+        return productData.supplierType.includes(text) ? true : false;
+      }else{
+        return productData.supplierType === text ? true : false;
+      }
+    }
+    return false
   }
   return (
     <div className="form-right">
@@ -46,6 +65,7 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"manufacturer"}
                   onChange={handleChange}
+                  defaultChecked={checkForType("manufacturer")}
                 />
                 <label htmlFor="supplier-type1">Manufacturer</label>
               </div>
@@ -56,6 +76,7 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"distributor"}
                   onChange={handleChange}
+                  defaultChecked={checkForType("distributor")}
                 />
                 <label htmlFor="supplier-type2">Distributor</label>
               </div>
@@ -66,6 +87,7 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"wholesalers"}
                   onChange={handleChange}
+                  defaultChecked={checkForType("wholesalers")}
                 />
                 <label htmlFor="supplier-type3">Wholesalers</label>
               </div>
