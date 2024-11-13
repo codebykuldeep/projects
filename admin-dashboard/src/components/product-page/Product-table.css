@@ -26,3 +26,19 @@
 
 
 
+/* PRODUCT ITEM STYLES */
+.product-action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+.product-action i:hover{
+    cursor: pointer;
+}
+.product-action i{
+    color: rgb(237, 237, 81);
+}
+.product-action div:last-child i{
+    color: var(--error);
+}

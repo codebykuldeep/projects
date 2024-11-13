@@ -1,123 +1,63 @@
-import {emptyString,emailFieldValidation,emptyField} from'./ValidationLogic'
+import {emailFieldValidation} from'./ValidationLogic'
 
+const errorMap ={
+  title:'Please enter product name',
+  description:'Please enter product description',
+  category:'Please select a product category',
+  date:'Please select product date',
+  image:'Please upload a product image',
+}
 
-export function emailValidation(field,state){
-    let email = {
-      status: false,
-      error: "",
-    };
-    if (emptyString(field)) {
-      email = {
+export function validateField(field,state){
+  let errorDetail ={
+    status:false,
+    error:''
+  }
+  if(field.name === 'email'){
+    if (!field.value || field.value.trim() === '') {
+      errorDetail = {
         status: true,
         error: "This Field cannot be empty !",
       };
-    } else if (emailFieldValidation(field)) {
-      email = {
+    } else if (emailFieldValidation(field.value)) {
+      errorDetail = {
         status: true,
         error: "Please enter a valid email !",
       };
     }
-  
-    return {...state,email};
   }
-  export function titleValidation(field,state){
-    let title = {
-      status: false,
-      error: "",
-    };
-    if (emptyString(field)) {
-      title = {
-        status: true,
-        error: "Please enter product name",
-      };
-    }
-  
-    return {...state,title}
-  }
-  
-  export function descriptionValidation(field,state){
-    let description = {
-      status: false,
-      error: "",
-    };
-    if (emptyField(field)) {
-      description = {
-        status: true,
-        error: "Please enter product description",
-      };
-    }
-    return {...state,description}
-  }
-
-  export function categoryValidation(field,state){
-    let category = {
-        status: false,
-        error: "",
-    };
-    if (field === 'Select your option') {
-        category = {
-            status: true,
-            error: "Please select a product category",
-          };
-    }
-    return {...state,category}
-  }
-
-  export function dateValidation(field,state){
-    let date = {
-        status: false,
-        error: "",
-      };
-      if (emptyField(field)) {
-        date = {
+  else if(field.name === 'category'){
+    if (field.value === 'Select your option') {
+      errorDetail = {
           status: true,
-          error: "Please select product date",
+          error: errorMap[field.name],
         };
-      }
-    return {...state,date}
+    }
   }
-
-  export function stockValidation(field,state){
-    let stock = {
-        status: false,
-        error: "",
-      };
-    if (emptyString(field)) {
-        stock = {
-          status: true,
-          error: "Please fill the stock quantity",
-        };
-        
-      } else if (!emptyString(field)) {
-        if (Number(field) <= 0) {
-          stock = {
-            status: true,
-            error: "Enter stock quantity greater than 0",
-          };
-        }
-      }
-
-      return {...state,stock}
-  }
-
-  export function imageValidation(field,state){
-    let image = {
-        status: false,
-        error: "",
+  else if(field.name === 'stock'){
+    if (!field.value || field.value.trim() === '') {
+      errorDetail = {
+        status: true,
+        error: "Please fill the stock quantity",
       };
       
-      if (emptyField(field)) {
-        image = {
-            status: true,
-            error: "Please upload a product image",
-          };
-      }
-      console.log(image);
-      
-    return {...state,image}
+    } else if (Number(field.value) <= 0) {
+      errorDetail = {
+        status: true,
+        error: "Enter stock quantity greater than 0",
+      };
+    }
   }
-
-
-
+  else if(!field.value || field.value.trim() === ''){
+    errorDetail ={
+      status:true,
+      error:errorMap[field.name]
+    }
+  }
   
-  
+  return {...state,
+    [field.name]:{
+      ...errorDetail
+    }
+  }
+}

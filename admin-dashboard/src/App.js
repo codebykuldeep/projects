@@ -4,6 +4,8 @@ import FormPage from './components/form-page/FormPage';
 import AppLayout from './components/UI/AppLayout';
 import ProductPage from './components/product-page/ProductPage';
 import ProductLayout from './components/UI/ProductLayout';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 
 const router = createBrowserRouter([
   {
@@ -22,16 +24,24 @@ const router = createBrowserRouter([
             path:'new',
             element:<FormPage/>
           },
+          {
+            path:'edit/:id',
+            element:<FormPage/>
+          },
         ]
       }
     ]
   }
 ])
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <>
-    <RouterProvider router={router}></RouterProvider>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router}></RouterProvider>
+    </QueryClientProvider>
     </>
   );
 }

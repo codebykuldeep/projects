@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
 import FieldError from './FieldError';
 import categoryList from "../data/categoryData";
-import { categoryValidation, dateValidation, descriptionValidation, emailValidation, stockValidation, titleValidation } from '../../util/ValidationFunctions'
 
-function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
+function FormLeftSection({validationState,handleChange,handleChangeValidation,productData}) {
   const [stockAvailablity, setStockAvailablity] = useState(false);
   
-  const [discountVal ,setDiscountVal] = useState(0);
+  const [discountVal ,setDiscountVal] = useState(productData.discount ||0);
 
+  if(productData.id){
+    productData.date = new Date(productData.date).toISOString().split('T')[0] ;
 
+    if(productData.stockAvail === 'true'){
+      setStockAvailablity(true);
+      productData.stockAvail ='';
+      
+      
+    }
+
+    
+  }
+  console.log(stockAvailablity);
   
 
   function  handleDiscount(event) {
@@ -24,7 +35,8 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               type="text"
               name="title"
               className={validationState.title.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,titleValidation)}
+              onChange={handleChangeValidation}
+              defaultValue={productData.title|| ''}
             />
             {validationState.title.status && (
               <FieldError error={validationState.title.error} />
@@ -38,17 +50,17 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
 
             <select
               name="category"
-              defaultValue={"Select your option"}
+              defaultValue={productData.category || 'Select your option'}
               className={validationState.category.status ? "error" : ""}
-              onBlur={(e)=>handleFieldValidation(e,categoryValidation)}
-              onChange={(e)=>handleFieldValidation(e,categoryValidation)}
+              onBlur={handleChangeValidation}
+              onChange={handleChangeValidation}
             >
               <option defaultValue="" disabled>
                 Select your option
               </option>
               {categoryList.map(({ slug, name }) => (
                 <option key={slug} defaultValue={slug}>
-                  {name}
+                  {slug}
                 </option>
               ))}
             </select>
@@ -64,8 +76,9 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
             <textarea
               name="description"
               id="description"
-              onChange={(event)=>handleFieldValidation(event,descriptionValidation)}
+              onChange={handleChangeValidation}
               className={validationState.description.status ? "error" : ""}
+              defaultValue={productData.description || ''}
             ></textarea>
             {validationState.description.status && (
               <FieldError error={validationState.description.error} />
@@ -80,9 +93,10 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               type="date"
               name="date"
               id="date"
-              onBlur={(e)=>handleFieldValidation(e,dateValidation)}
-              onChange={(e)=>handleFieldValidation(e,dateValidation)}
+              onBlur={handleChangeValidation}
+              onChange={handleChangeValidation}
               className={validationState.date.status ? "error" : ""}
+              defaultValue={productData.date || ''}
             />
             {validationState.date.status && (
               <FieldError error={validationState.date.error} />
@@ -97,7 +111,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               type="range"
               name="discount"
               id="discount"
-              defaultValue={0}
+              defaultValue={productData.discount ||0}
               onChange={handleDiscount}
             />
           </div>
@@ -114,6 +128,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
                 value={true}
                 onClick={() => setStockAvailablity(true)}
                 onChange={handleChange}
+                defaultChecked={stockAvailablity}
               />
               <label htmlFor="yes-stock">YES</label>
             </div>
@@ -125,6 +140,7 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
                 value={false}
                 onClick={() => setStockAvailablity(false)}
                 onChange={handleChange}
+                defaultChecked={stockAvailablity}
               />
               <label htmlFor="no-stock">NO</label>
             </div>
@@ -142,7 +158,8 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               min={0}
               disabled={!stockAvailablity}
               className={validationState.stock.status ? "error" : ""}
-              onChange={(e)=>handleFieldValidation(e,stockValidation)}
+              onChange={handleChangeValidation}
+              defaultValue={productData.stockAvail ? productData.stock: ''}
             />
             {validationState.stock.status && (
               <FieldError error={validationState.stock.error} />
@@ -158,7 +175,8 @@ function FormLeftSection({validationState,handleFieldValidation,handleChange}) {
               id="email"
               name="email"
               className={validationState.email.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,emailValidation)}
+              onChange={handleChangeValidation}
+              defaultValue={productData.email || ''}
             />
             {validationState.email.status && (
               <FieldError error={validationState.email.error} />

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Form.css";
-import FieldError from "./FieldError";
 import formValidation, {
   initialValidationState,
 } from "../../util/ValidationLogic";
-import {  imageValidation, } from "../../util/ValidationFunctions";
+import {  validateField, } from "../../util/ValidationFunctions";
 import FormLeftSection from "./FormLeftSection";
+import FormRightSection from "./FormRightSection";
+import { useParams } from "react-router-dom";
+import { fetchProduct } from "../../util/HttpFunctions";
 
 function FormPage() {
 
@@ -13,15 +15,28 @@ function FormPage() {
     initialValidationState
   );
 
-  const [file, setFile] = useState();
+  //When editing a product
+  const [editMode,setEditMode] = useState(false);
+  const [isLoading,setIsLoading] = useState(true);
+  const [productData,setProductData] = useState([]);
 
-  function handleImageUpload(event) {
-    // const img = event.target.files[0];
-    handleFieldValidation(event,imageValidation)
-    setFile(URL.createObjectURL(event.target.files[0]));
-  }
-
+  const params = useParams();
   
+
+  useEffect(()=>{
+    if(params.id){
+      setEditMode(true);
+      
+      fetchProduct(params.id)
+      .then(data=>{
+        setProductData(data)
+        setIsLoading(false);
+      })
+    }
+    else{
+      setIsLoading(false);
+    }
+  },[params])
 
   function handleForm(event) {
     event.preventDefault();
@@ -32,6 +47,11 @@ function FormPage() {
     form.supplierType = supplierType;
 
     setValidationState((prev) => formValidation(form, prev));
+    console.log(form);
+    
+  }
+  function handleResetForm() {
+    setValidationState(initialValidationState);
   }
 
   function handleChange(event) {
@@ -49,241 +69,27 @@ function FormPage() {
     });
   }
  
-
-  function handleFieldValidation(event,validationFn){
-    setValidationState(validationFn(event.target.value,validationState))
+  function handleChangeValidation(event){
+    setValidationState(validateField(event.target,validationState))
   }
   
   return (
     <div className="container">
       <div>
-        <h1>Add Product</h1>
+        {editMode ? (<h1>Edit Product</h1>) : (<h1>Add Product</h1>)}
       </div>
 
+      {isLoading && <p>Loading .....</p>}
+
+      {!isLoading && (
       <form className="form-control" onSubmit={handleForm}>
-        <FormLeftSection validationState={validationState} handleFieldValidation={handleFieldValidation} handleChange={handleChange}/>
-        {/* <div className="form-left">
-          <div className="form-input">
-            <label htmlFor="">
-              Product Name <span>*</span>
-            </label>
-            <input
-              type="text"
-              name="title"
-              className={validationState.title.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,titleValidation)}
-            />
-            {validationState.title.status && (
-              <FieldError error={validationState.title.error} />
-            )}
-          </div>
+        <FormLeftSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} productData={productData}
+        />
 
-          <div className="form-input">
-            <label htmlFor="category">
-              Category <span>*</span>
-            </label>
+        <FormRightSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} handleResetForm={handleResetForm} productData={productData}/>
 
-            <select
-              name="category"
-              defaultValue={"Select your option"}
-              className={validationState.category.status ? "error" : ""}
-              onBlur={(e)=>handleFieldValidation(e,categoryValidation)}
-              onChange={(e)=>handleFieldValidation(e,categoryValidation)}
-            >
-              <option defaultValue="" disabled>
-                Select your option
-              </option>
-              {categoryList.map(({ slug, name }) => (
-                <option key={slug} defaultValue={slug}>
-                  {name}
-                </option>
-              ))}
-            </select>
-            {validationState.category.status && (
-              <FieldError error={validationState.category.error} />
-            )}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="description">
-              Description <span>*</span>
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              onChange={(event)=>handleFieldValidation(event,descriptionValidation)}
-              className={validationState.description.status ? "error" : ""}
-            ></textarea>
-            {validationState.description.status && (
-              <FieldError error={validationState.description.error} />
-            )}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="date">
-              Product Date <span>*</span>
-            </label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              onBlur={(e)=>handleFieldValidation(e,dateValidation)}
-              onChange={(e)=>handleFieldValidation(e,dateValidation)}
-              className={validationState.date.status ? "error" : ""}
-            />
-            {validationState.date.status && (
-              <FieldError error={validationState.date.error} />
-            )}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="discount">
-              Discount <span>*</span> - {discountVal}%
-            </label>
-            <input
-              type="range"
-              name="discount"
-              id="discount"
-              defaultValue={0}
-              onChange={handleDiscount}
-            />
-          </div>
-
-          <div className="form-input type-radio">
-            <label htmlFor="">
-              Stock Available <span>*</span>
-            </label>
-            <div>
-              <input
-                type="radio"
-                id="yes-stock"
-                name="stockAvail"
-                value={true}
-                onClick={() => setStockAvailablity(true)}
-                onChange={handleChange}
-              />
-              <label htmlFor="yes-stock">YES</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="no-stock"
-                name="stockAvail"
-                value={false}
-                onClick={() => setStockAvailablity(false)}
-                onChange={handleChange}
-              />
-              <label htmlFor="no-stock">NO</label>
-            </div>
-          </div>
-          {validationState.stockAvail.status && (
-            <FieldError error={validationState.stockAvail.error} />
-          )}
-
-          <div className="form-input">
-            <label htmlFor="stock">Stock</label>
-            <input
-              type="number"
-              name="stock"
-              id="stock"
-              min={0}
-              disabled={!stockAvailablity}
-              className={validationState.stock.status ? "error" : ""}
-              onChange={(e)=>handleFieldValidation(e,stockValidation)}
-            />
-            {validationState.stock.status && (
-              <FieldError error={validationState.stock.error} />
-            )}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="email">
-              Supplier Email <span>*</span>
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              className={validationState.email.status ? "error" : ""}
-              onChange={(event)=>handleFieldValidation(event,emailValidation)}
-            />
-            {validationState.email.status && (
-              <FieldError error={validationState.email.error} />
-            )}
-          </div>
-        </div> */}
-
-        <div className="form-right">
-          <div className="form-input">
-            <label
-              htmlFor="image"
-              name="image"
-              className={
-                validationState.image.status ? "upload-img error" : "upload-img"
-              }
-            >
-              <span>Upload Image</span>
-            </label>
-            <input
-              id="image"
-              name="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-            {validationState.image.status && (
-              <FieldError error={validationState.image.error} />
-            )}
-            {file && <img src={file} alt="Uploaded" />}
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="supplier-type">
-              Supplier Type <span>*</span>
-            </label>
-            <div className="checkbox">
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type1"
-                  name="supplierType"
-                  value={"manufacturer"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type1">Manufacturer</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type2"
-                  name="supplierType"
-                  value={"distributor"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type2">Distributor</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="supplier-type3"
-                  name="supplierType"
-                  value={"wholesalers"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="supplier-type3">Wholesalers</label>
-              </div>
-            </div>
-            {validationState.supplierType.status && (
-              <FieldError error={validationState.supplierType.error} />
-            )}
-          </div>
-
-          <div className="form-button">
-            <button type="submit">SUBMIT</button>
-            <button type="reset" onClick={()=>setValidationState(initialValidationState)}>RESET</button>
-          </div>
-        </div>
       </form>
+      )}
     </div>
   );
 }
