@@ -10,7 +10,8 @@ export function emptyField(text) {
 }
 
 export function emptyString(text) {
-  if (text.trim() === "") return true;
+  
+  if (!text || text.trim() === "") return true;
 
   return false;
 }

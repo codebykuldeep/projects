@@ -7,19 +7,34 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
   
   const [discountVal ,setDiscountVal] = useState(productData.discount ||0);
 
-  if(productData.id){
-    productData.date = new Date(productData.date).toISOString().split('T')[0] ;
 
+
+  if(productData.id){
+    
+    //date is incorrect form
+    if(productData.date.includes('/')){
+      const dateArr = productData.date.split('/')
+      productData.date = new Date(dateArr[2],dateArr[1],dateArr[0]).toISOString().split('T')[0] ;
+    }
+    else{
+      const dateArr = productData.date.split('-')
+      productData.date = new Date(dateArr[0],dateArr[1],dateArr[2]).toISOString().split('T')[0] ;
+    }
+    
     if(productData.stockAvail === 'true'){
       setStockAvailablity(true);
       productData.stockAvail ='';
-      
-      
+      productData.YesChecked = true;
+      productData.NoChecked = false;
+    }
+    else if(productData.stockAvail === 'false'){
+      productData.YesChecked = false;
+      productData.NoChecked = true;
     }
 
     
   }
-  console.log(stockAvailablity);
+
   
 
   function  handleDiscount(event) {
@@ -117,7 +132,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
           </div>
 
           <div className="form-input type-radio">
-            <label htmlFor="">
+            <label htmlFor="" onClick={()=>console.log(productData)}>
               Stock Available <span>*</span>
             </label>
             <div>
@@ -128,7 +143,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 value={true}
                 onClick={() => setStockAvailablity(true)}
                 onChange={handleChange}
-                defaultChecked={stockAvailablity}
+                defaultChecked={productData.YesChecked ?? false}
               />
               <label htmlFor="yes-stock">YES</label>
             </div>
@@ -140,7 +155,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 value={false}
                 onClick={() => setStockAvailablity(false)}
                 onChange={handleChange}
-                defaultChecked={stockAvailablity}
+                defaultChecked={productData.NoChecked ?? false}
               />
               <label htmlFor="no-stock">NO</label>
             </div>
@@ -159,7 +174,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
               disabled={!stockAvailablity}
               className={validationState.stock.status ? "error" : ""}
               onChange={handleChangeValidation}
-              defaultValue={productData.stockAvail ? productData.stock: ''}
+              defaultValue={productData.YesChecked ? productData.stock: ''}
             />
             {validationState.stock.status && (
               <FieldError error={validationState.stock.error} />
