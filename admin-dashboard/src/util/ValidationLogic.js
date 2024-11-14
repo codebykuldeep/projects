@@ -68,6 +68,8 @@ export const initialValidationState = {
 };
 
 export default function formValidation(form, state) {
+  
+  
   //email
   let email = {
     status: false,
@@ -145,21 +147,24 @@ export default function formValidation(form, state) {
       error: "Please select stock availability",
     };
   } else if (!clickableValidate(form.stockAvail)) {
-    if (emptyString(form.stock)) {
+    
+    if (form.stockAvail=== 'true' && !form.stock) {
+      console.log(form.stock);
+      
       state.stock = {
         status: true,
         error: "Please fill the stock quantity",
       };
-      console.log("form stock", form.stock);
-    } else if (!emptyString(form.stock)) {
+      
+    } else if (form.stockAvail=== 'true' && form.stock) {
       if (Number(form.stock) <= 0) {
         state.stock = {
           status: true,
           error: "Enter stock quantity greater than 0",
         };
       }
-    } else {
-      form.stock = {
+    } else if(form.stockAvail === 'false') {
+      state.stock = {
         status: false,
         error: "",
       };
@@ -190,8 +195,9 @@ export default function formValidation(form, state) {
     };
   }
 
+
   //stock
-  return {
+  const newState= {
     ...state,
     title,
     category,
@@ -201,5 +207,18 @@ export default function formValidation(form, state) {
     email,
     image,
     supplierType,
+    result:false,
   };
+
+  let result =true;
+    for(let x in newState){
+      
+      result = result && !newState[x].status;
+      
+  }
+  
+  newState.result = result;
+  
+  return newState;
+  
 }

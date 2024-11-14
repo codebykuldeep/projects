@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
 import FieldError from './FieldError';
-
-function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData}) {
+import { motion } from 'motion/react'; 
+function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData,getImage}) {
 const [file, setFile] = useState();
  
 
   function handleImageUpload(event) {
     // const img = event.target.files[0];
+    const imgFile = event.target.files[0];
     handleChangeValidation(event);
-    setFile(URL.createObjectURL(event.target.files[0]));
+    setFile(URL.createObjectURL(imgFile));
+    getImage(imgFile);
   }
 
   if(productData.imageURL){
     if(!file){
       setFile(productData.imageURL)
+      getImage({name:"previous-img",imageURL:productData.imageURL,exists:true})
     }
   }
 
@@ -30,6 +33,7 @@ const [file, setFile] = useState();
   }
   return (
     <div className="form-right">
+          <div className='form-right-upper'>
           <div className="form-input">
             <label
               htmlFor="image"
@@ -96,10 +100,11 @@ const [file, setFile] = useState();
               <FieldError error={validationState.supplierType.error} />
             )}
           </div>
+          </div>
 
           <div className="form-button">
-            <button type="submit">SUBMIT</button>
-            <button type="reset" onClick={handleResetForm}>RESET</button>
+            <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="submit">SUBMIT</motion.button>
+            <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="reset" onClick={handleResetForm}>RESET</motion.button>
           </div>
         </div>
   )

@@ -34,6 +34,27 @@ const router = createBrowserRouter([
   }
 ])
 
+// const router = createBrowserRouter([
+//   {
+//     path:'/',
+//     element:<ProductLayout/>,
+//     children:[
+//       {
+//         index:true,  
+//         element:<ProductPage/>
+//       },
+//       {
+//         path:'new',
+//         element:<FormPage/>
+//       },
+//       {
+//         path:'edit/:id',
+//         element:<FormPage/>
+//       },
+//     ]
+//   }
+// ])
+
 const queryClient = new QueryClient();
 
 function App() {

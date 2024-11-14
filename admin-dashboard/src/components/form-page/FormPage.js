@@ -6,21 +6,41 @@ import formValidation, {
 import {  validateField, } from "../../util/ValidationFunctions";
 import FormLeftSection from "./FormLeftSection";
 import FormRightSection from "./FormRightSection";
-import { useParams } from "react-router-dom";
-import { fetchProduct } from "../../util/HttpFunctions";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { addProduct, fetchProduct, updateProduct } from "../../util/HttpFunctions";
+import { useMutation } from "react-query";
+
+import { motion } from "motion/react";
 
 function FormPage() {
 
   const [validationState, setValidationState] = useState(
     initialValidationState
   );
+  
+  
 
   //When editing a product
   const [editMode,setEditMode] = useState(false);
-  const [isLoading,setIsLoading] = useState(true);
+  const [Loading,setLoading] = useState(true);
   const [productData,setProductData] = useState([]);
-
+  const [imageSelected, setImageSelected] = useState('')
+  const [formData ,setformData] = useState({});
   const params = useParams();
+  const navigate =useNavigate();
+
+  const {mutate} = useMutation({
+    mutationFn:addProduct,
+    onSuccess:()=>{
+      navigate('/products');
+    }
+  })
+  const UpdateMutate = useMutation({
+    mutationFn:updateProduct,
+    onSuccess:()=>{
+      navigate('/products');
+    }
+  })
   
 
   useEffect(()=>{
@@ -30,13 +50,36 @@ function FormPage() {
       fetchProduct(params.id)
       .then(data=>{
         setProductData(data)
-        setIsLoading(false);
+        setLoading(false);
       })
     }
     else{
-      setIsLoading(false);
+      setLoading(false);
     }
   },[params])
+
+  useEffect(()=>{
+    // console.log('sub-state',validationState.result);
+    
+    if(validationState.result){
+      if(!editMode){
+        mutate({formData:formData})
+      }
+      else if(editMode){
+        UpdateMutate.mutate({formData:formData,id:productData.id})
+      }
+      
+    }
+  },[validationState,formData,mutate])
+
+
+  function getImage(imgFile){
+    console.log(imgFile);
+    
+    setImageSelected(imgFile)
+  }
+
+  
 
   function handleForm(event) {
     event.preventDefault();
@@ -45,9 +88,12 @@ function FormPage() {
     const form = Object.fromEntries(fd.entries());
     const supplierType = fd.getAll("supplierType");
     form.supplierType = supplierType;
-
+    if(imageSelected){
+      form.image = imageSelected;
+    }
+    setformData(form);
     setValidationState((prev) => formValidation(form, prev));
-    console.log(form);
+    
     
   }
   function handleResetForm() {
@@ -76,17 +122,29 @@ function FormPage() {
   return (
     <div className="container">
       <div>
+        <motion.div whileHover={{scale:1.08, x:[2,0,-2,0],y:[2,0,-2,0]}}
+         transition={{duration:0.3,type:'spring',mass:3,stiffness:500}} className="back-btn">
+        <Link to={'/products'} >
+        <i className="fa-solid fa-arrow-left"></i> Back</Link>
+        </motion.div>
+
         {editMode ? (<h1>Edit Product</h1>) : (<h1>Add Product</h1>)}
       </div>
 
-      {isLoading && <p>Loading .....</p>}
+      {Loading && (
+        <div className="loader-box">
+          <div className="loader"></div>
+        </div>
+      )}
 
-      {!isLoading && (
+      {!Loading && (
       <form className="form-control" onSubmit={handleForm}>
         <FormLeftSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} productData={productData}
         />
 
-        <FormRightSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} handleResetForm={handleResetForm} productData={productData}/>
+        <FormRightSection validationState={validationState} handleChange={handleChange} handleChangeValidation={handleChangeValidation} handleResetForm={handleResetForm} productData={productData}
+        getImage={getImage}
+        />
 
       </form>
       )}
