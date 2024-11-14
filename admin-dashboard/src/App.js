@@ -5,6 +5,8 @@ import AppLayout from './components/UI/AppLayout';
 import ProductPage from './components/product-page/ProductPage';
 import ProductLayout from './components/UI/ProductLayout';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { redirectRoute } from './util/utilFunctions';
+import HomePage from './components/UI/HomePage';
 
 
 const router = createBrowserRouter([
@@ -13,7 +15,12 @@ const router = createBrowserRouter([
     element:<AppLayout/>,
     children:[
       {
-        path:'products',
+        index:true,
+        element:<HomePage/>,
+        loader:redirectRoute,
+      },
+      {
+        path:'/products',
         element:<ProductLayout/>,
         children:[
           {

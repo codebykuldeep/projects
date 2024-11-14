@@ -1,3 +1,4 @@
+import { redirect } from "react-router-dom";
 
 export function addFieldinProducts(products){
     const newProducts = products.map((product)=>{
@@ -13,4 +14,17 @@ export function addFieldinProducts(products){
     })
 
     return newProducts;
+}
+
+
+export function redirectRoute(){
+    const token =true;
+    
+    if(token){
+        console.log('redirect');
+        
+        return redirect('/products');
+    }
+
+    return null;
 }
