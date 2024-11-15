@@ -195,7 +195,7 @@ export default function formValidation(form, state) {
   if (form.supplierType.length === 0) {
     supplierType = {
       status: true,
-      error: "Please select atleast on type!",
+      error: "Please select atleast one type!",
     };
   }
 

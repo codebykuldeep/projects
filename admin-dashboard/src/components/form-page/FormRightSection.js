@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import FieldError from './FieldError';
 
 function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData,getImage}) {
 const [file, setFile] = useState();
- const [checkbox,setCheckbox]=useState({count:0,first:false,error:"Please select atleast one type!"})
+ const [checkbox,setCheckbox]=useState({count:0,first:true,error:"Please select atleast one type!"})
+  const setSupplierType = useRef(true);
 
   function handleImageUpload(event) {
     // const img = event.target.files[0];
@@ -20,6 +21,21 @@ const [file, setFile] = useState();
     }
   }
 
+  if(productData.supplierType && setSupplierType.current){
+    setSupplierType.current = false;
+    let count;
+    if(Array.isArray(productData.supplierType)){
+      count = productData.supplierType.length;
+    }else{
+      count = 1;
+    }
+    setCheckbox({
+      count: count,
+      first:false,
+      error:"Please select atleast one type!",
+    })
+  }
+
 
   function checkForType(text){
     if(productData.supplierType){
@@ -31,16 +47,17 @@ const [file, setFile] = useState();
     }
     return false
   }
-
+  
+  
 
   function handleCheckbox(event){
     if(event.target.name ==='supplierType'){
-      if(event.target.checked === false){
+      if(event.target.checked === true){
         setCheckbox(prev=>{
           return{
             ...prev,
             count:prev.count+1,
-            first:true,
+            first:false,
           }
         })
       }else{
@@ -48,7 +65,7 @@ const [file, setFile] = useState();
           return{
             ...prev,
             count:prev.count-1,
-            first:true,
+            first:false,
           }
         })
       }
@@ -121,6 +138,9 @@ const [file, setFile] = useState();
             </div>
             {validationState.supplierType.status && (
               <FieldError error={validationState.supplierType.error} />
+            )}
+             {(!checkbox.first && !validationState.supplierType.status  && checkbox.count === 0 ) && (
+              <FieldError error={checkbox.error} />
             )}
           </div>
           </div>

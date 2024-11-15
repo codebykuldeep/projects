@@ -30,7 +30,7 @@ function FormPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { mutate  } = useMutation({
+  const { mutate ,isLoading } = useMutation({
     mutationFn: addProduct,
     onSuccess: () => {
       navigate("/products");
@@ -67,7 +67,7 @@ function FormPage() {
         UpdateMutate.mutate({ formData: formData, id: productData.id });
       }
     }
-  }, [validationState, formData, mutate,UpdateMutate.editMode,productData]);
+  }, [validationState, formData, mutate,productData]);
 
   function getImage(imgFile) {
     console.log(imgFile);
@@ -140,23 +140,27 @@ function FormPage() {
         <form className="form-container" onSubmit={handleForm}>
           <div className="form-header">
             <div>{editMode ? <h1>Edit Product</h1> : <h1>Add Product</h1>}</div>
-            <div className="form-button">
-              <motion.button
-                whileHover={{ scale: 1.08 }}
-                transition={{ duration: 0.3, type: "tween" }}
-                type="submit"
-              >
-                SUBMIT
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.08 }}
-                transition={{ duration: 0.3, type: "tween" }}
-                type="reset"
-                onClick={handleResetForm}
-              >
-                RESET
-              </motion.button>
-            </div>
+           {(UpdateMutate.isLoading || isLoading) ?(
+            <div>Submitting...</div>
+           ):(
+             <div className="form-button">
+             <motion.button
+               whileHover={{ scale: 1.08 }}
+               transition={{ duration: 0.3, type: "tween" }}
+               type="submit"
+             >
+               SUBMIT
+             </motion.button>
+             <motion.button
+               whileHover={{ scale: 1.08 }}
+               transition={{ duration: 0.3, type: "tween" }}
+               type="reset"
+               onClick={handleResetForm}
+             >
+               RESET
+             </motion.button>
+           </div>
+           )}
           </div>
 
           <div className="form-control">
