@@ -1,27 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductList from "./ProductList";
 
-function ProductSection({ data, productData, isError, loading, error }) {
-  const [products, setProducts] = useState(productData);
 
+
+function ProductSection({ data, productData, isError, loading, error ,sorting}) {
+  const [products, setProducts] = useState(productData);
+  const sortingToggle = useRef(true)
+
+  
+  //Change product data  when entries count get changed
   useEffect(() => {
+    //set sorting toggle to initial
+    sortingToggle.current = true;
+
     setProducts(productData);
   }, [data, productData]);
+
+
 
   function handleProductSort(event) {
     if (event.target.dataset) {
       let propertyName = event.target.dataset.name;
 
-      if (propertyName === "title" || propertyName === "category") {
-        setProducts((prev) =>
-          prev.toSorted((a, b) =>
-            a[propertyName].localeCompare(b[propertyName])
-          )
-        );
-      } else if (propertyName === "price" || propertyName === "discount")
-        setProducts((prev) =>
-          prev.toSorted((a, b) => a[propertyName] - b[propertyName])
-        );
+      //switch sorting
+      if(sortingToggle.current){  
+        
+        if (propertyName === "title" || propertyName === "category") {
+          setProducts((prev) =>
+            prev.toSorted((a, b) =>
+              a[propertyName].localeCompare(b[propertyName])
+            )
+          );
+        } else if (propertyName === "price" || propertyName === "discount")
+          setProducts((prev) =>
+            prev.toSorted((a, b) => a[propertyName] - b[propertyName])
+          );
+      }
+      else{
+        
+        if (propertyName === "title" || propertyName === "category") {
+          setProducts((prev) =>
+            prev.toSorted((a, b) =>
+              b[propertyName].localeCompare(a[propertyName])
+            )
+          );
+        } else if (propertyName === "price" || propertyName === "discount")
+          setProducts((prev) =>
+            prev.toSorted((a, b) => b[propertyName] - a[propertyName])
+          );
+      }
+      sortingToggle.current =!sortingToggle.current;
+      
     }
   }
   return (

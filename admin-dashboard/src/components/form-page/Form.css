@@ -4,7 +4,13 @@
     margin: 0 auto;
     margin-top: 2rem;
 }
+.form-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    margin: 1rem 0 0 0;
+}
 .form-control{
     width: 100%;
     display: flex;
@@ -90,10 +96,12 @@
 
 /* FORM BUTTON */
 .form-button{
+   
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     justify-self: flex-end;
+    gap: 30px;
 }
 
 .form-button button{

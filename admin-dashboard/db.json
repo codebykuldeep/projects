@@ -1,19 +1,18 @@
 {
   "products-data": [
     {
-      "title": "Home Essentials Bundle update",
+      "title": "Home Essentials Bundle update 2",
       "category": "beauty",
       "description": "Cozy knit throw pillow",
-      "date": "2025-01-05",
+      "date": "2025-06-30",
       "discount": "28",
       "stockAvail": "false",
       "email": "scullum0@phpbb.com",
-      "image": {},
+      "price": "266",
       "supplierType": [
         "distributor"
       ],
       "id": "6a56",
-      "price": 26668,
       "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731586520/cfzikorpcg2evlyzwlm0.png"
     },
     {
@@ -31,18 +30,19 @@
       "id": "45f1"
     },
     {
-      "title": "TechGadget Pro X",
+      "title": "TechGadget Pro MAX",
       "category": "furniture",
       "description": "Gourmet artisanal chocolate box",
-      "date": "10/09/2024",
-      "discount": 20,
+      "date": "2024-11-08",
+      "discount": "20",
       "stockAvail": "false",
       "email": "ihayth2@arstechnica.com",
-      "imageURL": "http://dummyimage.com/184x100.png/cc0000/ffffff",
-      "supplierType": "distributor",
-      "price": 17688,
-      "stock": 28,
-      "id": "c089"
+      "price": "17688",
+      "supplierType": [
+        "distributor"
+      ],
+      "id": "c089",
+      "imageURL": "http://dummyimage.com/184x100.png/cc0000/ffffff"
     },
     {
       "title": "Pet Lover's Paradise Collection",
@@ -62,34 +62,34 @@
       "title": "Pet Lover's Paradise Collection",
       "category": "motorcycle",
       "description": "Elegant marble serving tray",
-      "date": "24/04/2024",
-      "discount": 28,
+      "date": "2024-07-21",
+      "discount": "28",
       "stockAvail": "true",
+      "stock": "40",
       "email": "wdannett4@boston.com",
-      "imageURL": "http://dummyimage.com/204x100.png/ff4444/ffffff",
-      "supplierType": "wholesalers",
-      "price": 28568,
-      "stock": 40,
-      "id": "72f9"
+      "price": "285680",
+      "supplierType": [
+        "wholesalers"
+      ],
+      "id": "72f9",
+      "imageURL": "http://dummyimage.com/204x100.png/ff4444/ffffff"
     },
     {
       "title": "Home Essentials Bundle",
       "category": "womens-shoes",
       "description": "Sleek and modern desk lamp",
-      "date": "2025-08-06",
+      "date": "2025-11-03",
       "discount": "20",
       "stockAvail": "true",
       "stock": "88",
       "email": "gbanat5@quantcast.com",
+      "price": "12324",
       "image": {},
       "supplierType": [
         "wholesalers"
       ],
       "id": "a771",
-      "price": 12324,
-      "imageURL": {
-        "error": "Failed to upload"
-      }
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731667878/yd2m597bmesk6h1cws4j.jpg"
     },
     {
       "title": "Fitness Guru Workout Equipment",
@@ -2097,20 +2097,6 @@
       "id": "d4ef"
     },
     {
-      "title": "TechGadget Pro X",
-      "category": "beauty",
-      "description": "Soft and fluffy pillow",
-      "date": "25/09/2024",
-      "discount": 28,
-      "stockAvail": "false",
-      "email": "mlatek47@businessinsider.com",
-      "imageURL": "http://dummyimage.com/137x100.png/dddddd/000000",
-      "supplierType": "wholesalers",
-      "price": 14143,
-      "stock": 83,
-      "id": "a010"
-    },
-    {
       "title": "Beauty Queen Makeup Kit",
       "category": "smartphones",
       "description": "Durable stainless steel water bottle",
@@ -2380,15 +2366,17 @@
       "title": "Fitness Guru Workout Equipment",
       "category": "beauty",
       "description": "Trendy boho macrame wall hanging",
-      "date": "26/03/2024",
-      "discount": 25,
+      "date": "2024-05-24",
+      "discount": "25",
       "stockAvail": "false",
       "email": "jfitkin4r@vkontakte.ru",
-      "imageURL": "http://dummyimage.com/227x100.png/cc0000/ffffff",
-      "supplierType": "manufacturer",
-      "price": 8864,
-      "stock": 14,
-      "id": "59c5"
+      "price": "8864",
+      "image": {},
+      "supplierType": [
+        "manufacturer"
+      ],
+      "id": "59c5",
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731653103/tzz5mwrcb4suuwqg0nhb.jpg"
     },
     {
       "title": "Traveler's Dream Luggage Set",
@@ -2813,6 +2801,22 @@
       ],
       "id": "f5bb",
       "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731644740/fgo0yqnvynt5r7rmaotn.jpg"
+    },
+    {
+      "id": "7f30",
+      "title": "Test product",
+      "category": "home-decoration",
+      "description": "Hello this is a test product",
+      "date": "2024-11-29",
+      "discount": "0",
+      "stockAvail": "false",
+      "email": "test2@test.com",
+      "price": "20000",
+      "image": {},
+      "supplierType": [
+        "distributor"
+      ],
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731672872/amstqrq6q9qk0j84o7ow.jpg"
     }
   ],
   "profile": {

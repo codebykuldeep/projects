@@ -145,7 +145,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 onChange={handleChange}
                 defaultChecked={productData.YesChecked ?? false}
               />
-              <label htmlFor="yes-stock">YES</label>
+              <label htmlFor="yes-stock">Yes</label>
             </div>
             <div>
               <input
@@ -157,7 +157,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 onChange={handleChange}
                 defaultChecked={productData.NoChecked ?? false}
               />
-              <label htmlFor="no-stock">NO</label>
+              <label htmlFor="no-stock">No</label>
             </div>
           </div>
           {validationState.stockAvail.status && (

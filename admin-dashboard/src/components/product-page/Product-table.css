@@ -34,6 +34,7 @@
 .product-table ul{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     min-width: 2000px;
     border-radius: 10px;
     
@@ -80,4 +81,20 @@
 }
 .product-action div:last-child i{
     color: rgb(173, 173, 166);
+}
+
+.product-table-item .product-name ,.product-table-title .product-name{
+    width: 300px !important;
+}
+.product-table-title .product-name{
+    padding-left: 100px;
+}
+
+.product-table-item .product-name{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    img{
+        width: 100px;
+    }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react'
-import { QueryClient, useQueryClient } from 'react-query';
+import {useQueryClient } from 'react-query';
 import { deleteProduct } from '../../util/HttpFunctions';
 
 function ProductItem({product}) {
@@ -19,7 +19,7 @@ function ProductItem({product}) {
   return (
     <div>
         <ul className="product-table-item" >
-            <li className="product-name">{product.title}</li>
+            <li className="product-name"><img src={product.imageURL} alt={product.title + product.id} /> <span>{product.title}</span></li>
             <li className="product-id">#{product.id}</li>
             <li className="product-price">${product.price}</li>
             <li className="product-stock">{product.stock}</li>

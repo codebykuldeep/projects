@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import FieldError from './FieldError';
-import { motion } from 'motion/react'; 
+
 function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData,getImage}) {
 const [file, setFile] = useState();
- 
+ const [checkbox,setCheckbox]=useState({count:0,first:false,error:"Please select atleast one type!"})
 
   function handleImageUpload(event) {
     // const img = event.target.files[0];
@@ -31,6 +31,29 @@ const [file, setFile] = useState();
     }
     return false
   }
+
+
+  function handleCheckbox(event){
+    if(event.target.name ==='supplierType'){
+      if(event.target.checked === false){
+        setCheckbox(prev=>{
+          return{
+            ...prev,
+            count:prev.count+1,
+            first:true,
+          }
+        })
+      }else{
+        setCheckbox(prev=>{
+          return{
+            ...prev,
+            count:prev.count-1,
+            first:true,
+          }
+        })
+      }
+    }
+  }
   return (
     <div className="form-right">
           <div className='form-right-upper'>
@@ -57,7 +80,7 @@ const [file, setFile] = useState();
             {file && <img src={file} alt="Uploaded" />}
           </div>
 
-          <div className="form-input">
+          <div className="form-input"onClick={handleCheckbox} >
             <label htmlFor="supplier-type">
               Supplier Type <span>*</span>
             </label>
@@ -102,10 +125,10 @@ const [file, setFile] = useState();
           </div>
           </div>
 
-          <div className="form-button">
+          {/* <div className="form-button">
             <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="submit">SUBMIT</motion.button>
             <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="reset" onClick={handleResetForm}>RESET</motion.button>
-          </div>
+          </div> */}
         </div>
   )
 }

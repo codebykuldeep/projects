@@ -9,6 +9,9 @@ import ProductSection from "./ProductSection";
 
 import { motion } from "motion/react";
 
+
+
+
 function ProductPage() {
   const [entriesCount, setEntriesCount] = useState(10);
   const [page, setPage] = useState(1);
@@ -16,11 +19,14 @@ function ProductPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const timer = useRef();
 
+  
+
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["products", entriesCount, page, searchKeyword],
     queryFn: ({ signal }) =>
       getData({ signal, page, entriesCount, searchKeyword }),
+    refetchOnMount:"always"
   });
 
 
@@ -29,8 +35,12 @@ function ProductPage() {
   let productData;
   let pages ;
   let pagesArray =[];
+  let totalDataLength;
   if (searchKeyword !== "") {
-    productData = data;
+    console.log(data);
+    
+    productData = data?.data;
+    totalDataLength = data?.totalLength;
   } else if (data) {
     pages =data.pages;
     pagesArray = (new Array(pages).fill(0)).map((val,index)=>index+1)
@@ -144,6 +154,13 @@ function ProductPage() {
                 <span>{">"}</span>
               </div>
             </div>
+          </div>
+        )}
+
+        {searchKeyword && data &&
+        (
+          <div className="product-page-footer">
+            {productData.length} matching results are found out of  {totalDataLength} products.
           </div>
         )}
       </div>

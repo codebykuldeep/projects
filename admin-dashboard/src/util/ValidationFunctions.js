@@ -6,9 +6,13 @@ const errorMap ={
   category:'Please select a product category',
   date:'Please select product date',
   image:'Please upload a product image',
+  supplierType:"Please select atleast one type!",
 }
 
 export function validateField(field,state){
+  
+  
+  
   let errorDetail ={
     status:false,
     error:''
@@ -71,6 +75,8 @@ export function validateField(field,state){
       error:errorMap[field.name]
     }
   }
+  
+  
   
   return {...state,
     [field.name]:{

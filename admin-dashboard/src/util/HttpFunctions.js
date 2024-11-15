@@ -13,12 +13,14 @@ export async function getData({page = 1,entriesCount = 10,signal,searchKeyword})
         throw new Error('Fetching Data from Server failed.Please try later...')
     }
     const data = await response.json();
-    
 
     if(searchKeyword){
-        const newData = data.filter((entry)=>entry.title.toLowerCase().includes(searchKeyword) || entry.category.toLowerCase().includes(searchKeyword))
-        return newData;
+        const totalData = data.length;
+        const newData = data.filter((entry)=>entry.title.toLowerCase().includes(searchKeyword) || entry.category.toLowerCase().includes(searchKeyword));
+        
+        return {data:newData,totalLength:totalData};
     }
+    
     
     
     return data;
