@@ -2,7 +2,11 @@ import React from 'react'
 
 function HomePage() {
   return (
-    <div>Redirecting to products ....</div>
+    <div>
+      <div className="loader-box">
+            <div className="loader"></div>
+      </div>
+    </div>
   )
 }
 

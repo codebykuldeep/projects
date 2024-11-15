@@ -48,6 +48,23 @@ export function validateField(field,state){
       };
     }
   }
+  else if(field.name === 'price'){
+    if(field.value ===""){
+      errorDetail={
+        status: true,
+        error: "Please enter product price!",
+      }
+    }
+    else if(field.value){
+      if (Number(field.value) <= 0) {
+        errorDetail = {
+          status: true,
+          error: "Enter price greater than 0",
+        };
+      }
+    }
+
+  }
   else if(!field.value || field.value.trim() === ''){
     errorDetail ={
       status:true,

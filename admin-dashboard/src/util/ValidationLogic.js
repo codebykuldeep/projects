@@ -57,6 +57,10 @@ export const initialValidationState = {
     status: false,
     error: "",
   },
+  price:{
+    status: false,
+    error: "",
+  },
   image: {
     status: false,
     error: "",
@@ -195,6 +199,25 @@ export default function formValidation(form, state) {
     };
   }
 
+  let price ={
+    status: false,
+    error: "",
+  }
+  if(form.price ===""){
+    price={
+      status: true,
+      error: "Please enter product price!",
+    }
+  }
+  else if(form.price){
+    if (Number(form.price) <= 0) {
+     price = {
+        status: true,
+        error: "Enter price greater than 0",
+      };
+    }
+  }
+
 
   //stock
   const newState= {
@@ -207,6 +230,7 @@ export default function formValidation(form, state) {
     email,
     image,
     supplierType,
+    price,
     result:false,
   };
 

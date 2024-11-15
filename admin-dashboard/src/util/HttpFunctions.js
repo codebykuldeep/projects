@@ -67,7 +67,7 @@ export async function addProduct(formData) {
     formData = formData.formData;
     const imgURL = await uploadImage(formData.image);
     formData.imageURL =imgURL; 
-    formData.price= Math.floor(Math.random()*30000);
+    // formData.price= Math.floor(Math.random()*30000);
     console.log(imgURL);
     
     const response = await fetch(`http://localhost:8000/products-data`,{
@@ -91,7 +91,7 @@ export async function updateProduct(formData) {
     const {id} = formData;
     formData = formData.formData;
     formData.id = id;
-    formData.price= Math.floor(Math.random()*30000);
+    // formData.price= Math.floor(Math.random()*30000);
     if(formData.image?.exists){
         console.log('exists');
         

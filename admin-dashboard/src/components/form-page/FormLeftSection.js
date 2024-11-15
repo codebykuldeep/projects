@@ -200,6 +200,20 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
               <FieldError error={validationState.email.error} />
             )}
           </div>
+          <div className="form-input">
+            <label htmlFor="price">Price <span>*</span></label>
+            <input
+              type="number"
+              name="price"
+              id="price"
+              className={validationState.price.status ? "error" : ""}
+              onChange={handleChangeValidation}
+              defaultValue={productData.price || ''}
+            />
+            {validationState.price.status && (
+              <FieldError error={validationState.price.error} />
+            )}
+            </div>
         </div>
   )
 }

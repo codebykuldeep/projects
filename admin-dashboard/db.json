@@ -106,18 +106,21 @@
       "id": "6054"
     },
     {
-      "title": "Foodie Delight Gourmet Box",
+      "title": "Foodie Delight Gourmet Box updated",
       "category": "home-decoration",
       "description": "Luxurious velvet throw blanket",
-      "date": "02/02/2024",
-      "discount": 25,
+      "date": "2024-10-24",
+      "discount": "25",
       "stockAvail": "true",
+      "stock": "76",
       "email": "cpecey7@blogtalkradio.com",
-      "imageURL": "http://dummyimage.com/118x100.png/ff4444/ffffff",
-      "supplierType": "wholesalers",
-      "price": 26027,
-      "stock": 76,
-      "id": "ecc2"
+      "supplierType": [
+        "manufacturer",
+        "wholesalers"
+      ],
+      "id": "ecc2",
+      "price": 7712,
+      "imageURL": "http://dummyimage.com/118x100.png/ff4444/ffffff"
     },
     {
       "title": "Foodie Delight Gourmet Box",
@@ -2780,19 +2783,36 @@
       "id": "e55e"
     },
     {
-      "id": "212c",
       "title": "test 1",
       "category": "home-decoration",
       "description": "abcd",
-      "date": "2024-11-30",
+      "date": "2025-01-28",
       "discount": "0",
       "stockAvail": "false",
       "email": "test@test.com",
-      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731582345/mdrg8oadh5uvhztz6ss3.jpg",
+      "price": "999",
       "supplierType": [
         "manufacturer",
         "distributor"
-      ]
+      ],
+      "id": "212c",
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731582345/mdrg8oadh5uvhztz6ss3.jpg"
+    },
+    {
+      "title": "test product with price",
+      "category": "fragrances",
+      "description": "for testing price field",
+      "date": "2025-01-14",
+      "discount": "0",
+      "stockAvail": "false",
+      "email": "fdfsdf@email.com",
+      "price": "100",
+      "supplierType": [
+        "distributor",
+        "wholesalers"
+      ],
+      "id": "f5bb",
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731644740/fgo0yqnvynt5r7rmaotn.jpg"
     }
   ],
   "profile": {
