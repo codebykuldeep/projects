@@ -3,6 +3,7 @@
 .nav{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 10px;
     color: white;
     background: rgb(143, 143, 255);

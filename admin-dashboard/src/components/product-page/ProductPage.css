@@ -76,23 +76,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
 
     font-weight: 700;
 }
 
 .pagination div{
     border: 1px solid var(--BLUE);
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
-
+    color: white;
     text-align: center;
-
+    background: var(--BLUE);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     
+}
+.page-selected {
+    background-color: white !important;
+    color: var(--BLUE) !important;
 }
 
 

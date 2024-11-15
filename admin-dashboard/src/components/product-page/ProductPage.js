@@ -7,6 +7,11 @@ import { useQuery, useQueryClient } from "react-query";
 import { getData } from "../../util/HttpFunctions";
 import ProductSection from "./ProductSection";
 
+import { motion } from "motion/react";
+
+
+
+
 function ProductPage() {
   const [entriesCount, setEntriesCount] = useState(10);
   const [page, setPage] = useState(1);
@@ -14,11 +19,14 @@ function ProductPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const timer = useRef();
 
+  
+
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["products", entriesCount, page, searchKeyword],
     queryFn: ({ signal }) =>
       getData({ signal, page, entriesCount, searchKeyword }),
+    refetchOnMount:"always"
   });
 
 
@@ -27,8 +35,12 @@ function ProductPage() {
   let productData;
   let pages ;
   let pagesArray =[];
+  let totalDataLength;
   if (searchKeyword !== "") {
-    productData = data;
+    console.log(data);
+    
+    productData = data?.data;
+    totalDataLength = data?.totalLength;
   } else if (data) {
     pages =data.pages;
     pagesArray = (new Array(pages).fill(0)).map((val,index)=>index+1)
@@ -47,6 +59,7 @@ function ProductPage() {
 
   function handleEntriesChange(event) {
     queryClient.removeQueries();
+    setPage(1);
     setEntriesCount(Number(event.target.value));
   }
 
@@ -66,13 +79,14 @@ function ProductPage() {
     }
     if(action=== 'inc'){
       setPaginationCount(prev => {
-        if(prev+1> pages)
-          return pages;
+        if(prev+1 > Math.floor(pages/3)-1)
+          return Math.ceil(pages/3)-1;
         return prev+1;
       })
     }
 
   }
+
    
 
   return (
@@ -95,50 +109,19 @@ function ProductPage() {
             </form>
           </div>
 
-          <div className="add-product-btn">
+          <motion.div className="add-product-btn" whileHover={{x:[2,0,-2,0],y:[2,0,-2,0]}} transition={{duration:0.3,type:'spring',stiffness:1000,mass:3}}>
             <button>
               <Link to={"new"}>
                 {" "}
                 <strong>+</strong> ADD NEW
               </Link>
             </button>
-          </div>
+          </motion.div>
         </div>
 
-        {/* <div className="product-table" onClick={handleProductSort}>
-          <ul className="product-table-title">
-            <li className="product-name" data-name='title'>Product Name</li>
-            <li className="product-id">Product ID</li>
-            <li className="product-price" data-name='price'>Price</li>
-            <li className="product-stock" data-name='stock'>Stock</li>
-            <li className="product-status">Availability</li>
-            <li className="product-category" data-name='category'>Category</li>
-            <li className="product-discount" data-name='discount'>Discount</li>
-            <li className="product-action">Action</li>
-          </ul>
+        
 
-          {isPending && (
-            <p>Loading...</p>
-          )}
-          {data && (
-            <div>
-            {products.map((product, index) => (
-              <ProductItem key={index} product={product}/>
-            ))}
-          </div>
-          )}
-        </div> */}
-        {isError && (
-          <div className="loader-box">
-            <div className="error-data">{error.message}</div>
-          </div>
-        )}
-        {isLoading && (
-          <div className="loader-box">
-            <div className="loader"></div>
-          </div>
-        )}
-        {data && <ProductSection data={data} productData={productData} />}
+        {<ProductSection data={data} productData={productData} isError={isError} loading={isLoading} error={error}/>}
 
         {!searchKeyword && (
           <div className="product-page-footer">
@@ -157,19 +140,27 @@ function ProductPage() {
               <span>entries</span>
             </div>
 
-            <div className="pagination">
+            <div className="pagination" >
               <div onClick={()=>handlePagination('dec')}>
                 <span>{"<"}</span>
               </div>
               {data && pagesArray.slice(paginationCount*3,paginationCount*3+3).map((val) => (
-                <div key={val} onClick={() => handlePageChange(val)}>
+                <motion.div whileHover={{y:-5}} transition={{duration:0.3,type:'spring'}}
+                 key={val} className={page === val ? 'page-selected': ''} onClick={() => handlePageChange(val)}>
                   <span>{val}</span>
-                </div>
+                </motion.div>
               ))}
               <div onClick={()=>handlePagination('inc')}>
                 <span>{">"}</span>
               </div>
             </div>
+          </div>
+        )}
+
+        {searchKeyword && data &&
+        (
+          <div className="product-page-footer">
+            {productData.length} matching results are found out of  {totalDataLength} products.
           </div>
         )}
       </div>
