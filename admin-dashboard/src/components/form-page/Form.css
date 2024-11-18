@@ -4,7 +4,13 @@
     margin: 0 auto;
     margin-top: 2rem;
 }
+.form-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    margin: 1rem 0 0 0;
+}
 .form-control{
     width: 100%;
     display: flex;
@@ -90,9 +96,12 @@
 
 /* FORM BUTTON */
 .form-button{
+   
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    justify-self: flex-end;
+    gap: 30px;
 }
 
 .form-button button{
@@ -111,4 +120,27 @@
 
 .error{
     border: 1px solid #ED4337 !important;
+}
+
+
+/* BACK BUTTON */
+.back-btn{
+    display: inline-block;
+    background: var(--BLUE);
+    padding: 10px 5px;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.form-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 550px;
+}
+
+.form-right-upper{
+    width: 100%;
 }

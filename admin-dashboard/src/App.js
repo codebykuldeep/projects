@@ -5,15 +5,32 @@ import AppLayout from './components/UI/AppLayout';
 import ProductPage from './components/product-page/ProductPage';
 import ProductLayout from './components/UI/ProductLayout';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { checkUser, checkUserAuthentication, routeProtection } from './util/utilFunctions';
+import HomePage from './components/UI/HomePage';
+import Login from './components/login/Login';
+import ErrorPage from './components/UI/ErrorPage';
 
 
 const router = createBrowserRouter([
   {
     path:'/',
     element:<AppLayout/>,
+    errorElement:<ErrorPage/>,
     children:[
       {
+        index:true,
+        element:<HomePage/>,
+        loader:checkUserAuthentication,
+        // loader:redirectRoute,
+      },
+      {
+        path:'login',
+        loader:checkUser,
+        element:<Login/>,
+      },
+      {
         path:'products',
+        loader:routeProtection,
         element:<ProductLayout/>,
         children:[
           {
@@ -33,6 +50,27 @@ const router = createBrowserRouter([
     ]
   }
 ])
+
+// const router = createBrowserRouter([
+//   {
+//     path:'/',
+//     element:<ProductLayout/>,
+//     children:[
+//       {
+//         index:true,  
+//         element:<ProductPage/>
+//       },
+//       {
+//         path:'new',
+//         element:<FormPage/>
+//       },
+//       {
+//         path:'edit/:id',
+//         element:<FormPage/>
+//       },
+//     ]
+//   }
+// ])
 
 const queryClient = new QueryClient();
 

@@ -11,7 +11,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
 
   if(productData.id){
     
-    //date is incorrect form
+    //date is incorrect form  in data json
     if(productData.date.includes('/')){
       const dateArr = productData.date.split('/')
       productData.date = new Date(dateArr[2],dateArr[1],dateArr[0]).toISOString().split('T')[0] ;
@@ -145,7 +145,7 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 onChange={handleChange}
                 defaultChecked={productData.YesChecked ?? false}
               />
-              <label htmlFor="yes-stock">YES</label>
+              <label htmlFor="yes-stock">Yes</label>
             </div>
             <div>
               <input
@@ -157,21 +157,22 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
                 onChange={handleChange}
                 defaultChecked={productData.NoChecked ?? false}
               />
-              <label htmlFor="no-stock">NO</label>
+              <label htmlFor="no-stock">No</label>
             </div>
           </div>
           {validationState.stockAvail.status && (
             <FieldError error={validationState.stockAvail.error} />
           )}
 
-          <div className="form-input">
+          {
+            (productData.YesChecked || stockAvailablity) && (
+              <div className="form-input">
             <label htmlFor="stock">Stock</label>
             <input
               type="number"
               name="stock"
               id="stock"
               min={0}
-              disabled={!stockAvailablity}
               className={validationState.stock.status ? "error" : ""}
               onChange={handleChangeValidation}
               defaultValue={productData.YesChecked ? productData.stock: ''}
@@ -179,7 +180,9 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
             {validationState.stock.status && (
               <FieldError error={validationState.stock.error} />
             )}
-          </div>
+            </div>
+            )
+          }
 
           <div className="form-input">
             <label htmlFor="email">
@@ -197,6 +200,20 @@ function FormLeftSection({validationState,handleChange,handleChangeValidation,pr
               <FieldError error={validationState.email.error} />
             )}
           </div>
+          <div className="form-input">
+            <label htmlFor="price">Price <span>*</span></label>
+            <input
+              type="number"
+              name="price"
+              id="price"
+              className={validationState.price.status ? "error" : ""}
+              onChange={handleChangeValidation}
+              defaultValue={productData.price || ''}
+            />
+            {validationState.price.status && (
+              <FieldError error={validationState.price.error} />
+            )}
+            </div>
         </div>
   )
 }
