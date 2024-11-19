@@ -1,0 +1,86 @@
+
+.newsletter{
+    padding: 2rem;
+
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    
+
+    text-align: center;
+    background-color: var(--background);
+}
+/* .newsletter *{
+    width: 100%;
+} */
+.newsletter form, .subscribe{
+    width: 100%;
+    align-self: center;
+}
+.newsletter form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.subscribe{
+    border: 1px solid #e4e4e4;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    border-radius: 30px;
+    background-color: white;
+    width: 50%;
+}
+.subscribe input[type='email']{
+    
+    border: none;
+    padding: 0 0 0 2rem;
+    border-radius: 30px;
+    width: 100%;
+}
+.subscribe input[type='email']:focus{
+    outline: none;
+}
+.subscribe button{
+    all: unset;
+    cursor: pointer;
+    padding: 0 15px;
+
+    background-color: var(--btn-color);
+    border-radius: 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+
+.footer-bottom{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px;
+    color: white;
+    background: rgb(69, 68, 68);
+}
+
+.footer-bottom  .footer-link{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-bottom li{
+    list-style: none;
+}
+.company-info{
+    max-width:50% ;
+}
+.footer-link{
+    width: 40%;
+}

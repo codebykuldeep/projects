@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "html-css-js-5a48c"
+  },
+  "targets": {
+    "html-css-js-5a48c": {
+      "hosting": {
+        "leno": [
+          "leno-website"
+        ],
+        "tutor": [
+          "tutor-website"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

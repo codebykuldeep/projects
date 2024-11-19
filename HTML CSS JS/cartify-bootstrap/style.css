@@ -1,0 +1,148 @@
+:root{
+    --primary-color:#b0d2e0;
+    --fade-color:#6c757d;
+}
+
+body{
+    font-family: 'Poppins',sans-serif;
+    
+}
+.underline{
+    height: 5px;
+    width: 64px;
+    margin: 0 auto;
+    background-color: var(--primary-color);
+}
+
+/* SCROLL BAR  */
+::-webkit-scrollbar{
+    display: none;
+}
+.scrollbar{
+    position: fixed;
+    background-color: #f1f1f1;
+    width: 10px;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    z-index: 2000 ;
+    transition: height 0.6s smooth;
+}
+#progress{
+    background-color: var(--primary-color);
+}
+/* NAVBAR  */
+
+.navbar-brand img{
+    width: 90px;
+}
+
+.nav-item{
+    cursor: pointer;
+    font-weight: 600;
+    
+}
+.nav-item .nav-link:hover{
+    color: var(--primary-color);
+}
+
+/* Search Bar */
+.searchbar{
+    position: relative;
+}
+#result{
+    position: absolute;
+    top: 0;
+    height: 300px;
+}
+
+/* HERO  */
+.hero{
+    font-family: 'DynaPuff',sans-serif;
+    width: 100%;
+    height: 100vh;
+    background:var(--primary-color) url('./assets/shopping-bag-cart.jpg') center center/cover no-repeat;
+    position: relative;
+}
+
+.hero .container{
+    height: 80%;
+    gap: 10px;
+}
+.hero .frame-decoration{
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    bottom: 0;
+    left: 0;
+}
+
+
+/* Category */
+.category-item{
+    cursor: pointer;
+}
+
+.category-item img{
+    width: 100px;
+}
+
+/* PRODUCT */
+.product-container .card{
+    padding: 0;
+    transition: all 0.3s ease-in;
+}
+.product-container .card-subtitle{
+    color: var(--fade-color);
+}
+.product-container .price{
+    font-weight: 600;
+}
+
+.product-container .img-box{
+    width: 150px;
+    height: 150px;
+    
+}
+.product-container img{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 5px;
+    
+    
+}
+.product-container .card:hover img{
+    transform: scale(1.05);
+}
+
+/* Modal  */
+.modal-body img{
+    width: 60%;
+    height: 300px;
+}
+
+.sliderbtn{
+    all: unset;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+
+@media(max-width:1024px){
+    .hero{
+        background: var(--primary-color);
+        height: 60vh;
+    }
+}
+@media (max-width:768px){
+    .scrollbar{
+        display: none;
+    }
+    nav form .searchbar{
+        width: 70% !important;
+    }
+    /* nav form input{
+        width: 100%;
+    } */
+}

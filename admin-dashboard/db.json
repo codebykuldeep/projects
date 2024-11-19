@@ -2429,20 +2429,6 @@
       "id": "2891"
     },
     {
-      "title": "Beauty Queen Makeup Kit",
-      "category": "womens-shoes",
-      "description": "Rustic farmhouse wall clock",
-      "date": "27/11/2023",
-      "discount": 27,
-      "stockAvail": "false",
-      "email": "amcnabb4v@blinklist.com",
-      "imageURL": "http://dummyimage.com/160x100.png/5fa2dd/ffffff",
-      "supplierType": "manufacturer",
-      "price": 25194,
-      "stock": 33,
-      "id": "1626"
-    },
-    {
       "title": "Fashionista Chic Dress",
       "category": "smartphones",
       "description": "Scented soy wax candle set",
@@ -2825,6 +2811,22 @@
         "distributor"
       ],
       "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731672872/amstqrq6q9qk0j84o7ow.jpg"
+    },
+    {
+      "id": "1d0e",
+      "title": "Test product 3",
+      "category": "home-decoration",
+      "description": "product demo",
+      "date": "2024-11-23",
+      "discount": "0",
+      "stockAvail": "false",
+      "email": "abc@example.com",
+      "price": "56656",
+      "image": {},
+      "supplierType": [
+        "wholesalers"
+      ],
+      "imageURL": "https://res.cloudinary.com/dhnzclvra/image/upload/v1731687169/gbvfrxwy9n7wivqvi3kl.jpg"
     }
   ],
   "profile": {

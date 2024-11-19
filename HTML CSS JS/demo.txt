@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "default": "html-css-js-5a48c"
+  }
+}
+
+
+
+{
+  "hosting": {
+    "public": "./",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
+
