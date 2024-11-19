@@ -1,0 +1,162 @@
+section{
+    padding: 3rem 0;
+    background-color: var(--cart-background);
+}
+
+.back-button{
+    padding-left: 30px;
+    color: var(--font-grey);
+    font-weight: 600;
+}
+.back-button:hover{
+    color:var(--font-black)
+}
+
+.cart-container{
+    display: flex;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    padding: 30px;
+}
+
+.cart{
+    border: 1px solid var(--cart-border);
+    background-color: white;
+    width:70%;
+    
+}
+.cart-title{
+    padding: 20px 0px 8px 10px;
+}
+
+.item-img img{
+    width: 125px;
+    height: 125px;
+}
+
+.item-container{
+    display: flex;
+    flex-direction: column;
+    
+
+    border-top: 1px solid var(--cart-border);
+}
+
+.cart-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    
+    
+    padding: 10px 10px;
+}
+
+.item-detail h3{
+    margin-bottom: 10px;
+}
+.item-detail-1 span:first-child{
+    color: var(--font-grey);
+    text-decoration: line-through;
+}
+.item-detail-1 span:last-child{
+    color: #f7525a;
+}
+.item-detail-2{
+    color: var(--font-pink);
+    font-size: 1.2rem;
+}
+.item-price{
+    color: var(--font-black);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.cart-delete{
+    padding-top: 10px;
+    font-size: 1.4rem;
+}
+
+.cart-item input[type='number']{
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    border: 1px solid var(--cart-border);
+}
+.cart-item input[type='number']:focus{
+    outline: none;
+}
+
+
+/* .cart-item input[type='number']::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+} */
+
+
+
+/* CHECKOUT BOX */
+.checkout{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+
+    gap: 30px;
+    border: 1px solid var(--cart-border);
+    background-color: white;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.checkout-item{
+    display: flex;
+    justify-content: space-between;
+}
+.checkout div{
+    color: var(--font-black);
+    font-weight: 600;
+}
+.checkout div:nth-child(1){
+    color:var(--font-grey);
+    font-weight: 500;
+}
+
+.checkout-btn{
+    all: unset;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 0;
+    background-color: var(--font-black);
+    color: white;
+}
+.checkout-btn:hover{
+    background-color: var(--btn-color);
+}
+
+
+@media(max-width:1024px){
+    .cart-container{
+        
+        gap: 20px;
+    
+    }
+    
+
+}
+
+@media(max-width:768px){
+    .cart-container{
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px 10px 0;
+    }
+    .cart{
+        width: 100%;
+    }
+    .checkout{
+        width: 100%;
+    }
+    
+    
+}

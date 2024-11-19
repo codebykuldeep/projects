@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="icon" href="./images/favicon.png" />
+    <title>Leno App | Health & Productivity</title>
+  </head>
+  <body>
+    <navbar class="navbar">
+      <div class="navbar__container container">
+        <div class="navbar__logo">
+          <img src="./images/logo.svg" alt="Leno" />
+        </div>
+        <div class="navbar__menu">
+          <ul class="navbar__menu-list">
+            <li class="navbar__menu-item">
+              <a href="index.html" class="navbar__menu-link">Home</a>
+            </li>
+            <li class="navbar__menu-item">
+              <a href="index.html#features" class="navbar__menu-link"
+                >Features</a
+              >
+            </li>
+            <li class="navbar__menu-item">
+              <a href="index.html#preview" class="navbar__menu-link">Preview</a>
+            </li>
+            <li class="navbar__menu-item">
+              <a href="index.html#details" class="navbar__menu-link">Details</a>
+            </li>
+            <li class="navbar__menu-item">
+              <a href="index.html#download" class="navbar__menu-link"
+                >Download</a
+              >
+            </li>
+            <li class="navbar__menu-item">
+              <a href="#" class="navbar__menu-link--primary">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+            </li>
+            <li class="navbar__menu-item">
+              <a href="#" class="navbar__menu-link--primary">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile Menu & Hamburger Icon -->
+        <div class="navbar__mobile-menu">
+          <div class="navbar__mobile-menu-toggle">
+            <i class="fas fa-bars fa-2x"></i>
+          </div>
+          <!-- Mobile Menu Items -->
+          <div class="navbar__mobile-menu-items">
+            <ul class="navbar__mobile-menu-list">
+              <li class="navbar__mobile-menu-item">
+                <a href="index.html" class="navbar__mobile-menu-link">Home</a>
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="index.html#features" class="navbar__mobile-menu-link"
+                  >Features</a
+                >
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="index.html#preview" class="navbar__mobile-menu-link"
+                  >Preview</a
+                >
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="index.html#details" class="navbar__mobile-menu-link"
+                  >Details</a
+                >
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="index.html#download" class="navbar__mobile-menu-link"
+                  >Download</a
+                >
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="#" class="navbar__mobile-menu-link--primary">
+                  <i class="fa-brands fa-facebook"></i>
+                </a>
+              </li>
+              <li class="navbar__mobile-menu-item">
+                <a href="#" class="navbar__mobile-menu-link--primary">
+                  <i class="fa-brands fa-twitter"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </navbar>
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero__container container">
+        <div class="hero__content">
+          <h1 class="hero__title">
+            Your
+            <span class="hero__title--primary">productivity</span> assistant
+          </h1>
+          <p class="hero__description">
+            Boost your productivity and improve your health with Leno - the
+            all-in-one app for developers and creators.
+          </p>
+          <div class="hero__buttons">
+            <a href="#download" class="hero__button btn">
+              <i class="fa-brands fa-apple"></i> For Apple
+            </a>
+            <a href="#download" class="hero__button btn">
+              <i class="fa-brands fa-android"></i> For Android
+            </a>
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="./images/header-smartphones.png" alt="Leno App" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+      <div class="testimonials__container container">
+        <div class="testimonials__card">
+          <div class="testimonials__image">
+            <img src="./images/testimonial-1.jpg" alt="Testimonial 1" />
+          </div>
+          <div class="testimonials__card--content">
+            <p class="testimonials__card-text">
+              "Leno has truly transformed how I manage my time and health.
+              Highly recommended!"
+            </p>
+            <h3 class="testimonials__card-title">Samantha Samson</h3>
+          </div>
+        </div>
+
+        <div class="testimonials__card">
+          <div class="testimonials__image">
+            <img src="./images/testimonial-2.jpg" alt="Testimonial 2" />
+          </div>
+          <div class="testimonials__card--content">
+            <p class="testimonials__card-text">
+              "As a developer, I rely on Leno every day to keep me focused and
+              energized. It's a game-changer!"
+            </p>
+            <h3 class="testimonials__card-title">Mike Johnson</h3>
+          </div>
+        </div>
+
+        <div class="testimonials__card">
+          <div class="testimonials__image">
+            <img src="./images/testimonial-3.jpg" alt="Testimonial 3" />
+          </div>
+          <div class="testimonials__card--content">
+            <p class="testimonials__card-text">
+              "With Leno, I've been able to achieve my goals faster and
+              healthier than ever before. It's a must-have app!"
+            </p>
+            <h3 class="testimonials__card-title">Laney Smith</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
