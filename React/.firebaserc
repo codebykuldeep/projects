@@ -7,6 +7,9 @@
       "hosting": {
         "projectapp": [
           "project-management-site-99"
+        ],
+        "foodapp": [
+          "food-app-99"
         ]
       }
     }

@@ -24,7 +24,7 @@ function Checkout() {
         userProgressCtx.hideCheckout();
     }
 
-    const {data,isLoading,error,sendRequest,clearData}=useHTTP('http://localhost:3000/orders',requestConfig)
+    const {data,isLoading,error,sendRequest,clearData}=useHTTP('https://projects-mjr7.onrender.com/orders',requestConfig)
 
     function handleFinish() {
         userProgressCtx.hideCheckout();

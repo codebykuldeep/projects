@@ -12,7 +12,7 @@ function Meals() {
     data:loadMeals,
     isLoading,
     error
-  } = useHTTP('http://localhost:3000/meals',requestConfig,[])
+  } = useHTTP('https://projects-mjr7.onrender.com/meals',requestConfig,[])
 
 
   // useEffect(()=>{
