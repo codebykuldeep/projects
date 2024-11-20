@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "react-project-a83f4"
+  },
+  "targets": {
+    "react-project-a83f4": {
+      "hosting": {
+        "projectapp": [
+          "project-management-site-99"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

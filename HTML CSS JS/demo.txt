@@ -17,3 +17,19 @@
   }
 }
 
+
+
+
+
+
+{
+  "hosting": {
+    "public": "medical-ecommerce",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
+
