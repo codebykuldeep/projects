@@ -1,0 +1,46 @@
+.map {
+  width: 90%;
+  height: 400px;
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 15px;
+  margin-top: 2.5rem;
+  border: 2px solid black;
+}
+
+.search-section {
+  background: url("../../assets/search/search-bg.webp") no-repeat center;
+  /* background: linear-gradient(to right, #2F80ED, #56CCF2); */
+  background-size: cover;
+  width: 100%;
+  height: 85vh;
+
+  padding-top: 1.5rem;
+}
+
+.search-form {
+  -webkit-box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+
+
+  .search-btn{
+    all:unset;
+    color: white;
+    padding: 10px 20px;
+    background-color: #acdaff;
+    cursor: pointer;
+    border-radius: 10px;
+
+    &:hover{
+        background-color: #8cc8fa;
+    }
+  }
+}
+
+
+.result-img{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
