@@ -1,0 +1,69 @@
+.hero {
+  background: url("/src/assets/homepage/explore-world.jpg") no-repeat center;
+  background-size: cover;
+  backdrop-filter: drop-shadow(4px 4px 10px black);
+  width: 100%;
+  height: 90vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  font-family: "League Spartan", monospace, sans-serif;
+
+  text-transform: uppercase;
+
+  .hero-header {
+    font-size: 5rem;
+
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    span {
+      color: #f07c50;
+    }
+  }
+
+  p {
+    color: white;
+    line-height: 1.4;
+    font-size: 1.2rem;
+    margin: 1rem 0 0 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+
+  button {
+    all: unset;
+
+    background-color: #f07c50;
+    cursor: pointer;
+    margin: 3rem 0 0 0;
+    font-size: 16px;
+    padding: 20px;
+    font-weight: 600;
+
+    &:hover {
+      background-color: #ee8860;
+      color: white;
+    }
+  }
+  a {
+    all: unset;
+  }
+}
+
+.attach-card {
+  -webkit-box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -2px 14px 26px 0px rgba(0, 0, 0, 0.75);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
