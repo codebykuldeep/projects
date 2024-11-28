@@ -1,0 +1,26 @@
+// useEffect(()=>{
+  //   async function fetchData() {
+  //     const {data} =await axios.get('https://api.geoapify.com/v1/geocode/autocomplete',{
+  //       params:{
+  //         text:cityName,
+  //         lang:'en',
+  //         limit:10,
+  //         type:'city',
+  //         format:'json',
+  //         apiKey:'83c6152e34184ca58521827d76445a1b'
+  //       }
+  //     });
+  //     console.log(data.results);
+  //     setCityData(data.results)
+  //   }
+  //   if(cityName.trim() !== ''){
+  //     fetchData();
+  //   }
+  // },[cityName])
+
+
+
+  // DebounceTimer.current = setTimeout(()=>{
+    //   setCityName(city)
+    //   console.log(city);
+    // },500)

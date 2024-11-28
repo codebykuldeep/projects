@@ -2,16 +2,18 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './components/Homepage/HomePage';
 import AppLayout from './components/UI/AppLayout';
-import SearchPage from './components/Searchpage/SearchPage';
 import SignUp from './components/UserPage/SignUp';
 import LoginPage from './components/UserPage/LoginPage';
 import DetailPage from './components/DetailPage/DetailPage';
-import HotelPage from './components/HotelPage/HotelPage';
+import HotelLayout from './components/HotelPage/HotelLayout';
+import SearchLayout from './components/Searchpage/SearchLayout';
+import ErrorPage from './components/UI/ErrorPage';
 
 const router =createBrowserRouter([
   {
     path:'/',
     element:<AppLayout/>,
+    errorElement:<ErrorPage/>,
     children:[
       {
         index:true,
@@ -19,15 +21,15 @@ const router =createBrowserRouter([
       },
       {
         path:'search',
-        element:<SearchPage/>,
+        element:<SearchLayout/>,
       },
       {
-        path:'detail',
+        path:'search/:id',
         element:<DetailPage/>,
       },
       {
         path:'hotel',
-        element:<HotelPage/>
+        element:<HotelLayout/>
       }
     ]
   },

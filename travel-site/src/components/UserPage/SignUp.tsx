@@ -15,7 +15,7 @@ function SignUp() {
       <InpField title='Email'/>
       <InpField title='Password'/>
       <Button sx={{alignSelf:'center'}} variant="contained">Sign Up</Button>
-      <p>Already a user ? <Link to={'/login'} style={{cursor:'pointer'}}>Click here</Link></p>
+      <p>Already a user ? <Box component={'span'} style={{cursor:'pointer'}}>Click here</Box></p>
     </Box>
     </Box>
   )

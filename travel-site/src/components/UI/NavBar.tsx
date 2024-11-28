@@ -1,27 +1,34 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
-import { Stack } from '@mui/material';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import { Link } from "react-router-dom";
+import { Drawer, Stack } from "@mui/material";
+import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
+import TravelList from "./TravelList";
+import AuthForm from "../UserPage/AuthForm";
 
-const pages = ['Home','Search', 'Hotels'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ["Home", "Search", "Hotels"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -39,60 +46,81 @@ function NavBar() {
   };
 
 
-  const LoginUser:JSX.Element = <Box sx={{ flexGrow: 0 }}>
-  <Tooltip title="Open settings">
-    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-    </IconButton>
-  </Tooltip>
-  <Menu
-    sx={{ mt: '45px' }}
-    id="menu-appbar"
-    anchorEl={anchorElUser}
-    anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    keepMounted
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    open={Boolean(anchorElUser)}
-    onClose={handleCloseUserMenu}
-  >
-    {settings.map((setting) => (
-      <MenuItem key={setting} onClick={handleCloseUserMenu}>
-        <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-      </MenuItem>
-    ))}
-  </Menu>
-</Box>;
+  const LoginUser: JSX.Element = (
+    <Box sx={{ flexGrow: 0 }}>
+      <Tooltip title="Open settings">
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: "45px" }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {settings.map((setting) => (
+          <MenuItem key={setting} onClick={handleCloseUserMenu}>
+            <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
+  );
 
-
+  const LinkCss ={cursor:'pointer',fontWeight:'600',fontSize:'16px',fontFamily:'Lato,serif,sans-serif'};
 
   return (
-    <AppBar position="sticky" sx={{background:"white",color:'black' , boxShadow:'none',height:'50px'}}>
+    <AppBar
+      position="sticky"
+      sx={{
+        background: "white",
+        color: "black",
+        boxShadow: "none",
+      }}
+    >
       <Container maxWidth="xl">
-        <Box component={'nav'} sx={{height:'100%'}}>
-          <Stack direction={'row'} sx={{justifyContent:'space-between',alignItems:'center'}}>
-          <Stack direction={'row'} gap={2}>
-            <Box>LOGO</Box>
-            <Box>Home</Box>
-            <Box>Search</Box>
-            <Box>Hotels</Box>
+        <Box component={"nav"} sx={{ height: "100%",padding:'10px 0' }}>
+          <Stack
+            direction={"row"}
+            sx={{ justifyContent: "space-between", alignItems: "center" }}
+          >
+            <Stack direction={"row"} gap={2}>
+              <Box>LOGO</Box>
+              <Link to={'/'}><Box sx={LinkCss}>Home</Box></Link>
+              <Link to={'search'}><Box sx={LinkCss}>Search</Box></Link>
+              <Link to={'hotel'}><Box sx={LinkCss}>Hotels</Box></Link>
             </Stack>
-          
-          {false ? LoginUser :(<Box sx={{cursor:'pointer'}}><Link to={'/login'}>LOGIN</Link></Box>)}
+
+            <Stack direction={"row"}
+            sx={{ justifyContent: "space-between", alignItems: "center",gap:'10px' }} 
+            >
+              <TravelList/>
+            {false ? (
+              LoginUser
+            ) : (
+              <Box sx={{ cursor: "pointer" }}>
+                <AuthForm/>
+              </Box>
+            )}
+            </Stack>
           </Stack>
-          
         </Box>
       </Container>
     </AppBar>
   );
 }
 export default NavBar;
-
 
 /*
 <AppBar position="fixed" sx={{background:"none",color:'black' , boxShadow:'none'}}>

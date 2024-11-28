@@ -44,3 +44,9 @@
   height: 200px;
   object-fit: cover;
 }
+
+.map .leaflet-container{
+  height: 400px;
+  width: 100%;
+  border-radius: 15px;
+}

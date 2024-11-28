@@ -11,3 +11,15 @@ label{
 h1,p{
     font-family: 'Lato',serif,sans-serif;
 }
+
+.list-icon{
+    font-size: 45px !important;
+    color: black;
+    cursor: pointer;
+    &:hover{
+        color: rgba(0,0,0,0.4);
+    }
+}
+.leaflet-control-zoom-in,.leaflet-control-zoom-out{
+    cursor: pointer;
+}
