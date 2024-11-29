@@ -16,4 +16,5 @@ export   interface placeType{
     name_international?:{
         en:string;
     }
+    city?:string;
 }

@@ -4,10 +4,11 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { fetchCityList } from "../utils/fetchFunctions";
+import { fetchCityList, fetchPlace } from "../utils/fetchFunctions";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { hotelActions } from "../store/hotelState";
+import { getCurrentLocation } from "../utils/util functions";
 
 interface DataObj {
   city: string;
@@ -17,7 +18,6 @@ interface DataObj {
 }
 
 function HotelForm() {
-  const [error,setError] =useState([false,false,false])
   const [selectedCity, setSelectedCity] = useState("");
   const [cityList,setCityList] =useState<DataObj[]>([])
   const DebounceTimer = useRef<any>();
@@ -44,55 +44,35 @@ function HotelForm() {
 
   async function handleNameChange(event:React.ChangeEvent<HTMLInputElement>){
     const city = (event.target.value);
-    if(city?.trim()===''){
-      setError(prev=>{
-        const a =prev[1];
-        const b=prev[2];
-        return [true,a,b];
-      })
-      return;
-    }
-    else{
-      setError(prev=>{
-        const a =prev[1];
-        const b=prev[2];
-        return [false,a,b];
-      })
-      if(city){
-        clearTimeout(DebounceTimer.current);
-        DebounceTimer.current = setTimeout(async()=>{
-          let cityData = await fetchCityList(city)
-          console.log(cityData);
-          
-          setCityList(cityData);
-        },500)
+    if(city){
+      clearTimeout(DebounceTimer.current);
+      DebounceTimer.current = setTimeout(async()=>{
+        let cityData = await fetchCityList(city)
+        console.log(cityData);
         
-      }
+        setCityList(cityData);
+      },500)
+      
     }
   }
-  function handlePersonChange(event:React.ChangeEvent<HTMLInputElement>){
-    const person = (event.target.value);
-    console.log(person);
+
+  async function handleCurrentLocation(){
+    const data = await getCurrentLocation();
+    let lat:number = 0;
+    let lon:number =0;
+    if(Array.isArray(data)){
+      lat =data[0];
+      lon =data[1];
+    }
     
-    if(person.trim()===''){
-      setError(prev=>{
-        const a =prev[0];
-        const b=prev[1];
-        return [a,b,true];
-      })
-      return;
-    }
-    else{
-      setError(prev=>{
-        const a =prev[0];
-        const b=prev[1];
-        return [a,b,false,];
-      })
-    }
+    const city = await fetchPlace(lat,lon);
+    dispatch(hotelActions.updateCity(city))
+    
   }
+  
   return (
-    <Box sx={{ width: "40%",maxWidth:'400px', height: "300px", background: "white",padding:'15px 2rem',borderRadius:'15px' }}>
-      <Stack direction={'column'} gap={2}>
+    <Box sx={{ width: "40%",maxWidth:'400px', height: "200px", background: "white",padding:'15px 2rem',borderRadius:'15px' }}>
+      <Stack direction={'column'} sx={{justifyContent: "space-evenly",height:'100%'}} gap={2}>
         <Box>
         {/* <TextField error={error[0]} id="outlined-search" label="City" type="search" sx={{width:'100%'}} onChange={handleNameChange}/> */}
         <Autocomplete
@@ -108,7 +88,7 @@ function HotelForm() {
             )}
           />
         </Box>
-        <Box>
+        {/* <Box>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DateRangePicker"]} >
               <DateRangePicker
@@ -120,8 +100,9 @@ function HotelForm() {
         </Box>
         <Box sx={{width:'100%'}}>
         <TextField error={error[2]} id="outlined-search" label="Person count" type="number" sx={{width:'100%'}} onChange={handlePersonChange}/>
-        </Box>
+        </Box> */}
         <Button variant="contained" onClick={handleSearch}>Search</Button>
+        <Button variant="contained" onClick={handleCurrentLocation}>Current location</Button>
       </Stack>
       
     </Box>

@@ -13,12 +13,10 @@ import axios from 'axios';
 function SearchPage() {
   const cityData = useSelector((state:RootState)=>state.city.city)
   const dispatch = useDispatch<AppDispatch>();
-  console.log('redux',cityData);
 
 
   useEffect(()=>{
-    console.log('city changed');
-
+    
     async function fetchPlacesData(placeid:string) {
       const {data} =await axios.get('https://api.geoapify.com/v2/places',{
         params:{
@@ -28,7 +26,7 @@ function SearchPage() {
           apiKey:'83c6152e34184ca58521827d76445a1b'
         }
       })
-      console.log(data);
+      
       dispatch(cityActions.updatePlaces(data.features));
     }
     if(cityData.place_id){

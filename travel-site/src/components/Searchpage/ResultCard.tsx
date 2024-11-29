@@ -1,5 +1,5 @@
 import {Box, Button, Card, CardContent, CardMedia, IconButton, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { useDispatch } from 'react-redux';
@@ -14,8 +14,25 @@ interface ResultCardProps{
 
 function ResultCard({place}:ResultCardProps) {
   const dispatch =useDispatch<AppDispatch>();
+  const [like,setLike] = useState(false);
+
   function addItemToTravelList(){
     dispatch(listActions.addItemToList(place.properties));
+  }
+  function removeItem(){
+    dispatch(listActions.removeItemFromList(place.properties));
+  }
+  function handlePlaceLike(){
+    if(!like){
+      addItemToTravelList();
+      setLike(true);
+      return;
+    }
+    console.log('remove');
+    
+    removeItem();
+    setLike(false);
+
   }
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -34,8 +51,8 @@ function ResultCard({place}:ResultCardProps) {
     </CardContent>
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} p={1}>
       <Box>
-      <IconButton aria-label="add to favorites" onClick={()=>addItemToTravelList()}>
-        <FavoriteIcon />
+      <IconButton aria-label="add to favorites" onClick={handlePlaceLike}>
+        <FavoriteIcon  sx={{color:like ? 'red' : ''}}/>
       </IconButton>
       <IconButton aria-label="share">
         <ShareIcon />

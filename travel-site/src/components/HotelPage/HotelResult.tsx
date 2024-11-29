@@ -26,8 +26,8 @@ function HotelResult() {
             direction={"row"}
             sx={{ justifyContent: "space-between", alignItems: "center" }}
           >
-            <Box component={"h4"}>{hoteData.length} results found</Box>
-            <Box sx={{ width: 180 }}>
+            <Box component={"h4"} py={3}>{hoteData.length} results found</Box>
+            {/* <Box sx={{ width: 180 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
                   Sort Hotels
@@ -43,7 +43,7 @@ function HotelResult() {
                   <MenuItem value={2}>high to low price</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
+            </Box> */}
           </Stack>
 
           <Box component={'h1'}>Hotels in {city.name || city.address_line1}</Box>

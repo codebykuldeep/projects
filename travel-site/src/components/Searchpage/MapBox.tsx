@@ -56,7 +56,7 @@ function MapBox() {
   const ClickHandler = () => {
     useMapEvents({
       async click(e) {
-        console.log(e.latlng);
+        
         const {lat,lng} = e.latlng;
         const city =await fetchPlace(lat,lng);
         

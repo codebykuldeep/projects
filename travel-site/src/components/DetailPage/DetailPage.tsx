@@ -56,7 +56,7 @@ function DetailPage() {
     <div>
       <DetailHeader place={place} imageData={imageData}/>
         <Stack direction={'row'} sx={{justifyContent:'center',alignItems:'flex-start' ,margin:'2rem 0',flexWrap:'wrap'}}>
-          <DetailInfo/>
+          <DetailInfo place={place}/>
           <DetailImage imageData={imageData}/>
         </Stack>
     </div>
@@ -66,17 +66,3 @@ function DetailPage() {
 
 export default DetailPage
 
-
-export async function DetailPageLoader() {
-  const data =await waitFn();
-
-  return data
-}
-
-function waitFn(){
-  return new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-      resolve('abc');
-    },5000)
-  })
-}

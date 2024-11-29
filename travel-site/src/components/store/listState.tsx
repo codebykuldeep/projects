@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface travelListItemType{
+export interface travelListItemType{
     place_id:string;
     lat:number;
     lon:number;
@@ -27,10 +27,14 @@ const listSlice =createSlice({
             state.openList=false;
         },
         addItemToList(state,action){
-            state.travelList.push(action.payload)
+            if(state.travelList.findIndex((item)=>item.place_id === action.payload.place_id) === -1){
+                state.travelList.push(action.payload)
+            }
+            
         },
         removeItemFromList(state,action){
-            state.travelList = state.travelList.filter((item)=>item.place_id!== action.payload.place_id)
+            state.travelList = state.travelList.filter((item)=>item.place_id !== action.payload.place_id)
+            
         }
 
     }

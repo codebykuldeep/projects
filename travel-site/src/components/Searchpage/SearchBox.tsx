@@ -1,9 +1,11 @@
-import { Autocomplete, Box, Stack, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Stack, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { cityActions } from "../store/cityState";
+import { getCurrentLocation } from "../utils/util functions";
+import { fetchPlace } from "../utils/fetchFunctions";
 
 interface DataObj {
   city: string;
@@ -38,7 +40,7 @@ function SearchBox() {
           },
         }
       );
-      console.log(data.results);
+      
       setCityData(data.results);
     }, 500);
   }
@@ -55,10 +57,24 @@ function SearchBox() {
         return true;
       return false;
     });
-    console.log(city);
+    
     if(city){
       dispatch(cityActions.updateCity(city))
     }
+  }
+
+  async function handleCurrentLocation(){
+    const data = await getCurrentLocation();
+    let lat:number = 0;
+    let lon:number =0;
+    if(Array.isArray(data)){
+      lat =data[0];
+      lon =data[1];
+    }
+    
+    const city = await fetchPlace(lat,lon);
+    dispatch(cityActions.updateCity(city));
+    
   }
 
   
@@ -105,9 +121,12 @@ function SearchBox() {
               margin: "1rem 0",
             }}
           >
-            <button className="search-btn" onClick={handleSearch}>
+            <Button variant='contained' onClick={handleSearch}>
               SEARCH
-            </button>
+            </Button>
+            <Button variant='contained' onClick={handleCurrentLocation}>
+              Current Location
+            </Button>
           </Stack>
         </Box>
       </Box>

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import citySlice from "./cityState";
 import hotelSlice from "./hotelState";
 import listSlice from "./listState";
+import userSlice from "./userState";
 
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         city:citySlice.reducer,
         hotel:hotelSlice.reducer,
         list:listSlice.reducer,
+        user:userSlice.reducer,
     }
 })
 

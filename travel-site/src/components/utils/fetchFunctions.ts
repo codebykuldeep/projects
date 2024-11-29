@@ -73,22 +73,27 @@ const dummyImagesData:imgDataType[] =[
 ]
 
 export async function fetchImages(text:string,text2:string){
-  // const queryText = text || text2;
-  // const {data} = await axios.get('https://pixabay.com/api/',{
-  //   params:{
-  //     key:process.env.REACT_APP_IMG_KEY,
-  //     q:queryText,
-  //     safesearch:true,
-  //   }
-  // })
+  const queryText = text || text2;
+  
+  
+  const {data} = await axios.get('https://pixabay.com/api/',{
+    params:{
+      key:process.env.REACT_APP_IMG_KEY,
+      q:queryText,
+      safesearch:true,
+    }
+  })
 
-  // if(data.hits.length === 0 ) return dummyImagesData;
-  // console.log('img',data.hits);
+  if(data.hits.length === 0 ) return dummyImagesData;
+  console.log('img',data.hits);
   
-  // return data.hits;
-  console.log('here');
+  return data.hits;
+  // console.log('here');
   
-  return dummyImagesData;
+  // return dummyImagesData;
   
 }
+
+
+
 

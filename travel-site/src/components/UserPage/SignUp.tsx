@@ -1,21 +1,101 @@
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import InpField from './InpField'
-import { Link } from 'react-router-dom'
 import ImgPanel from './ImgPanel'
+import { InputStateType } from './userPageTypes';
+import { inputStateValidation } from '../utils/validation';
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { auth, provider } from '../../firebaseConfig';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
+import { userActions } from '../store/userState';
 
-function SignUp() {
+interface SignUpPageProps{
+  toggleAuth:()=>void;
+}
+
+const initialSignUpState:InputStateType ={
+  error:false,
+  value:'',
+  errorMsg:''
+}
+
+function SignUp({toggleAuth}:SignUpPageProps) {
+  const [emailState,setEmailState] =useState<InputStateType>(initialSignUpState);
+  const [passwordState,setPasswordState] =useState<InputStateType>(initialSignUpState);
+  const [nameState,setNameState] =useState<InputStateType>(initialSignUpState);
+  const [signUpError,setSignUpError] =useState('');
+  const dispatch =useDispatch<AppDispatch>();
+
+  function updateEmailState(error:boolean,errorMsg:string,value:string){
+    setEmailState({error,errorMsg,value});
+  }
+  function updatePasswordState(error:boolean,errorMsg:string,value:string){
+    setPasswordState({error,errorMsg,value});
+  }
+  function updateNameState(error:boolean,errorMsg:string,value:string){
+    setNameState({error,errorMsg,value});
+  }
+  function handleSignUp(){
+    if(emailState.value && passwordState.value && nameState.value){
+      createNewUser();
+      console.log('sign up successful')
+    }
+    else{
+      setEmailState(inputStateValidation(emailState));
+      setPasswordState(inputStateValidation(passwordState));
+      setNameState(inputStateValidation(nameState));
+      console.log('login not possible');
+    }
+  }
+
+  async function createNewUser(){
+    try {
+      const displayName = nameState.value || '';
+      const email =emailState.value || '';
+      const password =passwordState.value || '';
+      const {user} = await createUserWithEmailAndPassword(auth,email,password);
+      if(auth.currentUser){
+        console.log('updating name');
+        
+        await updateProfile(auth.currentUser,{
+          displayName:displayName
+        })
+        console.log('user',auth.currentUser);
+        
+      }
+      dispatch(userActions.setUserState(true));
+      
+    } catch (error:any) {
+      console.log(error);
+      setSignUpError(error);
+    }
+  }
+
+  async function handleProviderSignUp(){
+    try {
+      const {user} = await signInWithPopup(auth,provider);
+      
+      dispatch(userActions.setUserState(true));
+      
+    } catch (error:any) {
+      console.log(error);
+      setSignUpError(error.message);
+    }
+  }
   return (
-    <Box sx={{display:'flex'}}>
+    <Box sx={{display:'flex',height:'100%',width:'100%'}}>
       <ImgPanel/>
-      <Box sx={{display:"flex",flexDirection:'column',gap:"25px",padding:'5rem' ,fontFamily:'monospace , serif',width:'40%'}}>
+      <Box sx={{display:"flex",flexDirection:'column',gap:"8px",padding:'0.4rem 2.5rem' ,fontFamily:'monospace , serif',width:'50%'}}>
       <h1 style={{textAlign:'center'}}>Hello , Welcome</h1>
       <p style={{textAlign:'center'}}>Enter your Details to Sign up</p>
-      <InpField title='Name' />
-      <InpField title='Email'/>
-      <InpField title='Password'/>
-      <Button sx={{alignSelf:'center'}} variant="contained">Sign Up</Button>
-      <p>Already a user ? <Box component={'span'} style={{cursor:'pointer'}}>Click here</Box></p>
+      <InpField title='Name' inputState={nameState} updateInputState={updateNameState}/>
+      <InpField title='Email'inputState={emailState} updateInputState={updateEmailState}/>
+      <InpField title='Password'inputState={passwordState} updateInputState={updatePasswordState}/>
+      {signUpError && <Box sx={{color:'#d32f2f'}}>{signUpError}</Box>}
+      <Button sx={{alignSelf:'center'}} variant="contained" onClick={handleSignUp}>Sign Up</Button>
+      <Button sx={{alignSelf:'center'}} variant="contained" onClick={handleProviderSignUp}>Sign Up with Google</Button>
+      <p>Already a user ? <Box component={'span'} onClick={toggleAuth} style={{cursor:'pointer'}}>Click here</Box></p>
     </Box>
     </Box>
   )

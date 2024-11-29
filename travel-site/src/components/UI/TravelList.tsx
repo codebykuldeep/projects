@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { listActions } from "../store/listState";
+import { Link } from "react-router-dom";
 
 
 interface travelListItemType{
@@ -92,9 +93,11 @@ function DrawerItem({place}:DrawerItemProps){
               </CardContent>
             </CardActionArea>
             <CardActions>
+              <Link to={`/search/${place.place_id}`}>
               <Button size="small" color="primary">
                 view
               </Button>
+              </Link>
               <Button size="small" color="primary" onClick={()=>deleteItemfromList()}>
                 delete
               </Button>
