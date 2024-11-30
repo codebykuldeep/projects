@@ -1,11 +1,23 @@
-import { ImageList, ImageListItem } from "@mui/material";
+import { Box, ImageList, ImageListItem, Modal } from "@mui/material";
 import { imgDataType } from "./DetailModelType";
+import { useState } from "react";
 
 interface DetailImageProps{
   imageData:imgDataType[];
 }
 
 function DetailImage({imageData}:DetailImageProps) {
+  const [selectedImage,setSelectedImage] =useState('');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  function handleImageModal(imgUrl:string){
+    console.log(imgUrl);
+    
+    setSelectedImage(imgUrl);
+    handleOpen();
+  }
   return (
     <div style={{padding: "0 20px"}}>
         <h1 >Image Gallery</h1>
@@ -14,19 +26,64 @@ function DetailImage({imageData}:DetailImageProps) {
       {imageData.map((item) => (
         <ImageListItem key={item.id}>
           <img
-            srcSet={`${item.webformatURL}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item.webformatURL}?w=164&h=164&fit=crop&auto=format`}
+            srcSet={`${item.webformatURL}`}
+            src={`${item.webformatURL}`}
             alt={item.tags}
+            style={{width:'164px',height:'158px',objectFit:'cover'}}
             loading="lazy"
+            onClick={()=>handleImageModal(item.webformatURL)}
           />
         </ImageListItem>
       ))}
     </ImageList>
+    <ImageModal open={open} handleClose={handleClose} imgUrl={selectedImage}/>
     </div>
   );
 }
 
 export default DetailImage;
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  maxHeight:'516px',
+  p:1
+};
+
+interface ImageModalProps{
+  open:boolean;
+  imgUrl:string;
+  handleClose:()=>void;
+}
+
+ function ImageModal({imgUrl,open,handleClose}:ImageModalProps) {
+
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <Box sx={style}>
+          <img src={imgUrl} style={{width:'484px',maxHeight:'500px',objectFit:'cover'}} alt="modal img"/>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
+
+
+
+
+
+
+
 
 // const itemData = [
 //   {

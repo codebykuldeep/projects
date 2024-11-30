@@ -24,18 +24,14 @@ function DetailPage() {
     async function fetchData(){
       try{
         const place =await  fetchPlaceById(id);
-        console.log('here');
         
         const imgData = await fetchImages(place?.name_international?.en,place?.address_line1);
-        console.log('here 2');
         
         setPlace(place);
         setImageData(imgData);
         setLoading(false);
       }
       catch(e){
-        console.log('error',e);
-        
         navigate('/error');
       }
     }

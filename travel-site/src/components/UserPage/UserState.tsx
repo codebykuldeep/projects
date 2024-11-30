@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
 import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged, signOut, UserInfo } from "firebase/auth";
@@ -28,32 +28,61 @@ function UserState() {
         dispatch(userActions.removeUser());
     }
     
-    onAuthStateChanged(auth,(user:any)=>{
-      if(user){
-        let userData:UserInfo =user;
+    // onAuthStateChanged(auth,(user:any)=>{
+    //   if(user){
+    //     let userData:UserInfo =user;
         
+    //     const displayName = userData.displayName;
+    //     const email = userData.email;
+    //     const uid= user.uid;
+
+    //     const data:UserDataType ={
+    //       accessToken:'',
+    //         displayName:displayName || 'User',
+    //         email:email || '',
+    //         uid
+    //       }
+    //       console.log('user data',data);
+          
+    //     if(!userLoggedIn){
+    //       dispatch(userActions.setUserDetails(data));
+    //     }
+    //     if(!userDetails.email){
+    //       dispatch(userActions.setUserDetails(data));
+    //     }
+        
+    //     console.log('redux user',userDetails);
+    //   }
+    // })
+    // onAuthStateChanged(auth,(user)=>{
+    //   if(user){
+        
+    //   }
+    // })
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        dispatch(userActions.setUserState(true));
+      }
+    })
+    useEffect(()=>{
+      let userData:UserInfo ;
+      if(auth.currentUser){
+        userData =auth.currentUser;
         const displayName = userData.displayName;
         const email = userData.email;
-        const uid= user.uid;
+        const uid= userData.uid;
+        const accessToken =userData.providerId
 
         const data:UserDataType ={
-          accessToken:'',
+          accessToken:accessToken,
             displayName:displayName || 'User',
             email:email || '',
             uid
           }
-          console.log('user data',data);
           
-        if(!userLoggedIn){
-          dispatch(userActions.setUserDetails(data));
-        }
-        if(!userDetails.email){
-          dispatch(userActions.setUserDetails(data));
-        }
-        
-        console.log('redux user',userDetails);
+        dispatch(userActions.setUserDetails(data));
       }
-    })
+    },[userLoggedIn,dispatch])
    
     
     

@@ -6,7 +6,7 @@ export  function getCurrentLocation() {
             navigator.geolocation.getCurrentPosition((position)=> {
              lat = position.coords.latitude ;
             lon= position.coords.longitude;
-            console.log(lat,lon);
+            
             resolve([lat,lon]);
           });
           

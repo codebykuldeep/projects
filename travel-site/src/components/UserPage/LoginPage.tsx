@@ -39,14 +39,14 @@ export default function LoginPage({toggleAuth}:LoginPageProps) {
   
   function handleLogin(){
     if(emailState.value && passwordState.value){
-      console.log('login successfull');
+      
       signInUser();
       return;
     }
     else{
       setEmailState(inputStateValidation(emailState));
       setPasswordState(inputStateValidation(passwordState));
-      console.log('login not possible');
+      
     }
     
   }
@@ -74,7 +74,7 @@ export default function LoginPage({toggleAuth}:LoginPageProps) {
       dispatch(userActions.setUserState(true));
       
     } catch (error:any) {
-      console.log(error);
+      
       setLoginError(error.message.split(':')[1]);
     }
   }

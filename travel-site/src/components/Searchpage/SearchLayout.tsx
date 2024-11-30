@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import SearchPage from './SearchPage'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
@@ -10,7 +10,7 @@ function SearchLayout() {
         return ()=>{
             dispatch(cityActions.removeCity());
         }
-    },[])
+    },[dispatch])
   return (
     <SearchPage/>
   )

@@ -1,11 +1,9 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LoginPage from './LoginPage';
 import SignUp from './SignUp';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 
 const style = {
   position: 'absolute',
@@ -19,7 +17,7 @@ const style = {
 };
 
 export default function AuthForm() {
-  const userLoggedIn = useSelector((state:RootState)=>state.user.userDetails);
+ 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

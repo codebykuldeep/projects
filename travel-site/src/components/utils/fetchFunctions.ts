@@ -11,7 +11,7 @@ export async function fetchPlace(lat:number,lon:number) {
             apiKey:process.env.REACT_APP_API_KEY
         }
     })
-    console.log('result',data.results[0]);
+    
     return data.results[0];
     
 }
@@ -26,11 +26,11 @@ export async function fetchCityList(city:string) {
             limit: 10,
             type: "city",
             format: "json",
-            apiKey: "83c6152e34184ca58521827d76445a1b",
+            apiKey: process.env.REACT_APP_API_KEY,
           },
         }
       );
-      console.log(data.results);
+      
       return data.results;
     
 }
@@ -42,7 +42,7 @@ export async function fetchPlaceById(id:string) {
           apiKey:process.env.REACT_APP_API_KEY
       }
   })
-  console.log('detail',data?.features[0]?.properties);
+  
   
   return data?.features[0]?.properties;
 }
@@ -85,7 +85,7 @@ export async function fetchImages(text:string,text2:string){
   })
 
   if(data.hits.length === 0 ) return dummyImagesData;
-  console.log('img',data.hits);
+  
   
   return data.hits;
   // console.log('here');

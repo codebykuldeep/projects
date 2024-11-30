@@ -39,13 +39,13 @@ function SignUp({toggleAuth}:SignUpPageProps) {
   function handleSignUp(){
     if(emailState.value && passwordState.value && nameState.value){
       createNewUser();
-      console.log('sign up successful')
+      
     }
     else{
       setEmailState(inputStateValidation(emailState));
       setPasswordState(inputStateValidation(passwordState));
       setNameState(inputStateValidation(nameState));
-      console.log('login not possible');
+      
     }
   }
 
@@ -54,32 +54,32 @@ function SignUp({toggleAuth}:SignUpPageProps) {
       const displayName = nameState.value || '';
       const email =emailState.value || '';
       const password =passwordState.value || '';
-      const {user} = await createUserWithEmailAndPassword(auth,email,password);
+      await createUserWithEmailAndPassword(auth,email,password);
       if(auth.currentUser){
-        console.log('updating name');
+        
         
         await updateProfile(auth.currentUser,{
           displayName:displayName
         })
-        console.log('user',auth.currentUser);
+        
         
       }
       dispatch(userActions.setUserState(true));
       
     } catch (error:any) {
-      console.log(error);
+      
       setSignUpError(error);
     }
   }
 
   async function handleProviderSignUp(){
     try {
-      const {user} = await signInWithPopup(auth,provider);
+      await signInWithPopup(auth,provider);
       
       dispatch(userActions.setUserState(true));
       
     } catch (error:any) {
-      console.log(error);
+      
       setSignUpError(error.message);
     }
   }

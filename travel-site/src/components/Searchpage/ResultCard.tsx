@@ -28,7 +28,7 @@ function ResultCard({place}:ResultCardProps) {
       setLike(true);
       return;
     }
-    console.log('remove');
+    
     
     removeItem();
     setLike(false);

@@ -11,7 +11,7 @@ function HotelLayout() {
             console.log('hotel page demounted');
             dispatch(hotelActions.removeCity());
         }
-    },[])
+    },[dispatch])
   return (
     <><HotelPage/></>
   )

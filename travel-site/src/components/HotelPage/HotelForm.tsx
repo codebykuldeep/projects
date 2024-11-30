@@ -1,9 +1,5 @@
-import { Autocomplete, Box, Button, debounce, Stack, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Stack, TextField } from "@mui/material";
 import React, { useRef, useState } from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers-pro/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { fetchCityList, fetchPlace } from "../utils/fetchFunctions";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
@@ -48,7 +44,6 @@ function HotelForm() {
       clearTimeout(DebounceTimer.current);
       DebounceTimer.current = setTimeout(async()=>{
         let cityData = await fetchCityList(city)
-        console.log(cityData);
         
         setCityList(cityData);
       },500)

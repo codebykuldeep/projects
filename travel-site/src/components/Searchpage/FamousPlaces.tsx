@@ -24,7 +24,7 @@ function FamousPlaces() {
       city.name =name;
       city.address_line1=name;
     }
-    console.log('city',city);
+    
     
     dispatch(cityActions.updateCity(city));
   }

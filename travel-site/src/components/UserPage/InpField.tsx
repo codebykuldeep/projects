@@ -26,13 +26,15 @@ function InpField({ title ,inputState,updateInputState}: InpFieldProps) {
       <TextField
         size="small"
         error={inputState.error}
-        id="outlined-error"
+        id={title}
         name={title.toLowerCase()}
         helperText={inputState.errorMsg}
         onChange={handleChange}
+        type={title.toLowerCase() === 'password' ? 'password': 'text'}
       />
     </Box>
   );
 }
 
 export default InpField;
+

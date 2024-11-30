@@ -36,7 +36,7 @@ function SearchBox() {
             limit: 10,
             type: "city",
             format: "json",
-            apiKey: "83c6152e34184ca58521827d76445a1b",
+            apiKey: process.env.REACT_APP_API_KEY,
           },
         }
       );

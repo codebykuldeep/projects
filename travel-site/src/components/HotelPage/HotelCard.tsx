@@ -7,6 +7,7 @@ interface HotelCardProps{
 }
 
 function HotelCard({hotel}:HotelCardProps) {
+    const googleSearch = `https://www.google.com/search?q=`;
   return (
     <Box  component={'article'} sx={{border:'2px solid rgb(225, 231, 238)',background:'#fff',maxWidth:'700px',borderRadius:'15px'}}>
             <Stack direction={'row'}>
@@ -22,7 +23,11 @@ function HotelCard({hotel}:HotelCardProps) {
                         </Stack>
                         <Stack direction={'row'} sx={{alignItems:'center',justifyContent:'space-between'}} >
                             <Box sx={{fontSize:'1rem',fontWeight:'600'}}>Parking Space,Good place</Box>
-                            <Box><a href={hotel.properties.website} rel='noreferrer' target='_blank'><button className="hotel-btn">Book Room</button></a></Box>
+                            <Box>
+                                <a href={hotel?.properties?.website || `${googleSearch}${hotel.properties.formatted}` } rel='noreferrer' target='_blank'>
+                                    <button className="hotel-btn">Book Room</button>
+                                    </a>
+                            </Box>
                         </Stack>
                     </Stack>
                 </Box>

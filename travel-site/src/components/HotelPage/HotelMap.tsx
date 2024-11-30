@@ -31,10 +31,10 @@ const placeIcon = new Icon({
 const ClickHandler =()=>{
   useMapEvents({
       async click(e){
-          console.log(e.latlng)
+         
           const {lat,lng} = e.latlng;
           const city = await fetchPlace(lat,lng);
-          console.log(city);
+          
           
           if(city){
             dispatch(hotelActions.updateCity(city));
