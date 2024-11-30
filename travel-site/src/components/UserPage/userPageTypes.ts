@@ -1,4 +1,4 @@
-import { UserInfo } from "firebase/auth";
+import { User } from "firebase/auth";
 
 export interface InputStateType{
     error?:boolean;
@@ -18,5 +18,5 @@ export interface UserDataType{
 }
 
 export interface ApiDataType{
-    user:UserInfo;
+    user:User;
 }

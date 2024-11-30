@@ -54,7 +54,9 @@ function SignUp({toggleAuth}:SignUpPageProps) {
       const displayName = nameState.value || '';
       const email =emailState.value || '';
       const password =passwordState.value || '';
-      await createUserWithEmailAndPassword(auth,email,password);
+       await createUserWithEmailAndPassword(auth,email,password);
+      
+      
       if(auth.currentUser){
         
         
@@ -68,7 +70,8 @@ function SignUp({toggleAuth}:SignUpPageProps) {
       
     } catch (error:any) {
       
-      setSignUpError(error);
+      setSignUpError(error.message.split(':')[1]);
+      
     }
   }
 

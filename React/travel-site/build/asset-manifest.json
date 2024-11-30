@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dc13df52.css",
+    "main.js": "/static/js/main.70017443.js",
+    "static/media/explore-world.jpg": "/static/media/explore-world.930ef81cc9a451fe900e.jpg",
+    "static/media/search-bg.webp": "/static/media/search-bg.7fa7a9fde4a88574ccdd.webp",
+    "static/media/img-1.jpg": "/static/media/img-1.14d9cb01428c96666f8e.jpg",
+    "static/media/error404.jpg": "/static/media/error404.1798fa102fc489e7e1c0.jpg",
+    "static/media/img-2.jpg": "/static/media/img-2.655ae03f16b8add102a9.jpg",
+    "static/media/card-3.jpg": "/static/media/card-3.a7709a4252829f856d11.jpg",
+    "static/media/card-2.jpg": "/static/media/card-2.29d8cc71728bffc337bc.jpg",
+    "static/media/card-1.jpg": "/static/media/card-1.b9f51f2e2df436bc13da.jpg",
+    "static/media/place-pin.png": "/static/media/place-pin.0c110d260bc5caa33a37.png",
+    "index.html": "/index.html",
+    "main.dc13df52.css.map": "/static/css/main.dc13df52.css.map",
+    "main.70017443.js.map": "/static/js/main.70017443.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dc13df52.css",
+    "static/js/main.70017443.js"
+  ]
+}

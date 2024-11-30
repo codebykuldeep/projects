@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
 import { auth } from "../../firebaseConfig";
-import { onAuthStateChanged, signOut, UserInfo } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch } from "react-redux";
@@ -28,57 +28,31 @@ function UserState() {
         dispatch(userActions.removeUser());
     }
     
-    // onAuthStateChanged(auth,(user:any)=>{
-    //   if(user){
-    //     let userData:UserInfo =user;
-        
-    //     const displayName = userData.displayName;
-    //     const email = userData.email;
-    //     const uid= user.uid;
-
-    //     const data:UserDataType ={
-    //       accessToken:'',
-    //         displayName:displayName || 'User',
-    //         email:email || '',
-    //         uid
-    //       }
-    //       console.log('user data',data);
-          
-    //     if(!userLoggedIn){
-    //       dispatch(userActions.setUserDetails(data));
-    //     }
-    //     if(!userDetails.email){
-    //       dispatch(userActions.setUserDetails(data));
-    //     }
-        
-    //     console.log('redux user',userDetails);
-    //   }
-    // })
-    // onAuthStateChanged(auth,(user)=>{
-    //   if(user){
-        
-    //   }
-    // })
+    
     onAuthStateChanged(auth,(user)=>{
       if(user){
         dispatch(userActions.setUserState(true));
       }
     })
     useEffect(()=>{
-      let userData:UserInfo ;
+      let userData:User ;
       if(auth.currentUser){
         userData =auth.currentUser;
+        
+        
         const displayName = userData.displayName;
+        
         const email = userData.email;
         const uid= userData.uid;
-        const accessToken =userData.providerId
+        const accessToken =userData.providerId;
 
         const data:UserDataType ={
-          accessToken:accessToken,
+            accessToken:accessToken,
             displayName:displayName || 'User',
             email:email || '',
             uid
           }
+          
           
         dispatch(userActions.setUserDetails(data));
       }
