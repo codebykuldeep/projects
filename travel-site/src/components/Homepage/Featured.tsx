@@ -24,7 +24,7 @@ function Featured() {
       </Box>
       <Box  sx={{display:'flex',height:'350px',flexDirection:'column',gap:'30px',justifyContent:'space-between'}}>
         <Box sx={cssProps}>
-          <h1 onClick={(e)=>console.log(e)}>Stunning Destinations</h1>
+          <h1>Stunning Destinations</h1>
           <p>Plan your next adventure with ease</p>
         </Box>
         <Box sx={cssProps}>

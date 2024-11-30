@@ -1,0 +1,31 @@
+.hotel-map{
+    width: 50%;
+    min-width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 15px;
+}
+.hotel-map .leaflet-container{
+    height: 400px;
+    width: 100%;
+    border-radius: 15px;
+  }
+
+.hotel-header{
+     font-family: "League Spartan", monospace, sans-serif;
+     color: white;
+    text-align: center;
+    margin: 1.8rem 0;
+}
+
+.hotel-btn{
+    all: unset;
+    padding: 10px 5px;
+    cursor: pointer;
+    color: white;
+    background-color: #ef6614;
+
+    &:hover{
+        background-color: #f0762f;
+    }
+}

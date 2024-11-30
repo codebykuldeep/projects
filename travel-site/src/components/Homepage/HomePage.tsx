@@ -10,9 +10,7 @@ function HomePage() {
     <>
     <HeroSection/>
     <AttachCard/>
-    {/* <Slider/> */}
     <CardSection/>
-    {/* <Featured/> */}
     </>
   )
 }
