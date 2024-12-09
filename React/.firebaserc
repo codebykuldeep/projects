@@ -10,6 +10,9 @@
         ],
         "foodapp": [
           "food-app-99"
+        ],
+        "travelapp": [
+          "travel-site-99"
         ]
       }
     }

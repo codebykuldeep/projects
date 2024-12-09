@@ -12,8 +12,8 @@ export default function ImgPanel() {
   }
 
   return (
-    <Box sx={{width:'60%'}} onClick={handleImage}>
-      <img style={{width:'100%',height:'100vh',objectFit:'cover'}} src={imgArray[index]} alt="" />
+    <Box sx={{width:'50%',height:'100%'}} onClick={handleImage}>
+      <img style={{width:'100%',height:'100%',objectFit:'cover'}} src={imgArray[index]} alt="" />
     </Box>
   )
 }

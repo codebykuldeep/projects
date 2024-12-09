@@ -1,3 +1,5 @@
+import { InputStateType } from "../UserPage/userPageTypes";
+
 function emailValidation(value:string):[string,boolean]{
     if(value.trim()===''){
         return ['This field is required',true];
@@ -44,4 +46,12 @@ export function validation(title:string,value:string):[string,boolean]{
     }
 
     return ['',false];
+}
+
+export function inputStateValidation(inputState:InputStateType){
+    if(inputState.value?.trim() === ''){
+        return {error:true ,errorMsg:'This field is required',value:''};
+    }
+
+    return {...inputState};
 }
