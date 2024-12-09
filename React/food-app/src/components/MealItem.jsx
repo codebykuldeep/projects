@@ -4,7 +4,7 @@ import Button from './UI/Button';
 import {CartContext} from '../store/CartContext';
 
 function MealItem({meal}) {
-    const imgPath = 'https://projects-mjr7.onrender.com/';
+    const imgPath = 'https://projects-9865.onrender.com/';
 
     const cartCtx = useContext(CartContext)
 

@@ -12,7 +12,7 @@ function Meals() {
     data:loadMeals,
     isLoading,
     error
-  } = useHTTP('https://projects-mjr7.onrender.com/meals',requestConfig,[])
+  } = useHTTP('https://projects-9865.onrender.com/meals',requestConfig,[])
 
 
   // useEffect(()=>{
