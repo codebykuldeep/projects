@@ -1,0 +1,22 @@
+.navbar{
+   background: none !important;
+   padding: 1.5rem;
+   box-shadow: none !important;
+}
+.list{
+    display: flex;
+    justify-content: space-between;
+}
+.listItem{
+    display: flex;
+    gap: 20px;
+   
+}
+
+.link{
+    font-size: 1rem;
+    cursor: pointer;
+}
+.link:first-child{
+    width: 100px;
+}

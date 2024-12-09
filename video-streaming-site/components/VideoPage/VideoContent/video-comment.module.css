@@ -1,0 +1,21 @@
+/* COMMENT */
+.commentbox{
+    margin: 20px 0;
+}
+.comment{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+.image{
+    width: 35px;
+    height: 35px;
+
+}
+.image img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
