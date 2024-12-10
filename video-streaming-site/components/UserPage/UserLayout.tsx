@@ -2,6 +2,7 @@ import { Box, Container } from "@mui/material";
 import classes from './user-page.module.css'
 import UserDetail from "./UserDetail";
 import UserVideo from "./UserVideo";
+import UploadVideo from "./UploadVideo";
 
 export default function UserLayout() {
 
@@ -13,7 +14,8 @@ export default function UserLayout() {
             <Box component={'li'}>Upload</Box>
             <Box component={'li'}>Profile</Box>
         </Box>
-    <UserVideo/>
+    {/* <UserVideo/> */}
+    <UploadVideo/>
   </Container>
 );
 }

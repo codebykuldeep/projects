@@ -27,6 +27,12 @@ function nameValidation(value:string):[string,boolean]{
     }
     return ['',false];
 }
+function fieldValidation(value:string):[string,boolean]{
+    if(value.trim() ===''){
+        return ['This field is required',true];
+    }
+    return ['',false];
+}
 
 
 export function validation(title:string,value:string):[string,boolean]{
@@ -40,9 +46,21 @@ export function validation(title:string,value:string):[string,boolean]{
         return passwordValidation(value);
     }
 
-    if(title === 'name'){
-        return nameValidation(value);
-    }
+    // if(title === 'name'){
+    //     return nameValidation(value);
+    // }
 
-    return ['',false];
+    // return ['',false];
+    return fieldValidation(value);
+}
+
+export function serverValidation(user:UserType){
+    const error:ErrorType={};
+    for(let [key,value] of Object.entries(user)){
+        let [msg,status] =validation(key,value)
+        if(status){
+            error[key] =msg;
+        }
+    }
+    return error;
 }

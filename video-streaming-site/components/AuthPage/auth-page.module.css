@@ -58,3 +58,8 @@
     cursor: pointer;
     color: var(--grey);
 }
+
+.error{
+    text-align: center;
+    color:#d32f2f;
+}

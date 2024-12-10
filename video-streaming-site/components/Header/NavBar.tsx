@@ -1,6 +1,7 @@
 import { AppBar, Box, Container } from "@mui/material"
 import classes from './NavBar.module.css'
 import Link from "next/link"
+import SearchBar from "./SearchBar"
 
 
 function NavBar() {
@@ -12,8 +13,8 @@ function NavBar() {
         <Box className={classes.link}><Link href={'/home'}>Home</Link></Box>
       </Box>
       <Box className={classes.listItem}>
-        <Box ><Link href={'/search'}>Search Bar</Link></Box>
-        <Box ><Link href={'/auth'}>Login</Link></Box>
+        <Box ><SearchBar/></Box>
+        <Box ><Link href={'/auth?mode=login'}>Login</Link></Box>
       </Box>
     </Container>
   </AppBar>
