@@ -5,41 +5,94 @@ import { Button } from '@mui/material'
 import Link from 'next/link'
 import ButtonField from './Button'
 import { loginAction } from '@/utils/auth-methods'
-import { useActionState, useState } from 'react'
+import { FormEvent, useActionState, useState } from 'react'
+import { errorResult, validateState, validation } from '@/helper/validation'
+import { ErrorStateType } from '@/helper/commonTypes'
+import { sendLoginRequest } from '@/utils/auth-client-methods'
+import { redirect } from 'next/navigation'
+import { signIn, useSession } from 'next-auth/react'
 
 const initialErrorState:ErrorStateType={
   email:{
-      status:true,
-      message:'This field is required',
+      status:false,
+      message:'',
+      value:'',
   },
   password:{
-      status:true,
-      message:'This field is required',
+      status:false,
+      message:'',
+      value:''
   },
  
 }
 
 export default function Login() {
-  const [state,formAction] =useActionState(loginAction,'')
+  
+  const [state,setState] =useState('')
   const [errorState,setErrorState] = useState<ErrorStateType>(initialErrorState);
+  
+  const valid = errorResult(errorState);
+  
+  function inputValidation(fieldName:string,fieldValue:string){
+    const [text,status] =validation(fieldName,fieldValue);
+    setErrorState((prev) => ({
+      ...prev,
+      [fieldName]: {
+        status: status,
+        message: text,
+        value:fieldValue,
+      },
+    }));
+    
+  }
 
+  function handleChange(event:React.ChangeEvent < HTMLInputElement >){
+    inputValidation(event.target.name,event.target.value);
+  
+  }
+  function handleBlur(event:React.FocusEvent< HTMLInputElement>){
+    inputValidation(event.target.name,event.target.value);
+  }
 
+  function handleValidation(){
+    setErrorState(validateState(errorState));
+  }
+  
+   async function handleSubmit(event:FormEvent){
+    event.preventDefault();
+    if(valid){
+      const {email,password} =errorState;
+      const message:string = await sendLoginRequest(email.value,password.value)
+      
+      if(!Boolean(message)){
+        console.log('redirecting');
+        
+        return redirect('/home');
+      }
+
+      setState(message);
+    }
+  }
+  
   
   return (
     <div className={classes.box}>
           <h2>Sign In</h2>
-          <form action={formAction} className={classes.form}>
+          <form onSubmit={handleSubmit} className={classes.form}>
             <div>
-                <InpField title="Email" type="text" place="Enter your Email" errorState={errorState}  setErrorState={setErrorState}/>
+                <InpField title="Email" type="text" place="Enter your Email" handleChange={handleChange} handleBlur={handleBlur} errorState={errorState}/>
             </div>
             <div>
-                <InpField title="Password" type="password" place="Enter your Password" errorState={errorState} setErrorState={setErrorState}/>
+                <InpField title="Password" type="password" place="Enter your Password" handleChange={handleChange} handleBlur={handleBlur} errorState={errorState}/>
             </div>
             <div className={classes.error}>
               {state && <p>{state}</p>}
             </div>
             <div className={classes.btn}>
-              <ButtonField>Login</ButtonField>
+              <ButtonField validate={handleValidation} valid={valid}>Login</ButtonField>
+            </div>
+            <div>
+              <Button onClick={()=>signIn('github',{redirect:false})}>Sign in with Github</Button>
             </div>
           </form>
           <div>If you are new user ,<Link href={'/auth?mode=signup'}><span className={classes.submit}>Click Here</span></Link></div>

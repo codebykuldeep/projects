@@ -2,13 +2,20 @@ import { FormControl, InputLabel, MenuItem, TextField } from '@mui/material';
 import classes from './upload-video.module.css'
 import React, { useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { ChangeEvent, VideoFormType } from '@/helper/commonTypes';
 
 interface fieldType{
   title:string;
   description:string;
 }
+interface UploadFormProps{
+  handleChange:(event:ChangeEvent)=>void;
+  handleBlur:(event:React.FocusEvent< HTMLInputElement>)=>void;
+  handleMedia:(name:string)=>void;
+  formState:VideoFormType;
+}
 
-export default function UploadForm() {
+export default function UploadForm({formState,handleBlur,handleChange,handleMedia}:UploadFormProps) {
     const [category, setCategory] = useState('');
     const [fieldState,setFieldState] =useState<fieldType>({
       title:'',
@@ -20,19 +27,21 @@ export default function UploadForm() {
      const [video,setVideo] =useState<any>(null)
     const [sizeError,setSizeError] =useState(false);
   
-    const handleFieldChange =(event:React.ChangeEvent<HTMLInputElement>)=>{
+    // const handleFieldChange =(event:React.ChangeEvent<HTMLInputElement>)=>{
       
-      setFieldState(prev=>({...prev,[event.target.name]:event.target.value}))
-    }
+    //   setFieldState(prev=>({...prev,[event.target.name]:event.target.value}))
+    // }
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategory(event.target.value);
+  const handleCategory = (event: SelectChangeEvent) => {
+    handleChange(event as ChangeEvent);
   };
+
   function handleFileCheck(event:React.ChangeEvent<HTMLInputElement>){
     let file;
     if(event.target.files){
       file =event.target.files[0];
       setVideo(file);
+      handleMedia('video');
     }
     if(file){
       console.log(file);
@@ -45,6 +54,13 @@ export default function UploadForm() {
       setSizeError(false);
     }
   }
+
+  function handleImage(event:React.ChangeEvent<HTMLInputElement>){
+    if(event.target.files){
+      setImage(event.target.files[0]);
+      handleMedia('image');
+    }
+  }
   
   return (
     <>
@@ -55,8 +71,10 @@ export default function UploadForm() {
           id="title"
           label="Video Title"
           variant="outlined"
-          onChange={handleFieldChange}
-          defaultValue={fieldState.title}
+          onChange={handleChange}
+          defaultValue={formState.title.value}
+          error={formState.title.status}
+          helperText={formState.title.message}
         />
       </div>
       <div>
@@ -67,10 +85,12 @@ export default function UploadForm() {
           label="Description"
           multiline
           rows={6}
-          helperText={''}
+          
           placeholder="Enter your video description"
-          onChange={handleFieldChange}
-          defaultValue={fieldState.description}
+          onChange={handleChange}
+          defaultValue={formState.description.value}
+          error={formState.description.status}
+          helperText={formState.description.message}
         />
       </div>
       <div>
@@ -80,10 +100,11 @@ export default function UploadForm() {
             className={classes.input}
             labelId="category"
             id="category"
-            value={category}
             label="Category"
             name="category"
-            onChange={handleChange}
+            onChange={handleCategory}
+            value={formState.category.value}
+            error={formState.category.status}
           >
             {categoryList.map(({ id, label, value }) => (
               <MenuItem key={id} value={value}>
@@ -91,6 +112,7 @@ export default function UploadForm() {
               </MenuItem>
             ))}
           </Select>
+          {formState.category.status && <p className={classes.error}>{formState.category.message}</p>}
         </FormControl>
       </div>
       <div>
@@ -101,8 +123,10 @@ export default function UploadForm() {
             id="image"
             name="image"
             accept="image/png, image/gif, image/jpeg"
+            onChange={handleImage}
             
           />
+          {formState.image.status && <p className={classes.error}>{formState.image.message}</p>}
         </div>
         <div className={classes.upload}>
           <label htmlFor="video">Video</label>
@@ -113,6 +137,7 @@ export default function UploadForm() {
             accept="video/mp4,video/x-m4v,video/*"
             onChange={handleFileCheck}
           />
+          {formState.video.status && <p className={classes.error}>{formState.video.message}</p>}
           {sizeError && <p className={classes.error}>File size should be under 50Mb</p>}
         </div>
       </div>

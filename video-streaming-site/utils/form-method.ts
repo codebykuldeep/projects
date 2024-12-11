@@ -1,5 +1,6 @@
 'use server';
 
+import { serverSession } from "@/auth";
 import { writeFile } from "fs/promises";
 import path from "path";
 
@@ -31,9 +32,9 @@ export async function uploadAction(prevSate:string,formData:FormData) {
     
     // await waitPeriod;
     // console.log('go');
-
+    const user =await serverSession();
     console.log('running');
     
     
-    return 'error';
+    return JSON.stringify(user);
 }

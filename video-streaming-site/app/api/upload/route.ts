@@ -5,8 +5,9 @@ const waitPeriod  =new Promise((resolve)=>{
 })
 
 export async function POST(req:Request,res:Response){
-    console.log(req.body);
-
+    const data =await req.json();
+    console.log('body',data);
+    
     await waitPeriod;
 
     return Response.json({ sucess:'uploaded' })

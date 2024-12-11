@@ -1,5 +1,6 @@
 "use server";
 
+import { UserType } from "@/helper/commonTypes";
 import { serverValidation } from "@/helper/validation";
 import { getUser, insertUser } from "@/lib/user";
 import { cookies } from "next/headers";
@@ -65,3 +66,4 @@ export async function loginAction(prevState: string, formData: FormData) {
 
   return '';
 }
+

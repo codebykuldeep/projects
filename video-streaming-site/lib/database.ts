@@ -9,6 +9,7 @@ function initDb() {
       name TEXT, 
       email TEXT UNIQUE,
       password TEXT,
+      image TEXT,
       isVerified BOOLEAN DEFAULT 0
 
     )`);
@@ -51,16 +52,15 @@ function initDb() {
 
   if (stmt &&  stmt.get().count === 0) {
     db.exec(`
-    INSERT INTO users (name, password, email)
-    VALUES ('John', '123456', 'john@example.com')
+    INSERT INTO users (name, password, email,image)
+    VALUES ('John', '123456', 'john@example.com','/image/user.png')
   `);
 
     db.exec(`
-    INSERT INTO users (name, password, email)
-    VALUES ('Max', '123456', 'max@example.com')
+    INSERT INTO users (name, password, email,image)
+    VALUES ('Max', '123456', 'max@example.com','/image/user.png')
   `);
   }
-  console.log(db.prepare('SELECT * FROM users').get());
   
 }
 

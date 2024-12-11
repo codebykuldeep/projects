@@ -1,3 +1,6 @@
+import { error } from "console";
+import { ErrorStateType, ErrorType, UserType, VideoFormType } from "./commonTypes";
+
 function emailValidation(value:string):[string,boolean]{
     if(value.trim()===''){
         return ['This field is required',true];
@@ -45,13 +48,30 @@ export function validation(title:string,value:string):[string,boolean]{
     if(title === 'password'){
         return passwordValidation(value);
     }
-
+    if(title === 'image' || title==='video'){
+        if(((value as unknown) as File).size === 0){
+            return [`Please select a ${title}`,true];
+        }
+    }
     // if(title === 'name'){
     //     return nameValidation(value);
     // }
 
     // return ['',false];
     return fieldValidation(value);
+}
+export function validateState(state:ErrorStateType ){
+    for(let key in state){
+        let value = state[key as keyof ErrorStateType ]?.value as string
+       
+        const [msg, status] = validation(key,value);
+        state = { ...state, [key]: {
+            status:status,
+            message:msg,
+            value:value
+        } };
+    }
+    return state;
 }
 
 export function serverValidation(user:UserType){
@@ -63,4 +83,42 @@ export function serverValidation(user:UserType){
         }
     }
     return error;
+}
+
+
+
+
+
+export function validateFormState(state:VideoFormType ){
+    for(let key in state){
+        let value = state[key as keyof VideoFormType ]?.value as string
+       
+        const [msg, status] = validation(key,value);
+        state = { ...state, [key]: {
+            status:status,
+            message:msg,
+            value:value
+        } };
+    }
+    return state;
+}
+
+export function validateResult(state:VideoFormType){
+    let result = true;
+    for(let key in state){
+        let status = state[key as keyof VideoFormType ]?.status as boolean;
+        let value = state[key as keyof VideoFormType ]?.value as string;
+        result =result && !status && Boolean(value)
+    }
+    return result;
+}
+
+export function errorResult(state:ErrorStateType){
+    let result = true;
+    for(let key in state){
+        let status = state[key as keyof ErrorStateType ]?.status as boolean;
+        let value = state[key as keyof ErrorStateType ]?.value as string;
+        result =result && !status && Boolean(value)
+    }
+    return result;
 }
