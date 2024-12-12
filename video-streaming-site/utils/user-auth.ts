@@ -48,7 +48,7 @@ export async function signUpAction(credentials: credType) {
 
   if (Object.entries(error).length > 0) {
     
-    return "Please enter valid inputs !";
+    throw new Error("Please enter valid inputs !");
   }
 
   try {

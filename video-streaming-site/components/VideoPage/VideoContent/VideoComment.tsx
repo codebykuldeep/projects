@@ -1,13 +1,35 @@
-import { Box } from "@mui/material";
+'use client';
+import { Box, Button, Input } from "@mui/material";
 import Image from "next/image";
 import classes from "./video-comment.module.css";
-export default function VideoComment() {
+import SubmitComment from "./SubmitComment";
+import { useOptimistic, useState } from "react";
+import { CommentUserType, VideoCreatorType } from "@/helper/commonTypes";
+const initState = [1,2,3,4,5];
+
+interface VideoCommentProps{
+  video:VideoCreatorType;
+  comments:CommentUserType[];
+}
+
+export default function VideoComment({video,comments}:VideoCommentProps) {
+  // const [commentArray,setCommentArray] =useState<Partial<CommentUserType[]>>(comments);
+  const [commentArray,setCommentArray] =useState<any[]>(comments);
+
+  function addCommentUI(data:Partial<CommentUserType>){
+    setCommentArray(prev=>{
+      
+      return [data,...prev]
+    })
+  }
+
   return (
     <Box>
-      <Box>80 comments</Box>
+      <Box>{comments.length || 0} comments</Box>
+      <SubmitComment updateFn={addCommentUI} video={video}/>
       <Box className={classes.commentbox}>
-        {[1,2,3,4,5].map((val)=>(
-            <Box key={val} className={classes.comment}>
+        {comments.length > 0 && comments.map((comment)=>(
+            <Box key={comment.created_at} className={classes.comment}>
             <Box className={classes.image}>
               <Image
                 src={"/image/user.png"}
@@ -17,14 +39,16 @@ export default function VideoComment() {
               />
             </Box>
             <Box>
-              <p>@userId</p>
+              <p>@{comment.name}</p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae,
-                voluptatem!
+                {comment.comment}
               </p>
             </Box>
           </Box>
         ))}
+        {
+          (comments && comments.length === 0) && <p>No comments on this video</p>
+        }
       </Box>
     </Box>
   );

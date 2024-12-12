@@ -1,20 +1,30 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box } from "@mui/material";
 import classes from './video-content.module.css'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+
 
 import Image from "next/image";
+import { VideoCreatorType } from "@/helper/commonTypes";
+import { formatDate } from "@/helper/helperFns";
+import LikeSection from "./LikeSection";
+import { getLikesCount } from "@/lib/likes";
 
-export default function VideoDetail() {
+interface VideoDetailProps{
+  video:VideoCreatorType;
+}
+
+export default async function VideoDetail({video}:VideoDetailProps) {
+  const [like,dislike] =getLikesCount(video.id);
+  console.log(video);
+  
   return (
     <Box component={'section'} className={classes.detail}>
-    <h2>Video name</h2>
+    <h2>{video.title}</h2>
     <Box className={classes.profile}>
         <Box className={classes.userImg}><Image src={'/image/user.png'} height={50} width={100} alt="user profile"/></Box>
         <Box className={classes.userProfile}>
-          <div>Creater name</div>
-          <div><span><ThumbUpOutlinedIcon/></span> <span><ThumbDownAltOutlinedIcon/></span></div>
+          <div>{video.name}</div>
+          <LikeSection video={video} like={like} dislike={dislike}/>
         </Box>
     </Box>
     <Box className={classes.dropdown}>  
@@ -24,11 +34,14 @@ export default function VideoDetail() {
           aria-controls="panel1-content"
           id="video-detail"
         >
-          <span>8600 views</span>
-          <span>Dec 2 ,2024</span>
+          <div className={classes.meta}>
+          <span>{video.count} views</span>|
+          <span>{formatDate(video.created_at)}</span>|
+          <span>{video.category.toUpperCase()}</span>
+          </div>
         </AccordionSummary>
         <AccordionDetails>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto voluptate voluptas, explicabo hic eos ad, et pariatur voluptates veniam dolorum omnis quisquam, voluptatum quidem delectus. Eius, voluptas fugiat? Ratione sint id non aliquid mollitia impedit voluptas? Deleniti, atque, totam sequi quidem corporis accusamus laborum doloribus magnam ducimus temporibus repudiandae qui!
+          {video.description}
         </AccordionDetails>
       </Accordion>
 

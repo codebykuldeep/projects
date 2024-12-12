@@ -1,7 +1,8 @@
 import PageLayout from '@/components/VideoPage/PageLayout'
 import React from 'react'
 
-export default function VideoPage() {
+export default async function VideoPage() {
+  
   return (
     <>
         <PageLayout/>

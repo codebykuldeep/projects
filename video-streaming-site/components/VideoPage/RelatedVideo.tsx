@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import classes from './related-video.module.css'
 import Image from 'next/image'
 
-export default function RelatedVideo() {
+export default function RelatedVideo({ params,}: {params: Promise<{ id: string }>;}) {
   return (
     <Box className={classes.related}>
         <Box className={classes.container}>
