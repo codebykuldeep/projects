@@ -1,9 +1,14 @@
 import { AppBar, Box, Container } from "@mui/material"
 import classes from './NavBar.module.css'
 import Link from "next/link"
+import SearchBar from "./SearchBar"
+import { serverSession } from "@/auth"
+import Logout from "./Logout"
 
 
-function NavBar() {
+async function NavBar() {
+  const user = await serverSession();
+  
   return (
     <AppBar position="fixed" className={classes.navbar} >
     <Container maxWidth="xl" className={classes.list} >
@@ -12,8 +17,13 @@ function NavBar() {
         <Box className={classes.link}><Link href={'/home'}>Home</Link></Box>
       </Box>
       <Box className={classes.listItem}>
-        <Box ><Link href={'/search'}>Search Bar</Link></Box>
-        <Box ><Link href={'/auth'}>Login</Link></Box>
+        <Box ><SearchBar/></Box>
+        {user ? (
+          <>
+            <Box ><Link href={'/user'}>Profile</Link></Box>
+            <Logout/>
+          </>
+        ) : <Box ><Link href={'/auth?mode=login'}>Login</Link></Box>}
       </Box>
     </Container>
   </AppBar>
