@@ -28,11 +28,11 @@ function initDb() {
     )`);
   db.exec(`
     CREATE TABLE IF NOT EXISTS likes (
-      id INTEGER,
+      id INTEGER  PRIMARY KEY,
       user_id INTEGER, 
       video_id INTEGER, 
       like BOOLEAN,
-      PRIMARY KEY(user_id, video_id),
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, 
       FOREIGN KEY(video_id) REFERENCES videos(id) ON DELETE CASCADE
     )`);

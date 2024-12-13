@@ -18,6 +18,9 @@
 
 
 /* SEARCH CARD */
+.result a{
+    width: 100%;
+}
 .card{
     display: flex;
     align-items: flex-start;

@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^6.1.9",
     "@types/better-sqlite3": "^7.6.12",
     "better-sqlite3": "^11.7.0",
+    "cloudinary": "^2.5.1",
     "next": "15.0.4",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",

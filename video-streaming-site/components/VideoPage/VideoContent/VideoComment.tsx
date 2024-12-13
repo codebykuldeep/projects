@@ -4,7 +4,9 @@ import Image from "next/image";
 import classes from "./video-comment.module.css";
 import SubmitComment from "./SubmitComment";
 import { useOptimistic, useState } from "react";
-import { CommentUserType, VideoCreatorType } from "@/helper/commonTypes";
+import { CommentUserType, userSession, VideoCreatorType } from "@/helper/commonTypes";
+import { useSession } from "next-auth/react";
+import { DefaultSession, DefaultUser, Session } from "next-auth";
 const initState = [1,2,3,4,5];
 
 interface VideoCommentProps{
@@ -13,22 +15,48 @@ interface VideoCommentProps{
 }
 
 export default function VideoComment({video,comments}:VideoCommentProps) {
-  // const [commentArray,setCommentArray] =useState<Partial<CommentUserType[]>>(comments);
-  const [commentArray,setCommentArray] =useState<any[]>(comments);
+  
+  const [commentArray,setCommentArray] =useState<Partial<CommentUserType>[]>(comments);
+  const {data} =useSession();
+  let user:userSession;
+  if(data){
+    user = data.user as userSession;
+  }
+  // console.log('ses',data);
+  
 
-  function addCommentUI(data:Partial<CommentUserType>){
-    setCommentArray(prev=>{
+
+  async function updateComments(comment:string){
+    // console.log(comment);
+    
+    const newComment:Partial<CommentUserType> ={
+      comment:comment,
+      name:user.name as string,
+      user_id:user.id as string,
+      image:user.image as string,
+      video_id:video.id,
+      created_at:new Date().toString()
+    }
+    setCommentArray(prev =>([newComment,...prev]));
+
+    try {
+      await fetch('/api/comment',{
+        method:'POST',
+        body:JSON.stringify(newComment)
+      })
+    } catch (error) {
       
-      return [data,...prev]
-    })
+    }
+    
   }
 
+  
   return (
     <Box>
-      <Box>{comments.length || 0} comments</Box>
-      <SubmitComment updateFn={addCommentUI} video={video}/>
+      <Box>{commentArray.length || 0} comments</Box>
+      <SubmitComment updateFn={updateComments}  video={video}/>
       <Box className={classes.commentbox}>
-        {comments.length > 0 && comments.map((comment)=>(
+        {commentArray.length > 0 && commentArray.map((comment)=>(
             <Box key={comment.created_at} className={classes.comment}>
             <Box className={classes.image}>
               <Image

@@ -6,3 +6,10 @@ export function formatDate(date:string){
         year:'2-digit'
     })
 }
+
+
+export function waitFunction(time:number){
+    return new Promise((resolve)=>{
+        setTimeout(()=>{resolve(true)},time)
+    });
+}

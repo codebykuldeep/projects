@@ -23,6 +23,11 @@ export function getUser(email:string){
     return stmt.get(email);
 }
 
+export function getUserById(id:string){
+    const stmt =db.prepare(`SELECT * FROM users WHERE id = ?`)
+    return stmt.get(id);
+}
+
 export function userVerificationStaus(user:UserType){
     const stmt =db.prepare(`UPDATE users SET isVerified = 1 WHERE email = ?`)
     return stmt.run(user.email);

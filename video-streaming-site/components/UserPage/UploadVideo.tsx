@@ -12,7 +12,7 @@ import { VideoFormType } from "@/helper/commonTypes";
 
 export default function UploadVideo() {
     
-    const [state,formAction] =useActionState(uploadAction,'');
+    const [state,formAction,isPending] =useActionState(uploadAction,'');
     const [formState,setFormState] = useState<VideoFormType>(initialformState);
   
 
@@ -83,7 +83,7 @@ export default function UploadVideo() {
                         </div>
                     )
                 }
-                <UploadButton onClick={handleValidation} disabled={!ValidationResult}>Upload</UploadButton>
+                <UploadButton isPending={isPending} onClick={handleValidation} disabled={!ValidationResult}>{isPending ? 'Uploading' : 'Upload'}</UploadButton>
             </form>
         </Box>
     </Box>

@@ -2,41 +2,50 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 import classes from "./search-page.module.css";
 import CircleIcon from '@mui/icons-material/Circle';
+import { VideoCreatorType } from "@/helper/commonTypes";
+import { formatDate } from "@/helper/helperFns";
+import Link from "next/link";
 
-export default function SearchCard() {
+interface SearchCardProps{
+  video:VideoCreatorType;
+}
+
+export default function SearchCard({video}:SearchCardProps) {
   return (
+    <Link href={`/video/${video.id}`}>
     <Box className={classes.card}>
       <Box className={classes.image}>
         <Image
-          src={"/image/default.jpg"}
+          src={video.image_url}
           width={500}
           height={280}
-          alt="video thumbnail"
+          alt={video.title}
         />
       </Box>
       <Box className={classes.detail}>
         <Box>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, eos?
+          {video.title}
         </Box>
         <Box>
-          <span>8.1K views</span>
-          <span><CircleIcon /></span> <span>10 days ago</span>
+          <span>{video.count} views</span>
+          <span><CircleIcon /></span> <span>{formatDate(video.created_at)}</span>
         </Box>
         <Box className={classes.user}>
           <span>
             <Image
-              src={"/image/user.png"}
+              src={video.image}
               height={30}
               width={30}
-              alt="user profile"
+              alt={video.name}
             />
           </span>
           <span>
-            Creator name
+            {video.name}
           </span>
         </Box>
-        <Box className={classes.description}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla accusantium, sapiente labore repudiandae magnam quas odit repellendus ut libero quos non nostrum culpa minus, hic praesentium delectus eaque ab neque, eos beatae. Ipsam fuga ad vel porro, enim illum ipsa.</Box>
+        <Box className={classes.description}>{video.description}</Box>
       </Box>
     </Box>
+    </Link>
   );
 }

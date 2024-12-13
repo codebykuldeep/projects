@@ -1,67 +1,176 @@
-'use client';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import { VideoCreatorType } from '@/helper/commonTypes';
-import classes from './video-content.module.css'
-import { getLikesCount } from '@/lib/likes';
-import { useOptimistic, useState, useTransition } from 'react';
+"use client";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import { VideoCreatorType } from "@/helper/commonTypes";
+import classes from "./video-content.module.css";
+import { getLikesCount } from "@/lib/likes";
+import { useOptimistic, useRef, useState, useTransition } from "react";
 
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 
-interface LikeSectionProps{
-  video:VideoCreatorType;
-  like:string;
-  dislike:string;
+interface LikeSectionProps {
+  video: VideoCreatorType;
+  like: string;
+  dislike: string;
+  likeFromDB:{like:string};
 }
-type stateType ={
-  like:number;
-  dislike:number;
-}
+type stateType = {
+  like: number;
+  dislike: number;
+};
 
-type LikeStatus = 'LIKE' | 'DISLIKE' | 'NULL';
+type LikeStatus = "LIKE" | "DISLIKE" | "NULL";
+type likeCount = { like: number; dislike: number };
 
-
-export default function LikeSection({video,like,dislike}:LikeSectionProps) {
-  // const [state, updateFn] = useOptimistic<stateType,boolean>(
-  //   {like:Number(like),dislike:Number(dislike)},updateState)
-
-  //   const [isPending, startTransition] = useTransition();
-
-  //   function updateState(currentState:stateType, value:boolean){
-  //     console.log(value);
-      
-  //     return currentState
-  //   }
-  const [likeState,setLikeState] =useState<LikeStatus>('NULL')
+export default function LikeSection({
+  video,
+  like,
+  dislike,
+  likeFromDB
+}: LikeSectionProps) {
+  const [likesCount, setLikesCount] = useState<likeCount>({
+    like: +like,
+    dislike: +dislike,
+  });
   
-  console.log(likeState);
+  const [likeState, setLikeState] = useState<LikeStatus>(!likeFromDB ? 'NULL' :(Boolean(likeFromDB.like) ? 'LIKE' : 'DISLIKE'));
+  const [likeOnce,setLikeOnce] =useState(Boolean(likeFromDB));
   
-    function handleUpdate(current:LikeStatus){
-      console.log('run',current);
-      
-      setLikeState(prev=>{
-        
-        if(current === 'LIKE' || current === 'DISLIKE'){
-          console.log('1');
-          return 'NULL';
-        }
-          
-        return current;
-      })
-      
+
+  async function updateLikeStatus(likeType: boolean) {
+    try {
+    } catch (error) {}
+  }
+
+
+   async function handleUpdate(current:LikeStatus){
+    let index = current.toLowerCase();
+    if(likeState === current){
+      setLikeState('NULL');
+      setLikeOnce(false);
+      setLikesCount(prev=>({...prev,[index]:prev[index as keyof likeCount] - 1}));
+      updateAtDB(current);
+      return ;
     }
+    
+    if(!likeOnce){
+      setLikeState(current)
+      setLikeOnce(true);
+      setLikesCount(prev=>({...prev,[index]:prev[index as keyof likeCount] + 1}));
+      updateAtDB(current);
+    }
+    else{
+      let like = current === 'DISLIKE' ? likesCount.like -1 : likesCount.like;
+      let dislike =current === 'LIKE' ? likesCount.dislike -1 : likesCount.dislike;
+      console.log('current',current);
+      
+      setLikesCount(prev=>({like,dislike,[index]:prev[index as keyof likeCount] + 1}));
+      setLikeState(current)
+      updateAtDB(current);
+    }
+
+    
+
+  }
+
+  async function updateAtDB(current:LikeStatus){
+    let likeType = current ==='LIKE'? 1 : 0;
+    let video_id = video.id;
+    await updateLikeAtDB((likeType as unknown) as boolean,video_id);
+  }
+
+  async function updateLikeAtDB(like:boolean,video_id:string){
+    await fetch('/api/like',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+            like:like,
+            video_id:video_id
+        })
+      })
+}
+
   return (
     <div className={classes.likes}>
       <span>
-        {likeState ==='LIKE' ? <ThumbUpIcon onClick={()=>handleUpdate('LIKE')}/> : <ThumbUpOutlinedIcon onClick={()=>handleUpdate('LIKE')}/> } 
-        <span>{like}</span>
-      </span> 
-      <span>
-      {likeState ==='DISLIKE' ? <ThumbDownIcon onClick={()=>handleUpdate('DISLIKE')}/> : <ThumbDownAltOutlinedIcon onClick={()=>handleUpdate('DISLIKE')}/>  } 
-      <span>{dislike}</span>
+        {likeState === "LIKE" ? (
+          <ThumbUpIcon onClick={() => handleUpdate("LIKE")} />
+        ) : (
+          <ThumbUpOutlinedIcon onClick={() => handleUpdate("LIKE")} />
+        )}
+        <span>{likesCount.like}</span>
       </span>
-      </div>
-  )
+      <span>
+        {likeState === "DISLIKE" ? (
+          <ThumbDownIcon onClick={() => handleUpdate("DISLIKE")} />
+        ) : (
+          <ThumbDownAltOutlinedIcon onClick={() => handleUpdate("DISLIKE")} />
+        )}
+        <span>{likesCount.dislike}</span>
+      </span>
+    </div>
+  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// const [hasUserLike,setHasUserLike] =useState(Boolean(likeFromDB));
+
+  // function handleUpdate(current:LikeStatus){
+    
+  //   if((likeState === 'DISLIKE' && current === 'DISLIKE')){
+  //     setLikeState('NULL');
+      
+  //     setLikesCount(prev=>({...prev,dislike:prev.dislike-1}));
+  //     return ;
+  //   }
+  //   if((likeState === 'LIKE' && current === 'LIKE')){
+  //     setLikeState('NULL');
+  //     hasUserLike.current = false;
+  //     setLikesCount(prev=>({...prev,like:prev.like-1}));
+  //     return ;
+  //   }
+  //   else{
+  //     let index = current.toLowerCase();
+  //     let value:number;
+  //     if(hasUserLike){
+  //       let like = current === 'DISLIKE' ? likesCount.like -1 : likesCount.like;
+  //       let dislike =current === 'LIKE' ? likesCount.dislike -1 : likesCount.dislike;
+  //       setLikesCount(prev=>({like,dislike,[index]:prev[index as keyof likeCount] + 1}));
+  //     }
+  //     else{
+  //       setLikesCount(prev=>({...prev,[index]:prev[index as keyof likeCount] + 1}));
+  //     }
+      
+  //   }
+
+  //   setLikeState(current);
+  // }
+
+  // async function handleUpdate(current: LikeStatus) {
+  //   if (likeState === "DISLIKE" && current === "DISLIKE") {
+  //     setLikeState("NULL");
+  //     let likevalue = 
+  //     setLikesCount((prev) => ({ ...prev, dislike: prev.dislike - 1 }));
+  //     return;
+  //   }
+  //   if (likeState === "LIKE" && current === "LIKE") {
+  //     setLikeState("NULL");
+  //     setLikesCount((prev) => ({ ...prev, like: prev.like - 1 }));
+  //     return;
+  //   }
+  //   setLikeState(current);
+  // }

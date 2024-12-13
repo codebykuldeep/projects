@@ -11,7 +11,6 @@ export default async function VideoContent({ params,}: {params: Promise<{ id: st
   const {id} =await params;
   const data = getVideoWithCreatorById(id);
   const comments = getCommentsById(id);
-  console.log(comments);
   
   return (
     <>
