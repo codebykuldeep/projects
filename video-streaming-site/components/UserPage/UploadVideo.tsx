@@ -53,27 +53,27 @@ export default function UploadVideo() {
     }))
   }
 
-  async function sendData(event:React.FormEvent<HTMLFormElement>){
-    event.preventDefault();
-    const form =new FormData(event.target as HTMLFormElement)
-    const res =await fetch('/api/upload',{
-      method:'POST',
+  // async function sendData(event:React.FormEvent<HTMLFormElement>){
+  //   event.preventDefault();
+  //   const form =new FormData(event.target as HTMLFormElement)
+  //   const res =await fetch('/api/upload',{
+  //     method:'POST',
       
-      body:JSON.stringify({
-        title:form.get('title'),
-        image:form.get('image')
-      })
-   });
-    console.log(await res.json());
+  //     body:JSON.stringify({
+  //       title:form.get('title'),
+  //       image:form.get('image')
+  //     })
+  //  });
+  //   console.log(await res.json());
     
 
-  }
+  // }
     
   return (
     <Box className={classes.uploadbox}>
         <Box component={'h3'}>Upload a video</Box>
         <Box>
-            <form onSubmit={sendData} className={classes.form} encType="multipart/form-data" >
+            <form action={formAction} className={classes.form} >
 
                 <UploadForm handleBlur={handleBlur} handleChange={handleChange} formState={formState}  handleMedia={handleMedia}/>
                 {

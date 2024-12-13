@@ -39,6 +39,7 @@ function fieldValidation(value:string):[string,boolean]{
 
 
 export function validation(title:string,value:string):[string,boolean]{
+    console.log(title);
     
     title = title.toLowerCase();
     if(title === 'email'){
@@ -52,6 +53,7 @@ export function validation(title:string,value:string):[string,boolean]{
         if(((value as unknown) as File).size === 0){
             return [`Please select a ${title}`,true];
         }
+        return ['',false];
     }
     // if(title === 'name'){
     //     return nameValidation(value);

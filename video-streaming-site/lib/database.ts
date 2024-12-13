@@ -20,6 +20,8 @@ function initDb() {
       video_url TEXT NOT NULL,
       title TEXT NOT NULL, 
       description TEXT NOT NULL, 
+      category TEXT NOT NULL,
+      count INTEGER DEFAULT 0,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP,
       user_id INTEGER, 
       FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -37,12 +39,11 @@ function initDb() {
   
     db.exec(`
       CREATE TABLE IF NOT EXISTS comments (
-        id INTEGER,
+        id INTEGER PRIMARY KEY,
         user_id INTEGER, 
         video_id INTEGER, 
         comment TEXT NOT NULL,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(user_id, video_id),
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, 
         FOREIGN KEY(video_id) REFERENCES videos(id) ON DELETE CASCADE
       )`);

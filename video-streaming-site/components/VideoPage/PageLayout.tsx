@@ -2,16 +2,20 @@ import { Box, Container } from "@mui/material"
 import classes from './video-page.module.css'
 import VideoContent from "./VideoContent"
 import RelatedVideo from "./RelatedVideo"
-function PageLayout() {
+import VideoIncreaseCount from "./VideoIncreaseCount"
+function PageLayout({ params,}: {params: Promise<{ id: string }>;}) {
   return (
+    <>
     <Container maxWidth='xl' className={classes.layout}>
         <Box className={classes.player}>
-            <VideoContent/>
+            <VideoContent params={params}/>
         </Box>
         <Box className={classes.related}>
-            <RelatedVideo/>
+            <RelatedVideo params={params}/>
         </Box>
     </Container>
+    <VideoIncreaseCount/>
+    </>
   )
 }
 

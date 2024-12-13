@@ -59,3 +59,36 @@ export interface VideoFormType{
         value:string;
     }
 }
+
+
+export interface VideoType{
+    id: string,
+    image_url: string,
+    video_url: string,
+    title: string,
+    description: string,
+    created_at: string,
+    user_id: string,
+    count: string,
+    category: string
+  }
+
+  export interface CreatorType{
+    name: string;
+    email: string,
+    password: string,
+    image: string,
+    isVerified: boolean,
+  }
+
+  export interface CommentType{
+    id: string;
+    user_id: string,
+    video_id: string;
+    comment: string;
+    created_at: string;
+  }
+
+  export interface VideoCreatorType extends VideoType,CreatorType{}
+
+  export interface CommentUserType extends CommentType,CreatorType{}
