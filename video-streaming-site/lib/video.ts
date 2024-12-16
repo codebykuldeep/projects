@@ -22,9 +22,6 @@ export function getMostWatchedVideos(){
 }
 
 
-// export function  addCoulumn(){
-//     const stmt  = db.exec('ALTER TABLE  videos  ADD COLUMN  category TEXT NOT NULL');
-// }
 
 export function getVideosWithCreators(){
     const data  = db.prepare('SELECT * FROM users INNER JOIN videos ON videos.user_id = users.id ORDER BY videos.count DESC LIMIT 4').all();

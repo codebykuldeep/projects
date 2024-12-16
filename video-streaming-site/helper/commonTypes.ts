@@ -113,17 +113,7 @@ export interface VideoType{
     message:string;
   }
 
-  
 
-
-//   export interface VideoFormDataType{
-//     image: string,
-//     video: string,
-//     title: string,
-//     description: string,
-//     cloud: string,
-//     category: string
-//   }
 
   export interface uploadDataType{
     title:string;

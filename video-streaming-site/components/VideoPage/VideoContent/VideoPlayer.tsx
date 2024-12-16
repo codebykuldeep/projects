@@ -19,10 +19,6 @@ export default function VideoPlayer({video}:VideoPlayerProps) {
   };
   return (
     <Box className={classes.player}>
-        {/* <video  controls>
-        <source src="https://res.cloudinary.com/dhnzclvra/video/upload/sp_auto/v1734184139/video_site/q6ao15l9etnhzvskds0l.m3u8" type="video/mp4" />
-        Your browser does not support the video tag.
-        </video> */}
         <VideoJSPlayer options={videoJsOptions} />
     </Box>
   )
