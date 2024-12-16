@@ -1,16 +1,13 @@
 'use client'
 import InpField from './InpField'
 import classes from './auth-page.module.css'
-import { Button } from '@mui/material'
 import Link from 'next/link'
 import ButtonField from './Button'
-import { loginAction } from '@/utils/auth-methods'
-import { FormEvent, useActionState, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { errorResult, validateState, validation } from '@/helper/validation'
 import { ErrorStateType } from '@/helper/commonTypes'
 import { sendLoginRequest } from '@/utils/auth-client-methods'
 import { redirect } from 'next/navigation'
-import { signIn, useSession } from 'next-auth/react'
 
 const initialErrorState:ErrorStateType={
   email:{
@@ -30,6 +27,7 @@ export default function Login() {
   
   const [state,setState] =useState('')
   const [errorState,setErrorState] = useState<ErrorStateType>(initialErrorState);
+  const [submit,setSubmit] =useState(false);
   
   const valid = errorResult(errorState);
   
@@ -60,18 +58,20 @@ export default function Login() {
   
    async function handleSubmit(event:FormEvent){
     event.preventDefault();
+    
     if(valid){
+      setSubmit(true);
       const {email,password} =errorState;
       const message:string = await sendLoginRequest(email.value,password.value)
       
-      if(!Boolean(message)){
-        console.log('redirecting');
-        
+      if(!Boolean(message)){ 
         return redirect('/home');
       }
 
       setState(message);
+      setSubmit(false);
     }
+    
   }
   
   
@@ -80,7 +80,7 @@ export default function Login() {
           <h2>Sign In</h2>
           <form onSubmit={handleSubmit} className={classes.form}>
             <div>
-                <InpField title="Email" type="text" place="Enter your Email" handleChange={handleChange} handleBlur={handleBlur} errorState={errorState}/>
+                <InpField title="Email" type="text" place="Enter your Email"  handleChange={handleChange} handleBlur={handleBlur} errorState={errorState}/>
             </div>
             <div>
                 <InpField title="Password" type="password" place="Enter your Password" handleChange={handleChange} handleBlur={handleBlur} errorState={errorState}/>
@@ -89,10 +89,7 @@ export default function Login() {
               {state && <p>{state}</p>}
             </div>
             <div className={classes.btn}>
-              <ButtonField validate={handleValidation} valid={valid}>Login</ButtonField>
-            </div>
-            <div>
-              <Button onClick={()=>signIn('github',{redirect:false})}>Sign in with Github</Button>
+              <ButtonField validate={handleValidation} valid={valid}>{submit ?'Please Wait...' : "Login"}</ButtonField>
             </div>
           </form>
           <div>If you are new user ,<Link href={'/auth?mode=signup'}><span className={classes.submit}>Click Here</span></Link></div>

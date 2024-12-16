@@ -52,11 +52,17 @@ export async function signUpAction(credentials: credType) {
   }
 
   try {
+
+    const user: any = getUser(data.email);
+    
+    if(user){
+        throw new Error('Email exists already')
+    }
     const res = insertUser(data);
     
     return {...credentials ,id:res.lastInsertRowid};
   } catch (error: any) {
-    return `error : ${error.message}`;
+    throw new Error(error.message)
   }
 }
 
@@ -65,18 +71,15 @@ export async function loginAction(credentials: credType) {
   let data: UserType = { email, password };
 
   const error = serverValidation(data);
-  console.log("data", data);
+  
 
   if (Object.entries(error).length > 0) {
-    console.log(error);
-
+    
     throw new Error("Please enter valid inputs !");
   }
-  console.log("here");
 
   try {
     const user: any = getUser(data.email);
-    console.log('user',user);
     if(!user){
         throw new Error('User not found.Check your credentials.')
     }

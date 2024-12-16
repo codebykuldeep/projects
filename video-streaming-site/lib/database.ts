@@ -1,6 +1,9 @@
 import sql from 'better-sqlite3';
+import path from 'path'
 
-const db = new sql('database.db');
+const dbPath = path.join(process.cwd(), 'database.db');
+const db = new sql(dbPath);
+
 
 function initDb() {
   db.exec(`
@@ -18,6 +21,7 @@ function initDb() {
       id INTEGER PRIMARY KEY, 
       image_url TEXT NOT NULL,
       video_url TEXT NOT NULL,
+      cloud_url TEXT,
       title TEXT NOT NULL, 
       description TEXT NOT NULL, 
       category TEXT NOT NULL,
@@ -49,9 +53,9 @@ function initDb() {
       )`);
 
   // Creating two dummy users if they don't exist already
-  const stmt:any = db.prepare('SELECT COUNT(*) AS count FROM users');
+  const stmtCount = db.prepare('SELECT COUNT(*) AS count FROM users').get() as {count:number};
 
-  if (stmt &&  stmt.get().count === 0) {
+  if (stmtCount &&  stmtCount.count === 0) {
     db.exec(`
     INSERT INTO users (name, password, email,image)
     VALUES ('John', '123456', 'john@example.com','/image/user.png')

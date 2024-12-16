@@ -1,18 +1,21 @@
 'use client';
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import classes from './UploadForm/upload-video.module.css'
 import UploadForm from "./UploadForm/UploadForm";
 import UploadButton from "./UploadForm/UploadButton";
-import { FormEvent, useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { uploadAction } from "@/utils/form-method";
+import { validateFormState, validateResult, validation } from "@/helper/validation";
+import { formActionState, VideoFormType } from "@/helper/commonTypes";
 
-import Form from 'next/form'
-import { validateFormState, validateResult, validateState, validation } from "@/helper/validation";
-import { VideoFormType } from "@/helper/commonTypes";
+const initalState:formActionState={
+  status:'none',
+  message:''
+}
 
 export default function UploadVideo() {
     
-    const [state,formAction,isPending] =useActionState(uploadAction,'');
+    const [state,formAction,isPending] =useActionState(uploadAction,initalState);
     const [formState,setFormState] = useState<VideoFormType>(initialformState);
   
 
@@ -53,21 +56,19 @@ export default function UploadVideo() {
     }))
   }
 
-  // async function sendData(event:React.FormEvent<HTMLFormElement>){
-  //   event.preventDefault();
-  //   const form =new FormData(event.target as HTMLFormElement)
-  //   const res =await fetch('/api/upload',{
-  //     method:'POST',
-      
-  //     body:JSON.stringify({
-  //       title:form.get('title'),
-  //       image:form.get('image')
-  //     })
-  //  });
-  //   console.log(await res.json());
-    
-
-  // }
+  
+  useEffect(()=>{
+    if(state.status === 'success'){
+      setFormState(initialformState);
+    }
+    if(state.status === 'failed'){
+      setFormState(prev=>({
+        ...prev,
+        image:initialformState.image,
+        video:initialformState.video
+      }))
+    }
+  },[state])
     
   return (
     <Box className={classes.uploadbox}>
@@ -77,9 +78,16 @@ export default function UploadVideo() {
 
                 <UploadForm handleBlur={handleBlur} handleChange={handleChange} formState={formState}  handleMedia={handleMedia}/>
                 {
-                    state && (
-                        <div className={classes.error}>
-                            {<p>{state}</p>}
+                    state.status === 'failed' && (
+                        <div className={classes.uploadError}>
+                            {<p>{state.message}</p>}
+                        </div>
+                    )
+                }
+                {
+                    state.status === 'success' && (
+                        <div className={classes.success}>
+                            {<p>{state.message}</p>}
                         </div>
                     )
                 }
@@ -92,7 +100,7 @@ export default function UploadVideo() {
 
 
 
-const initialformState ={
+const initialformState:VideoFormType ={
     title:{
         status:false,
         message:'',
@@ -119,6 +127,9 @@ const initialformState ={
         value:''
     },
 }
+
+
+
 
 
 

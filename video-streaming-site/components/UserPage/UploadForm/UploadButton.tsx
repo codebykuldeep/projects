@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
-import { useFormStatus } from 'react-dom'
+import { Button, CircularProgress, Stack } from '@mui/material'
+
 interface uploadButtonProps{
   children:string;
   disabled:boolean;
@@ -8,9 +8,13 @@ interface uploadButtonProps{
 }
 
 export default function UploadButton({children,disabled,isPending,onClick}:uploadButtonProps) {
-    const {pending } =useFormStatus()
     
   return (
-    <Button onClick={onClick} type={disabled ? "button" :"submit"} disabled={isPending}  variant="contained">{pending ? 'Uploading....' :children}</Button>
+    <>
+    <Stack direction={'row'} alignItems={'center'} gap={1.5}>
+    <Button onClick={onClick} type={disabled ? "button" :"submit"} disabled={isPending}  variant="contained">{children}</Button>
+    {isPending && <CircularProgress size="30px" />}
+    </Stack>
+    </>
   )
 }

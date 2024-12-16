@@ -8,7 +8,7 @@ import Logout from "./Logout"
 async function NavBar() {
   
   return (
-    <AppBar position="fixed" className={classes.navbar} >
+    <AppBar position="sticky" className={classes.navbar} >
     <Container maxWidth="xl" className={classes.list} >
       <Box className={classes.listItem}>
         <Box className={classes.link}><Link href={'/'}>LOGO</Link></Box>

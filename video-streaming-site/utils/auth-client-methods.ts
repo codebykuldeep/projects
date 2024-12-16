@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 
 export async function sendLoginRequest(email:string,password:string){
     
-    console.log(email,password);
-
     try {
         const result = await signIn("credentials", {
             redirect: false,
@@ -25,8 +23,6 @@ export async function sendLoginRequest(email:string,password:string){
 
 export async function sendSignUpRequest(name:string,email:string,password:string){
     
-    console.log(email,password);
-
     try {
         const result = await signIn("credentials", {
             redirect: false,

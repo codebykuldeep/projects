@@ -1,14 +1,12 @@
 'use server';
 
 import { serverSession } from "@/auth";
-import { addComment, deleteALL, getCommentsById } from "@/lib/comment";
+import { addComment, getCommentsById } from "@/lib/comment";
 import { updateViewCount } from "@/lib/video";
 
 export async function updateViews(id:string){
-    console.log('updating views',id);
-    updateViewCount(id);
-    console.log('updated');
     
+    updateViewCount(id);
     
 }
 
@@ -19,10 +17,10 @@ export async function commentAction(video_id:string,formData:FormData) {
     if(!session){
         return;
     }
-    user = session.user as any;
+    user = session.user;
     
 
-    addComment(comment as string,video_id,user.id); 
+    addComment(comment as string,video_id,user.id as string); 
 
     return  getCommentsById(video_id);
     

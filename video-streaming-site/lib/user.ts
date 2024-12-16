@@ -1,5 +1,6 @@
-import { UserType } from "@/helper/commonTypes";
+import {  UserType } from "@/helper/commonTypes";
 import db from "./database";
+
 
 export function getAllUser(){
     const data  = db.prepare('SELECT * FROM users').all();
@@ -37,6 +38,12 @@ export function updateWholeUserProfile(user:UserType){
     return stmt.run(user.name,user.image,user.email)
 }
 
+export function updateUserPhoto(image:string,id:string){
+    const stmt =db.prepare(`UPDATE users SET image= ? WHERE id = ?`);
+    return stmt.run(image,id);
+}
+
+
 export function providerUser(user:UserType){
     try {
         try {
@@ -45,10 +52,10 @@ export function providerUser(user:UserType){
                 insertUserAll(user);
             }
             updateWholeUserProfile(user);
-        } catch (error:any) {
-            throw new Error(error.message)
+        } catch (error:unknown) {
+            throw new Error((error as Error)?.message)
         }
-    } catch (error:any) {
-        throw new Error(error.message)
+    } catch (error:unknown) {
+        throw new Error((error as Error)?.message)
     }
 }

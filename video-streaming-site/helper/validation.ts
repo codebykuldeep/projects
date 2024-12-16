@@ -1,4 +1,3 @@
-import { error } from "console";
 import { ErrorStateType, ErrorType, UserType, VideoFormType } from "./commonTypes";
 
 function emailValidation(value:string):[string,boolean]{
@@ -39,8 +38,7 @@ function fieldValidation(value:string):[string,boolean]{
 
 
 export function validation(title:string,value:string):[string,boolean]{
-    console.log(title);
-    
+   
     title = title.toLowerCase();
     if(title === 'email'){
         return emailValidation(value);
@@ -50,16 +48,13 @@ export function validation(title:string,value:string):[string,boolean]{
         return passwordValidation(value);
     }
     if(title === 'image' || title==='video'){
-        if(((value as unknown) as File).size === 0){
+        
+        if(value  === ''){
             return [`Please select a ${title}`,true];
         }
         return ['',false];
     }
-    // if(title === 'name'){
-    //     return nameValidation(value);
-    // }
-
-    // return ['',false];
+    
     return fieldValidation(value);
 }
 export function validateState(state:ErrorStateType ){

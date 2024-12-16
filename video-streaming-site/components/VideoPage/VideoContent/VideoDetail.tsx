@@ -7,7 +7,7 @@ import Image from "next/image";
 import { userSession, VideoCreatorType } from "@/helper/commonTypes";
 import { formatDate } from "@/helper/helperFns";
 import LikeSection from "./LikeSection";
-import { deleteALL, getLikesCount, getUserLikeStatus } from "@/lib/likes";
+import {  getLikesCount, getUserLikeStatus } from "@/lib/likes";
 import { serverSession } from "@/auth";
 
 interface VideoDetailProps{
@@ -16,14 +16,14 @@ interface VideoDetailProps{
 
 export default async function VideoDetail({video}:VideoDetailProps) {
   const [like,dislike] =getLikesCount(video.id);
-  // console.log(video);
+  
   const session = await serverSession();
   let user:userSession;
+  let userLikeStatus
   if(session){
     user =session.user as userSession;
+    userLikeStatus = getUserLikeStatus(user!.id as string,video.id)
   }
-  
-  const userLikeStatus = getUserLikeStatus(user!.id as string,video.id)
   
    
   
@@ -31,7 +31,7 @@ export default async function VideoDetail({video}:VideoDetailProps) {
     <Box component={'section'} className={classes.detail}>
     <h2>{video.title}</h2>
     <Box className={classes.profile}>
-        <Box className={classes.userImg}><Image src={'/image/user.png'} height={50} width={100} alt="user profile"/></Box>
+        <Box className={classes.userImg}><Image src={video.image || '/image/user.png'} height={50} width={100} alt="user profile"/></Box>
         <Box className={classes.userProfile}>
           <div>{video.name}</div>
           <LikeSection video={video} like={like} dislike={dislike} likeFromDB={userLikeStatus as {like:string}}/>

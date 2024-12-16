@@ -18,7 +18,7 @@
 .image{
     width: 168px;
     height: 94px;
-    
+    object-fit: contain;
 }
 .image img{
     display: inline-block;

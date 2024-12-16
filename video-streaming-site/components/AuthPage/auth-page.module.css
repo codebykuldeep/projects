@@ -24,20 +24,19 @@
    height: 600px;
    padding: 3rem 5rem;
    border-radius: 15px;
-   /* background-color: #00031ced; */
    background-color: white;
    color: black;
 }
 
 .box h2{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .form{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     height: 80%;
-    gap: 15px;
+    gap: 20px;
 }
 .input{
     width: 100%;

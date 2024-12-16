@@ -1,11 +1,11 @@
 import { Box, Container } from '@mui/material'
 import classes from './search-page.module.css'
-import SearchCard from './SearchCard'
 import { getVideoForQuery } from '@/lib/video';
 import { VideoCreatorType } from '@/helper/commonTypes';
 import { waitFunction } from '@/helper/helperFns';
 import { Suspense } from 'react';
 import SearchVideoLoading from '../Dummy/SearchVideoLoading';
+import SearachResult from './SearachResult';
 
 
 interface searchLayoutProps{
@@ -32,13 +32,6 @@ async function InsertSearch({query}:searchLayoutProps) {
   const result = getVideoForQuery(query) as VideoCreatorType[];
   await waitFunction(2000);
   return (
-    <Box className={classes.result}>
-            {(result.map((data,ind)=>(
-                <SearchCard  video={data} key={ind}/>
-            )))}
-            {
-              result.length === 0 && <p>NO videos found for your query</p>
-            }
-        </Box>
+   <SearachResult videos={result}></SearachResult>
   )
 }

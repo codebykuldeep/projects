@@ -7,6 +7,7 @@ import classes from './user-page.module.css'
 import { useSearchParams } from "next/navigation";
 import UploadVideo from "./UploadVideo";
 import { VideoType } from "@/helper/commonTypes";
+import UserProfile from "./UserProfile";
 
 interface UserSectionProps{
   videos:VideoType[];
@@ -22,7 +23,7 @@ export default function UserSection({videos}:UserSectionProps) {
         </Box>
     {(!view || view ==='videos')? <UserVideo videos={videos}/> : <></>}
     {view === 'upload' ? <UploadVideo/>:<></>}
-    {view === 'profile' ? <UploadVideo/>:<></>}
+    {view === 'profile' ? <UserProfile/>:<></>}
     </>
   )
 }

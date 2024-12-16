@@ -1,8 +1,7 @@
 'use client';
-import Link from 'next/link';
 import classes from './search-bar.module.css'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 import { redirect } from 'next/navigation';
 
 
