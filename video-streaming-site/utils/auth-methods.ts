@@ -18,8 +18,7 @@ export async function signUpAction(state: string, formData: FormData) {
     const error = serverValidation(data);
 
     if (Object.entries(error).length > 0) {
-      console.log(error);
-
+      
       return "Please enter valid inputs !";
     }
 
@@ -41,16 +40,11 @@ export async function loginAction(prevState: string, formData: FormData) {
   if (typeof email === "string" && typeof password === "string") {
     data = { email, password };
     const error = serverValidation(data);
-    console.log("data", data);
-    
 
     if (Object.entries(error).length > 0) {
-      console.log(error);
-
       return "Please enter valid inputs !";
     }
-    console.log("here");
-
+    
     try {
       const user: any = getUser(data.email);
       if (user.password === data.password) {

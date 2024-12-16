@@ -1,13 +1,12 @@
 'use client';
-import { Box, Button, Input } from "@mui/material";
+import { Box } from "@mui/material";
 import Image from "next/image";
 import classes from "./video-comment.module.css";
 import SubmitComment from "./SubmitComment";
-import { useOptimistic, useState } from "react";
+import {  useState } from "react";
 import { CommentUserType, userSession, VideoCreatorType } from "@/helper/commonTypes";
 import { useSession } from "next-auth/react";
-import { DefaultSession, DefaultUser, Session } from "next-auth";
-const initState = [1,2,3,4,5];
+
 
 interface VideoCommentProps{
   video:VideoCreatorType;
@@ -22,12 +21,12 @@ export default function VideoComment({video,comments}:VideoCommentProps) {
   if(data){
     user = data.user as userSession;
   }
-  // console.log('ses',data);
+  
   
 
 
   async function updateComments(comment:string){
-    // console.log(comment);
+   
     
     const newComment:Partial<CommentUserType> ={
       comment:comment,
@@ -45,6 +44,7 @@ export default function VideoComment({video,comments}:VideoCommentProps) {
         body:JSON.stringify(newComment)
       })
     } catch (error) {
+      console.log(error);
       
     }
     
@@ -75,7 +75,7 @@ export default function VideoComment({video,comments}:VideoCommentProps) {
           </Box>
         ))}
         {
-          (comments && comments.length === 0) && <p>No comments on this video</p>
+          (commentArray && commentArray.length === 0) && <p>No comments on this video</p>
         }
       </Box>
     </Box>

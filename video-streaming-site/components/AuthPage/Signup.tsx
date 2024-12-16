@@ -2,7 +2,7 @@
 import classes from './auth-page.module.css'
 import InpField from './InpField'
 import Link from 'next/link'
-import { FormEvent, useActionState, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import ButtonField from './Button'
 import { errorResult, validateState, validation } from '@/helper/validation'
 import { ErrorStateType } from '@/helper/commonTypes'
@@ -31,7 +31,7 @@ const initialErrorState:ErrorStateType={
 export default function Signup() {
   const [state,setState] =useState('');
   const [errorState,setErrorState] = useState<ErrorStateType>(initialErrorState);
-  
+  const [submit,setSubmit] =useState(false);
   const valid = errorResult(errorState);
 
   function inputValidation(fieldName:string,fieldValue:string){
@@ -62,19 +62,17 @@ export default function Signup() {
   async function handleSubmit(event:FormEvent){
     event.preventDefault();
     if(valid){
+      setSubmit(true);
       const {name,email,password} =errorState;
       const message:string = await sendSignUpRequest(name!.value,email.value,password.value)
-      console.log('mes',message);
-      
-      console.log('res',Boolean(message));
       
       if(!Boolean(message)){
-        console.log('redirecting');
         
         return redirect('/home');
       }
 
       setState(message);
+      setSubmit(false);
     }
   }
   
@@ -96,7 +94,7 @@ export default function Signup() {
               {state && <p>{state}</p>}
             </div>
             <div className={classes.btn}>
-              <ButtonField validate={handleValidation} valid={valid}>Sign Up</ButtonField>
+              <ButtonField validate={handleValidation} valid={valid}>{submit ? 'Please wait' : 'Sign Up'}</ButtonField>
             </div>
           </form>
           <div>If you are registered user ,<Link href={'/auth?mode=login'}><span className={classes.submit}>Click Here</span></Link></div>

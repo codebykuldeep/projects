@@ -3,23 +3,21 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import { VideoCreatorType } from "@/helper/commonTypes";
 import classes from "./video-content.module.css";
-import { getLikesCount } from "@/lib/likes";
-import { useOptimistic, useRef, useState, useTransition } from "react";
+import {  useState } from "react";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 
 
 interface LikeSectionProps {
   video: VideoCreatorType;
-  like: string;
-  dislike: string;
-  likeFromDB:{like:string};
-}
-type stateType = {
   like: number;
   dislike: number;
-};
+  likeFromDB:{like:string};
+}
 
 type LikeStatus = "LIKE" | "DISLIKE" | "NULL";
 type likeCount = { like: number; dislike: number };
@@ -38,15 +36,15 @@ export default function LikeSection({
   const [likeState, setLikeState] = useState<LikeStatus>(!likeFromDB ? 'NULL' :(Boolean(likeFromDB.like) ? 'LIKE' : 'DISLIKE'));
   const [likeOnce,setLikeOnce] =useState(Boolean(likeFromDB));
   
-
-  async function updateLikeStatus(likeType: boolean) {
-    try {
-    } catch (error) {}
-  }
-
-
+   const {status} = useSession(); 
+   
    async function handleUpdate(current:LikeStatus){
-    let index = current.toLowerCase();
+    if(status !== 'authenticated'){
+      redirect('/auth');
+      return;
+    }
+    
+    const index = current.toLowerCase();
     if(likeState === current){
       setLikeState('NULL');
       setLikeOnce(false);
@@ -62,9 +60,9 @@ export default function LikeSection({
       updateAtDB(current);
     }
     else{
-      let like = current === 'DISLIKE' ? likesCount.like -1 : likesCount.like;
-      let dislike =current === 'LIKE' ? likesCount.dislike -1 : likesCount.dislike;
-      console.log('current',current);
+      const like = current === 'DISLIKE' ? likesCount.like -1 : likesCount.like;
+      const dislike =current === 'LIKE' ? likesCount.dislike -1 : likesCount.dislike;
+      
       
       setLikesCount(prev=>({like,dislike,[index]:prev[index as keyof likeCount] + 1}));
       setLikeState(current)
@@ -76,8 +74,8 @@ export default function LikeSection({
   }
 
   async function updateAtDB(current:LikeStatus){
-    let likeType = current ==='LIKE'? 1 : 0;
-    let video_id = video.id;
+    const likeType = current ==='LIKE'? 1 : 0;
+    const video_id = video.id;
     await updateLikeAtDB((likeType as unknown) as boolean,video_id);
   }
 

@@ -28,13 +28,12 @@ const authOptions: AuthOptions = {
     })
   ],
   session: {
-    strategy: "jwt", // Use JWTs to manage sessions
+    strategy: "jwt", 
   },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account!.provider === 'github') {
         providerloginAction(user);
-        console.log('User signed in with Google:', user);
       }
 
       return true;
@@ -51,8 +50,10 @@ const authOptions: AuthOptions = {
     async session({ session, token }) {
       // Pass the user data from the JWT token to the session
       //storing the user data so that we can access it throughout whole application
-      session!.user!.id = token.id;
-      session!.user!.email = token.email;
+      
+  
+      session.user!.id = token.id as string;
+      session.user!.email = token.email;
       
       return session;
     },

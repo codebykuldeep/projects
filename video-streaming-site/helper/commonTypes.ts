@@ -99,3 +99,37 @@ export interface VideoType{
   export interface VideoCreatorType extends VideoType,CreatorType{}
 
   export interface CommentUserType extends CommentType,CreatorType{}
+
+  export interface LikeType{
+    id:string;
+    like:string;
+    user_id:string;
+    video_id:string;
+  }
+
+
+  export interface formActionState{
+    status:'failed' | 'success' | 'none';
+    message:string;
+  }
+
+  
+
+
+//   export interface VideoFormDataType{
+//     image: string,
+//     video: string,
+//     title: string,
+//     description: string,
+//     cloud: string,
+//     category: string
+//   }
+
+  export interface uploadDataType{
+    title:string;
+    description:string;
+    category:string;
+    image:string;
+    video:string;
+    cloud:string
+    }
