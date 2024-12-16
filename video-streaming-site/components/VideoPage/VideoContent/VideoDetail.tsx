@@ -4,10 +4,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 import Image from "next/image";
-import { VideoCreatorType } from "@/helper/commonTypes";
+import { userSession, VideoCreatorType } from "@/helper/commonTypes";
 import { formatDate } from "@/helper/helperFns";
 import LikeSection from "./LikeSection";
-import { getLikesCount } from "@/lib/likes";
+import { deleteALL, getLikesCount, getUserLikeStatus } from "@/lib/likes";
+import { serverSession } from "@/auth";
 
 interface VideoDetailProps{
   video:VideoCreatorType;
@@ -15,7 +16,16 @@ interface VideoDetailProps{
 
 export default async function VideoDetail({video}:VideoDetailProps) {
   const [like,dislike] =getLikesCount(video.id);
-  console.log(video);
+  // console.log(video);
+  const session = await serverSession();
+  let user:userSession;
+  if(session){
+    user =session.user as userSession;
+  }
+  
+  const userLikeStatus = getUserLikeStatus(user!.id as string,video.id)
+  
+   
   
   return (
     <Box component={'section'} className={classes.detail}>
@@ -24,7 +34,7 @@ export default async function VideoDetail({video}:VideoDetailProps) {
         <Box className={classes.userImg}><Image src={'/image/user.png'} height={50} width={100} alt="user profile"/></Box>
         <Box className={classes.userProfile}>
           <div>{video.name}</div>
-          <LikeSection video={video} like={like} dislike={dislike}/>
+          <LikeSection video={video} like={like} dislike={dislike} likeFromDB={userLikeStatus as {like:string}}/>
         </Box>
     </Box>
     <Box className={classes.dropdown}>  

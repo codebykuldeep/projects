@@ -13,7 +13,7 @@ export function addComment(comment:string,video_id:string,user_id:string){
 }
 
 export function getCommentsById(id:string){
-    const data  = db.prepare('SELECT * FROM comments INNER JOIN users ON comments.user_id = users.id  AND comments.video_id = ?').all(id);
+    const data  = db.prepare('SELECT * FROM comments INNER JOIN users ON comments.user_id = users.id  AND comments.video_id = ? ORDER BY created_at DESC').all(id);
     return data;
 }
 

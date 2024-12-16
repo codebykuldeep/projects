@@ -15,20 +15,22 @@ export default function VideoList({videos}:VideoListProps) {
     <>
     {videos.map((video)=>(
           <Grid key={video.id}>
-          <Link href={`/video/${video.id}`}>
+         
           <Box className={classes.card}>
             <Box className={classes.image}>
+              <Link href={`/video/${video.id}`}>
               <Image src={video.image_url} width={400} height={400} alt="dummy" />
+              </Link>
             </Box>
             <Box className={classes.cardText}>
-              <Box component={"h3"}>{video.title}</Box>
+              <Box component={"h3"}><Link href={`/video/${video.id}`}>{video.title}</Link></Box>
               <Box component={"p"}>
-                <span>{video.name}</span>
+                <span><Link href={`/creator/${video.user_id}`}>{video.name}</Link></span>
                 <span>{formatDate(video.created_at)}</span>
               </Box>
             </Box>
           </Box>
-          </Link>
+          
         </Grid>
         ))}
     </>
