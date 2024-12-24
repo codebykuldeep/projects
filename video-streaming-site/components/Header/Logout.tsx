@@ -1,10 +1,8 @@
 'use client';
 import { Box } from '@mui/material'
 import { signOut, useSession } from 'next-auth/react';
-import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
-import React, { useEffect } from 'react'
 
 
 export default function Logout() {
@@ -16,7 +14,7 @@ export default function Logout() {
     
     
     function handleLogout(){
-        const data = signOut({redirect:false});
+        signOut({redirect:false});
         if(pathname.includes('/user')){
             redirect('/home');
         }

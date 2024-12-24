@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Image from "next/image";
-import dummy from "@/public/image/default.jpg";
 import classes from "./trending-section.module.css";
-import { VideoCreatorType, VideoType } from "@/helper/commonTypes";
+import { VideoCreatorType } from "@/helper/commonTypes";
 import { formatDate } from "@/helper/helperFns";
 import Link from "next/link";
 interface VideoListProps{

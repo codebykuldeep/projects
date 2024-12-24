@@ -1,17 +1,16 @@
+import { LikeType } from "@/helper/commonTypes";
 import db from "./database";
 
 //like - true  || dislike- false
 export function updateLike(user_id:string,video_id:string,likeType:boolean){
-    const data:any  = db.prepare('SELECT * FROM likes where user_id =? AND video_id =?').get(user_id,video_id);
+    const data  = db.prepare('SELECT * FROM likes where user_id =? AND video_id =?').get(user_id,video_id) as LikeType;
     
     if(data){
         if(Number(data.like) === Number(likeType)){
-            console.log('deleting....');
             
             const stmt =db.prepare(`DELETE FROM likes WHERE user_id = ? AND video_id= ?`)
-            console.log(stmt.run(user_id,video_id));
             
-            return;
+            return stmt.run(user_id,video_id);
         }
         const stmt =db.prepare(`UPDATE likes SET like = ? WHERE user_id = ? AND video_id= ?`)
         stmt.run(likeType,user_id,video_id);
@@ -26,14 +25,15 @@ export function updateLike(user_id:string,video_id:string,likeType:boolean){
 
 export function getUserLikeStatus(user_id:string,video_id:string){
     const data  = db.prepare('SELECT like FROM likes where user_id =? AND video_id =?').get(user_id,video_id);
+    
     return data;
 }
 
 export function getLikesCount(video_id:string){
-    const like:any  = db.prepare('SELECT * FROM likes where video_id =? AND like = 1').all(video_id);
-    const dislike:any  = db.prepare('SELECT * FROM likes where video_id =? AND like = 0').all(video_id);
-    let likeCount = like.length || 0;
-    let dislikeCount = dislike.length || 0
+    const like  = db.prepare('SELECT * FROM likes where video_id =? AND like = 1').all(video_id) as LikeType[];
+    const dislike  = db.prepare('SELECT * FROM likes where video_id =? AND like = 0').all(video_id) as LikeType[];
+    const likeCount = like.length || 0;
+    const dislikeCount = dislike.length || 0
     return [likeCount,dislikeCount];
 }
 

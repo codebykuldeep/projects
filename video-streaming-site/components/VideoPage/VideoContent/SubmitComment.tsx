@@ -1,9 +1,8 @@
 import { Box, Button } from "@mui/material";
 
 import classes from "./video-comment.module.css";
-import { FormEvent, useRef, useState, useTransition } from "react";
-import { CommentUserType, VideoCreatorType } from "@/helper/commonTypes";
-import { commentAction } from "@/utils/video-methods";
+import { FormEvent,  useState } from "react";
+import {  VideoCreatorType } from "@/helper/commonTypes";
 import { useSession } from "next-auth/react";
 
 
@@ -13,9 +12,9 @@ interface SubmitCommentProps{
     updateFn:(comment: string) => void
     video:VideoCreatorType
 }
-export default function SubmitComment({updateFn,video}:SubmitCommentProps) {
+export default function SubmitComment({updateFn}:SubmitCommentProps) {
     
-    const {data,status} =useSession();
+    const {status} =useSession();
     const [comment,setComment] =useState('');
 
     let show = false;
@@ -45,6 +44,11 @@ export default function SubmitComment({updateFn,video}:SubmitCommentProps) {
                 <Box className={classes.btn}><Button variant="contained" type="submit" >Comment</Button></Box>
                 </form>
             </Box>
+        )
+    }
+    {
+        !show && (
+            <Box className={classes.message}>Login to comment on the video</Box>
         )
     }
     </>

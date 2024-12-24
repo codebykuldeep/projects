@@ -4,10 +4,6 @@ import React, { useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ChangeEvent, VideoFormType } from '@/helper/commonTypes';
 
-interface fieldType{
-  title:string;
-  description:string;
-}
 interface UploadFormProps{
   handleChange:(event:ChangeEvent)=>void;
   handleBlur:(event:React.FocusEvent< HTMLInputElement>)=>void;
@@ -15,36 +11,21 @@ interface UploadFormProps{
   formState:VideoFormType;
 }
 
-export default function UploadForm({formState,handleBlur,handleChange,handleMedia}:UploadFormProps) {
-    const [category, setCategory] = useState('');
-    const [fieldState,setFieldState] =useState<fieldType>({
-      title:'',
-      description:''
-    })
+export default function UploadForm({formState,handleChange,handleMedia}:UploadFormProps) {
     
-    
-     const [image,setImage] =useState<any>(null)
-     const [video,setVideo] =useState<any>(null)
     const [sizeError,setSizeError] =useState(false);
   
-    // const handleFieldChange =(event:React.ChangeEvent<HTMLInputElement>)=>{
-      
-    //   setFieldState(prev=>({...prev,[event.target.name]:event.target.value}))
-    // }
-
   const handleCategory = (event: SelectChangeEvent) => {
-    handleChange(event as ChangeEvent);
+    handleChange((event as unknown) as ChangeEvent);
   };
 
   function handleFileCheck(event:React.ChangeEvent<HTMLInputElement>){
     let file;
     if(event.target.files){
       file =event.target.files[0];
-      setVideo(file);
       handleMedia('video');
     }
     if(file){
-      console.log(file);
       
       if(file.size >= 50*1024*1024){
         setSizeError(true)
@@ -57,10 +38,10 @@ export default function UploadForm({formState,handleBlur,handleChange,handleMedi
 
   function handleImage(event:React.ChangeEvent<HTMLInputElement>){
     if(event.target.files){
-      setImage(event.target.files[0]);
       handleMedia('image');
     }
   }
+
   
   return (
     <>

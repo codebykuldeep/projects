@@ -1,12 +1,13 @@
-import { VideoCreatorType } from "@/helper/commonTypes";
+import { uploadDataType, VideoCreatorType } from "@/helper/commonTypes";
 import db from "./database";
 
 
-export function insertVideo(id:string,video:any){
+
+export function insertVideo(id:string,video:uploadDataType){
     const stmt = db.prepare(`
-        INSERT INTO videos(title,description,category, image_url, video_url,user_id)
-        VALUES(?,?, ?, ?,?,?)`);
-        return stmt.run(video.title,video.description,video.category,video.image,video.video,id);
+        INSERT INTO videos(title,description,category, image_url, video_url,cloud_url,user_id)
+        VALUES(?,?, ?, ?,?,?,?)`);
+        return stmt.run(video.title,video.description,video.category,video.image,video.video,video.cloud,id);
 }
 
 
@@ -21,11 +22,6 @@ export function getMostWatchedVideos(){
 }
 
 
-export function  addCoulumn(){
-    const stmt  = db.exec('ALTER TABLE  videos  ADD COLUMN  category TEXT NOT NULL');
-    console.log(stmt);
-    
-}
 
 export function getVideosWithCreators(){
     const data  = db.prepare('SELECT * FROM users INNER JOIN videos ON videos.user_id = users.id ORDER BY videos.count DESC LIMIT 4').all();
@@ -36,11 +32,12 @@ export function getVideoWithCreatorById(id:string){
     return data;
 }
 
+export function getRelatedVideos(category:string){
+    const data  = db.prepare('SELECT * FROM users INNER JOIN videos ON videos.user_id = users.id AND category =? ORDER BY count ASC LIMIT 10').all(category);
+    return data;
+}
 
-// export function getVideoWithCreatorId(id:string){
-//     const data  = db.prepare('SELECT * FROM users INNER JOIN videos ON videos.user_id = users.id AND videos.user_id = ?').get(id);
-//     return data;
-// }
+
 
 export function updateViewCount(id:string){
     const stmt =db.prepare(`UPDATE videos SET count = count + 1 WHERE id = ?`)
@@ -52,9 +49,9 @@ export function getVideoForQuery(query:string){
     const tags = query.split(' ');
     
 
-    let result:VideoCreatorType[] | unknown[] =[] ;
+    const result:VideoCreatorType[] | unknown[] =[] ;
     data.forEach((entry)=>{
-        tags.forEach((tag,index)=>{
+        tags.forEach((tag)=>{
             tag = tag.toLowerCase();
             
             if(entry.title.toLowerCase().includes(tag)){
@@ -67,6 +64,7 @@ export function getVideoForQuery(query:string){
     
     return result;
 }
+
 
 
 

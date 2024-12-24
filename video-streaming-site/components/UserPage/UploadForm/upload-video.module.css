@@ -35,4 +35,13 @@
 .error{
     padding-top: 5px;
     color:var(--error);
+    font-size: 12px;
+}
+.uploadError{
+    padding-top: 5px;
+    color:var(--error);
+}
+.success{
+    padding-top: 5px;
+    color:rgb(69, 158, 69);
 }
