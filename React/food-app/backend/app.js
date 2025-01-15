@@ -70,4 +70,7 @@ app.use((req, res) => {
 
 app.listen(3000,()=>{
   console.log('Server Running');
+  setInterval(()=>{
+    console.log('Keep server alive');
+  },1000*60*5)
 });
