@@ -1,76 +1,19 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import FieldError from './FieldError';
 
-function FormRightSection({validationState,handleChange,handleChangeValidation,handleResetForm,productData,getImage}) {
-const [file, setFile] = useState();
- const [checkbox,setCheckbox]=useState({count:0,first:true,error:"Please select atleast one type!"})
-  const setSupplierType = useRef(true);
+function FormRightSection({validationState,handleChange,getImage}) {
+const [file, setFile] = useState(null);
 
   function handleImageUpload(event) {
     // const img = event.target.files[0];
     const imgFile = event.target.files[0];
-    handleChangeValidation(event);
+    handleChange(event);
     setFile(URL.createObjectURL(imgFile));
     getImage(imgFile);
   }
 
-  if(productData.imageURL){
-    if(!file){
-      setFile(productData.imageURL)
-      getImage({name:"previous-img",imageURL:productData.imageURL,exists:true})
-    }
-  }
-
-  if(productData.supplierType && setSupplierType.current){
-    setSupplierType.current = false;
-    let count;
-    if(Array.isArray(productData.supplierType)){
-      count = productData.supplierType.length;
-    }else{
-      count = 1;
-    }
-    setCheckbox({
-      count: count,
-      first:false,
-      error:"Please select atleast one type!",
-    })
-  }
-
-
-  function checkForType(text){
-    if(productData.supplierType){
-      if(Array.isArray(productData.supplierType)){
-        return productData.supplierType.includes(text) ? true : false;
-      }else{
-        return productData.supplierType === text ? true : false;
-      }
-    }
-    return false
-  }
   
   
-
-  function handleCheckbox(event){
-    if(event.target.name ==='supplierType'){
-      if(event.target.checked === true){
-        setCheckbox(prev=>{
-          return{
-            ...prev,
-            count:prev.count+1,
-            first:false,
-          }
-        })
-      }else{
-        setCheckbox(prev=>{
-          return{
-            ...prev,
-            count:prev.count-1,
-            first:false,
-          }
-        })
-      }
-    }
-  }
   return (
     <div className="form-right">
           <div className='form-right-upper'>
@@ -91,13 +34,12 @@ const [file, setFile] = useState();
               accept="image/*"
               onChange={handleImageUpload}
             />
-            {validationState.image.status && (
-              <FieldError error={validationState.image.error} />
-            )}
-            {file && <img src={file} alt="Uploaded" />}
+            <FieldError validationState={validationState} field={'image'}/>
+            
+            {(file || validationState.image.value) && <img src={file || validationState.image.value} alt="Uploaded" />}
           </div>
 
-          <div className="form-input"onClick={handleCheckbox} >
+          <div className="form-input" >
             <label htmlFor="supplier-type">
               Supplier Type <span>*</span>
             </label>
@@ -109,7 +51,7 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"manufacturer"}
                   onChange={handleChange}
-                  defaultChecked={checkForType("manufacturer")}
+                  defaultChecked={validationState.supplierType.value.includes("manufacturer")}
                 />
                 <label htmlFor="supplier-type1">Manufacturer</label>
               </div>
@@ -120,7 +62,7 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"distributor"}
                   onChange={handleChange}
-                  defaultChecked={checkForType("distributor")}
+                  defaultChecked={validationState.supplierType.value.includes("distributor")}
                 />
                 <label htmlFor="supplier-type2">Distributor</label>
               </div>
@@ -131,24 +73,15 @@ const [file, setFile] = useState();
                   name="supplierType"
                   value={"wholesalers"}
                   onChange={handleChange}
-                  defaultChecked={checkForType("wholesalers")}
+                  defaultChecked={validationState.supplierType.value.includes("wholesalers")}
                 />
                 <label htmlFor="supplier-type3">Wholesalers</label>
               </div>
             </div>
-            {validationState.supplierType.status && (
-              <FieldError error={validationState.supplierType.error} />
-            )}
-             {(!checkbox.first && !validationState.supplierType.status  && checkbox.count === 0 ) && (
-              <FieldError error={checkbox.error} />
-            )}
+            <FieldError validationState={validationState} field={'supplierType'}/>
           </div>
           </div>
 
-          {/* <div className="form-button">
-            <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="submit">SUBMIT</motion.button>
-            <motion.button whileHover={{scale:1.08}} transition={{duration:0.3,type:'tween'}} type="reset" onClick={handleResetForm}>RESET</motion.button>
-          </div> */}
         </div>
   )
 }

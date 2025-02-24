@@ -21,8 +21,6 @@ export function redirectRoute(){
     const token =true;
     
     if(token){
-        console.log('redirect');
-        
         return redirect('/products');
     }
 
@@ -58,4 +56,12 @@ export function routeProtection(){
     }
 
     return null;
+}
+
+export function dateFormatter(date){
+    if(date.trim() === '')
+        return date;
+
+    let yourDate = new Date()
+    return yourDate.toISOString().split('T')[0]
 }

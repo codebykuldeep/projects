@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Form.css";
-import formValidation, {
-  initialValidationState,
-} from "../../util/ValidationLogic";
-import { validateField } from "../../util/ValidationFunctions";
 import FormLeftSection from "./FormLeftSection";
 import FormRightSection from "./FormRightSection";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   addProduct,
-  fetchProduct,
   updateProduct,
 } from "../../util/HttpFunctions";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { motion } from "motion/react";
+import { checkValidFormState, populateFormState, validation } from "../../util/validation";
+import { getFormInitialState } from "../../util/formMethods";
 
-function FormPage() {
+function FormPage({editMode = false,prevState,id}) {
+  
+  const queryClient = useQueryClient();
   const [validationState, setValidationState] = useState(
-    initialValidationState
+    editMode ? prevState :getFormInitialState()
   );
 
-  //When editing a product
-  const [editMode, setEditMode] = useState(false);
-  const [Loading, setLoading] = useState(true);
-  const [productData, setProductData] = useState([]);
+  //When editing a product;
   const [imageSelected, setImageSelected] = useState("");
-  const [formData, setformData] = useState({});
-  const params = useParams();
   const navigate = useNavigate();
 
   const { mutate ,isLoading } = useMutation({
@@ -40,77 +34,109 @@ function FormPage() {
     mutationFn: updateProduct,
     onSuccess: () => {
       navigate("/products");
+      queryClient.removeQueries({queryKey:['product',id],exact:true});
     },
   });
 
-  useEffect(() => {
-    if (params.id) {
-      setEditMode(true);
-
-      fetchProduct(params.id).then((data) => {
-        setProductData(data);
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
-  }, [params]);
-
-  //send request when validation comes true after clicking submit
-  useEffect(() => {
-    // console.log('sub-state',validationState.result);
-
-    if (validationState.result) {
-      if (!editMode) {
-        mutate({ formData: formData });
-      } else if (editMode) {
-        UpdateMutate.mutate({ formData: formData, id: productData.id });
-      }
-    }
-  }, [validationState, formData, mutate,productData]);
 
   function getImage(imgFile) {
-    console.log(imgFile);
-
+    
     setImageSelected(imgFile);
   }
 
   function handleForm(event) {
     event.preventDefault();
-
-    const fd = new FormData(event.target);
-    const form = Object.fromEntries(fd.entries());
-    const supplierType = fd.getAll("supplierType");
-    form.supplierType = supplierType;
-    if (imageSelected) {
-      form.image = imageSelected;
+    
+    if(checkValidFormState(validationState)){
+      const fd = new FormData(event.target);
+      const form = Object.fromEntries(fd.entries());
+      const supplierType = fd.getAll("supplierType");
+      form.category = fd.get('category');
+      form.supplierType = supplierType;
+      if (!imageSelected) {
+        form.image = prevState.image.value;
+      }
+      if(editMode){
+        UpdateMutate.mutate({form,id});
+      }
+      else{
+        mutate(form);
+      }
     }
-    setformData(form);
-    setValidationState((prev) => formValidation(form, prev));
+    else{
+      setValidationState(populateFormState(validationState))
+    }
+    
   }
-  function handleResetForm() {
-    setValidationState(initialValidationState);
+  function handleResetForm(event) {
+    event.target.reset();
+    setValidationState({
+        ...getFormInitialState(),
+        [`supplierType`]: {
+          value:[],
+          status: false,
+          error: '',
+        }});
   }
 
   function handleChange(event) {
-    // console.log(event.target.name);
-
-    setValidationState((prev) => {
-      const inputFieldName = event.target.name;
-      return {
-        ...prev,
-        [`${inputFieldName}`]: {
-          status: false,
-          error: "",
-        },
-      };
-    });
+    const inputFieldName = event.target.name;
+    const inputValue = event.target.value;
+    const [msg,status] = validation(inputFieldName,inputValue)
+    console.log(inputFieldName,inputValue,msg,status);
+    
+    if(inputFieldName === 'supplierType'){
+      let newArr;
+      if(validationState.supplierType.value.includes(inputValue)){
+        newArr = validationState.supplierType.value.filter((item)=>item !== inputValue)
+      }
+      else{
+        newArr = validationState.supplierType.value;
+        newArr.push(inputValue);
+      }
+      setValidationState((prev) => {
+        return {
+          ...prev,
+          [`${inputFieldName}`]: {
+            value:newArr,
+            status: false,
+            error: '',
+          },
+        };
+      });
+    }
+    else{
+      setValidationState((prev) => {
+        return {
+          ...prev,
+          [`${inputFieldName}`]: {
+            value:inputValue,
+            status: status,
+            error: msg,
+          },
+        };
+      });
+    }
+  
   }
-
+  
+  
   function handleChangeValidation(event) {
-    setValidationState(validateField(event.target, validationState));
+    const name = event.target.name;
+    
+    
+    const [msg,status] = validation(name,validationState[name].value);
+    setValidationState(prev=>({
+      ...prev,
+      [name]:{
+        value:prev[name].value,
+        status:status,
+        error:msg
+      }
+    }));
   }
-
+  console.log(validationState);
+  
   return (
     <div className="container">
       <div>
@@ -130,14 +156,14 @@ function FormPage() {
         </motion.div>
       </div>
 
-      {Loading && (
+      {/* {Loading && (
         <div className="loader-box">
           <div className="loader"></div>
         </div>
-      )}
+      )} */}
 
-      {!Loading && (
-        <form className="form-container" onSubmit={handleForm}>
+      { (
+        <form className="form-container" onSubmit={handleForm} onReset={handleResetForm}>
           <div className="form-header">
             <div>{editMode ? <h1>Edit Product</h1> : <h1>Add Product</h1>}</div>
            {(UpdateMutate.isLoading || isLoading) ?(
@@ -155,7 +181,6 @@ function FormPage() {
                whileHover={{ scale: 1.08 }}
                transition={{ duration: 0.3, type: "tween" }}
                type="reset"
-               onClick={handleResetForm}
              >
                RESET
              </motion.button>
@@ -168,7 +193,6 @@ function FormPage() {
               validationState={validationState}
               handleChange={handleChange}
               handleChangeValidation={handleChangeValidation}
-              productData={productData}
             />
 
             <FormRightSection
@@ -176,7 +200,6 @@ function FormPage() {
               handleChange={handleChange}
               handleChangeValidation={handleChangeValidation}
               handleResetForm={handleResetForm}
-              productData={productData}
               getImage={getImage}
             />
           </div>

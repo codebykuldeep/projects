@@ -29,7 +29,7 @@ function Login() {
     }
     else if(data.email === 'test@email.com' && data.password === '123456'){
       localStorage.setItem('login',true);
-      console.log(localStorage.getItem('login'));
+      
       
       navigate('/products');
     }else{

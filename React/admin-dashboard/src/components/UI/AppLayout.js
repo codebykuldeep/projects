@@ -1,6 +1,5 @@
 import React from 'react'
-import Header from './Header'
-import { Outlet, redirect, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 function AppLayout() {
   

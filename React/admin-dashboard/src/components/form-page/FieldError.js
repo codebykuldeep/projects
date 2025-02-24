@@ -1,8 +1,12 @@
 import React from 'react'
 
-function FieldError({error}) {
+function FieldError({validationState,field}) {
+  const status = validationState[field].status;
+  const error = validationState[field].error;
   return (
-    <div className='error-msg'>{error}</div>
+    <>
+    {status ? <div className='error-msg'>{error}</div> : <></>}
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import { getData } from "../../util/HttpFunctions";
 import ProductSection from "./ProductSection";
 
 import { motion } from "motion/react";
+import Pagination from "./Pagination";
 
 
 
@@ -15,7 +16,6 @@ import { motion } from "motion/react";
 function ProductPage() {
   const [entriesCount, setEntriesCount] = useState(10);
   const [page, setPage] = useState(1);
-  const [paginationCount ,setPaginationCount ] =useState(0)
   const [searchKeyword, setSearchKeyword] = useState("");
   const timer = useRef();
 
@@ -26,32 +26,21 @@ function ProductPage() {
     queryKey: ["products", entriesCount, page, searchKeyword],
     queryFn: ({ signal }) =>
       getData({ signal, page, entriesCount, searchKeyword }),
-    refetchOnMount:"always"
+    refetchOnMount:"always",
+    staleTime:1000*60,
   });
+  
+  const products = data ? data.products : undefined;
+  const totalLength = data ? data.length : 0;
+  const pageCount = Math.ceil(totalLength/entriesCount);
 
-
-
-
-  let productData;
-  let pages ;
-  let pagesArray =[];
-  let totalDataLength;
-  if (searchKeyword !== "") {
-    console.log(data);
-    
-    productData = data?.data;
-    totalDataLength = data?.totalLength;
-  } else if (data) {
-    pages =data.pages;
-    pagesArray = (new Array(pages).fill(0)).map((val,index)=>index+1)
-    productData = data.data;
-  }
+  
+  
 
   function handleSearch(event) {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      console.log("fetching...");
-
+      
       setSearchKeyword(event.target.value.trim());
     }, 500);
     queryClient.removeQueries();
@@ -64,29 +53,12 @@ function ProductPage() {
   }
 
   function handlePageChange(pageNumber) {
-    console.log(pageNumber);
+    
     queryClient.removeQueries();
     setPage(pageNumber);
   }
 
-  function handlePagination(action){
-    if(action ==='dec'){
-      setPaginationCount(prev => {
-        if(prev-1< 0)
-          return 0;
-        return prev-1;
-      })
-    }
-    if(action=== 'inc'){
-      setPaginationCount(prev => {
-        if(prev+1 > Math.floor(pages/3)-1)
-          return Math.ceil(pages/3)-1;
-        return prev+1;
-      })
-    }
-
-  }
-
+  
    
 
   return (
@@ -121,7 +93,7 @@ function ProductPage() {
 
         
 
-        {<ProductSection data={data} productData={productData} isError={isError} loading={isLoading} error={error}/>}
+        {<ProductSection data={data} productData={products} isError={isError} loading={isLoading} error={error} />}
 
         {!searchKeyword && (
           <div className="product-page-footer">
@@ -140,27 +112,14 @@ function ProductPage() {
               <span>entries</span>
             </div>
 
-            <div className="pagination" >
-              <div onClick={()=>handlePagination('dec')}>
-                <span>{"<"}</span>
-              </div>
-              {data && pagesArray.slice(paginationCount*3,paginationCount*3+3).map((val) => (
-                <motion.div whileHover={{y:-5}} transition={{duration:0.3,type:'spring'}}
-                 key={val} className={page === val ? 'page-selected': ''} onClick={() => handlePageChange(val)}>
-                  <span>{val}</span>
-                </motion.div>
-              ))}
-              <div onClick={()=>handlePagination('inc')}>
-                <span>{">"}</span>
-              </div>
-            </div>
+            <Pagination current={page} pageCount={pageCount}  handlePageChange={handlePageChange}/>
           </div>
         )}
 
         {searchKeyword && data &&
         (
           <div className="product-page-footer">
-            {productData.length} matching results are found out of  {totalDataLength} products.
+            {products.length} matching results are found out of  {totalLength} products.
           </div>
         )}
       </div>

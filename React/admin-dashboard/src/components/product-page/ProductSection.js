@@ -3,7 +3,7 @@ import ProductList from "./ProductList";
 
 
 
-function ProductSection({ data, productData, isError, loading, error ,sorting}) {
+function ProductSection({ data, productData, isError, loading, error ,searchKeyword}) {
   const [products, setProducts] = useState(productData);
   const sortingToggle = useRef(true)
 
@@ -53,20 +53,10 @@ function ProductSection({ data, productData, isError, loading, error ,sorting}) 
       
     }
   }
+  
+  
   return (
     <>
-      {/* <div className='sticky-box'>
-            <ul className="product-table-title">
-              <li className="product-name" data-name='title'>Product Name</li>
-              <li className="product-id">Product ID</li>
-              <li className="product-price" data-name='price'>Price</li>
-              <li className="product-stock" data-name='stock'>Stock</li>
-              <li className="product-status">Availability</li>
-              <li className="product-category" data-name='category'>Category</li>
-              <li className="product-discount" data-name='discount'>Discount</li>
-              <li className="product-action">Action</li>
-            </ul>
-          </div> */}
       <div className="product-table" onClick={handleProductSort}>
         <ul className="product-table-title">
           <li className="product-name" data-name="title">
@@ -89,7 +79,7 @@ function ProductSection({ data, productData, isError, loading, error ,sorting}) 
           <li className="product-action">Action</li>
         </ul>
 
-        {isError && (
+        {isError  && (
           <div className="loader-box">
             <div className="error-data">{error.message}</div>
           </div>

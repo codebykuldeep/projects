@@ -9,6 +9,7 @@ import { checkUser, checkUserAuthentication, routeProtection } from './util/util
 import HomePage from './components/UI/HomePage';
 import Login from './components/login/Login';
 import ErrorPage from './components/UI/ErrorPage';
+import EditPage from './components/form-page/EditPage'
 
 
 const router = createBrowserRouter([
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
           },
           {
             path:'edit/:id',
-            element:<FormPage/>
+            element:<EditPage/>
           },
         ]
       }

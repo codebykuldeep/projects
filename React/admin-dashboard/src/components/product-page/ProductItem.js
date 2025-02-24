@@ -19,7 +19,7 @@ function ProductItem({product}) {
   return (
     <div>
         <ul className="product-table-item" >
-            <li className="product-name"><img src={product.imageURL} alt={product.title + product.id} /> <span>{product.title}</span></li>
+            <li className="product-name"><img src={product.image} alt={product.title + product.id} /> <span>{product.title}</span></li>
             <li className="product-id">#{product.id}</li>
             <li className="product-price">${product.price}</li>
             <li className="product-stock">{product.stock}</li>

@@ -1,36 +1,51 @@
-const cloudName = process.env.REACT_APP_CLOUD_NAME;
+import constant from "../constant";
 
-export async function getData({page = 1,entriesCount = 10,signal,searchKeyword}){
-    let url = `http://localhost:8000/products-data`;
-    if(!searchKeyword){
-        url = `http://localhost:8000/products-data?_page=${page}&_per_page=${entriesCount}`;
-    }
-    
-    
-    
-    const response = await fetch(url,{signal:signal});
+const cloudName = constant.CLOUD_NAME;
+const uploadPreset = constant.UPLOAD_PRESET;
+const SERVER = constant.SERVER;
+
+export async function getAllDataLength(){
+    const response = await fetch(SERVER);
     if(!response.ok){
         throw new Error('Fetching Data from Server failed.Please try later...')
     }
     const data = await response.json();
+    const length = data.length;
+    return length;
+}
 
-    if(searchKeyword){
-        const totalData = data.length;
-        const newData = data.filter((entry)=>entry.title.toLowerCase().includes(searchKeyword) || entry.category.toLowerCase().includes(searchKeyword));
-        
-        return {data:newData,totalLength:totalData};
+export async function getData({page = 1,entriesCount = 10,signal,searchKeyword}){
+    let url = SERVER;
+    if(!searchKeyword){
+        url+=`?p=${page}&l=${entriesCount}`;
+    }
+    else{
+        const query =searchKeyword.toLowerCase();
+        url+=`?filter=${query}`;
     }
     
+    const response = await fetch(url,{signal:signal});
+    const length = await getAllDataLength();
+    console.log('response',response);
+    
+    if(!response.ok){
+        if(response.status === 404 || response.statusText === "Not Found"){
+            return {products:[],length}
+        }
+        throw new Error('Fetching Data from Server failed.Please try later...')
+    }
+    const data = await response.json();
     
     
-    return data;
+    
+    return {products:data,length};
     
 }
 
 
 
 export async function fetchProduct(id){
-    const response = await fetch(`http://localhost:8000/products-data/${id}`);
+    const response = await fetch(SERVER + `/${id}`);
     if(!response.ok){
         throw new Error('Fetching Data from Server failed.Please try later...')
     }
@@ -42,11 +57,11 @@ export async function fetchProduct(id){
 
 export async function uploadImage(image) {
     const data = new FormData();
-    console.log(image);
+    
     
     data.append('file',image);
-    data.append("upload_preset", "test123")
-    data.append("cloud_name","dhnzclvra")
+    data.append("upload_preset", uploadPreset)
+    data.append("cloud_name",cloudName)
     const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         {
@@ -58,7 +73,7 @@ export async function uploadImage(image) {
         return {error:'Failed to upload'};
     }
     const res = await response.json();
-    console.log(res);
+    
     
     return res.secure_url;
 
@@ -66,13 +81,22 @@ export async function uploadImage(image) {
 
 
 export async function addProduct(formData) {
-    formData = formData.formData;
-    const imgURL = await uploadImage(formData.image);
-    formData.imageURL =imgURL; 
-    // formData.price= Math.floor(Math.random()*30000);
-    console.log(imgURL);
+    if(formData.image === ''){
+        
+        
+    }
+    else{
+        console.log('upload');
+        const imgURL = await uploadImage(formData.image);
+        formData.image =imgURL;
+    }
     
-    const response = await fetch(`http://localhost:8000/products-data`,{
+    
+     
+    // // formData.price= Math.floor(Math.random()*30000);
+    // console.log(imgURL);
+    
+    const response = await fetch(SERVER,{
         method: 'POST',
         headers: {
            'Content-Type': 'application/json',
@@ -89,24 +113,21 @@ export async function addProduct(formData) {
     return data;
 
 }
-export async function updateProduct(formData) {
-    const {id} = formData;
-    formData = formData.formData;
-    formData.id = id;
-    // formData.price= Math.floor(Math.random()*30000);
-    if(formData.image?.exists){
-        console.log('exists');
+export async function updateProduct({form:formData,id}) {
+    console.log(formData,id);
+    debugger;
+    if(typeof formData.image === 'string'){
+        console.log('donot upload');
         
-        formData.imageURL =formData.image.imageURL;
-        delete formData.image;
     }
     else{
+        console.log('upload');
         const imgURL = await uploadImage(formData.image);
-        formData.imageURL =imgURL; 
+        formData.image =imgURL;
     }
     
     
-    const response = await fetch(`http://localhost:8000/products-data/${id}`,{
+    const response = await fetch(`${SERVER}/${id}`,{
         method: 'PUT',
         headers: {
            'Content-Type': 'application/json',
@@ -126,7 +147,7 @@ export async function updateProduct(formData) {
 
 
 export async function deleteProduct(id) {
-    const response = await fetch(`http://localhost:8000/products-data/`+id,{
+    const response = await fetch(SERVER+'/'+id,{
         method: 'DELETE',
     });
     if(!response.ok){
